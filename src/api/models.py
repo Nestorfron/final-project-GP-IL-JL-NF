@@ -4,13 +4,11 @@ from enum import Enum
 db = SQLAlchemy()
 
 
-
-
-
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(180), nullable=False)
+    country = db.Column(db.String(120), nullable=False)
     is_brewer = db.Column(db.Boolean(), nullable=False)
     brewery = db.relationship('Brewery', backref='user', lazy=True)
     beers = db.relationship('Beer', backref='user', lazy=True)
@@ -23,6 +21,7 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
+            "country": self.country,
             "is_brewer": self.is_brewer
             # do not serialize the password, its a security breach
         }
