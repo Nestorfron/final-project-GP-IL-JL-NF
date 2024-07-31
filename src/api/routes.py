@@ -47,7 +47,7 @@ def handle_singnup():
 
 
     try: 
-        new_user = User(email = email, password = password, country = country, is_brewer = is_brewer)
+        new_user = User(email = email, password = password_hash, country = country, is_brewer = is_brewer)
         db.session.add(new_user)
         db.session.commit()
         return jsonify({"mensaje": "Usuario creado exitosamente"})

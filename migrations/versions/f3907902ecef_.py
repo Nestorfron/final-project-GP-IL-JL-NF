@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 6860748274a6
+Revision ID: f3907902ecef
 Revises: 
-Create Date: 2024-07-30 17:14:09.185507
+Create Date: 2024-07-30 21:31:41.101668
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '6860748274a6'
+revision = 'f3907902ecef'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -30,11 +30,13 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=120), nullable=False),
-    sa.Column('addres', sa.String(length=120), nullable=True),
+    sa.Column('address', sa.String(length=120), nullable=True),
     sa.Column('history', sa.String(length=500), nullable=True),
     sa.Column('facebook_url', sa.String(length=120), nullable=True),
     sa.Column('instagram_url', sa.String(length=120), nullable=True),
     sa.Column('x_url', sa.String(length=120), nullable=True),
+    sa.Column('picture_of_brewery_url', sa.String(length=250), nullable=True),
+    sa.Column('logo_of_brewery_url', sa.String(length=250), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
@@ -48,6 +50,7 @@ def upgrade():
     sa.Column('IBUs', sa.String(length=120), nullable=False),
     sa.Column('volALC', sa.String(length=120), nullable=False),
     sa.Column('description', sa.String(length=120), nullable=False),
+    sa.Column('picture_of_beer_url', sa.String(length=250), nullable=True),
     sa.ForeignKeyConstraint(['brewery_id'], ['brewery.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -58,6 +61,7 @@ def upgrade():
     sa.Column('name', sa.String(length=120), nullable=False),
     sa.Column('description', sa.String(length=120), nullable=False),
     sa.Column('date', sa.String(length=120), nullable=False),
+    sa.Column('picture_of_event_url', sa.String(length=250), nullable=True),
     sa.ForeignKeyConstraint(['brewery_id'], ['brewery.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
