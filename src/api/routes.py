@@ -6,7 +6,7 @@ from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 
 api = Blueprint('api', __name__)
@@ -27,7 +27,7 @@ def handle_hello():
 
 #Endpoint de registro de usuario
 
-@api.route('/signup', methods=["POST"])
+@api.route("/signup", methods=["POST"])
 def handle_singnup():
     body = request.json
     email = body.get("email", None)
@@ -40,14 +40,14 @@ def handle_singnup():
         return jsonify({"error": "Todos los campos deben ser llenados"}), 400
 
 
-    password_hash= generate_password_hash(password)
+    password_hash = generate_password_hash(password)
 
     if User.query.filter_by(email = email).first() is not None:
         return jsonify({"error": "email ya esta siendo utilizado"}), 400
 
 
     try: 
-        new_user = User(email = email, password = password, country = country, is_brewer = is_brewer)
+        new_user = User(email = email, password = password_hash, country = country, is_brewer = is_brewer)
         db.session.add(new_user)
         db.session.commit()
         return jsonify({"mensaje": "Usuario creado exitosamente"})

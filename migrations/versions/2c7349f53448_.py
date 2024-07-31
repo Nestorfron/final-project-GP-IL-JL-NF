@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 6860748274a6
+Revision ID: 2c7349f53448
 Revises: 
-Create Date: 2024-07-30 17:14:09.185507
+Create Date: 2024-07-30 21:42:51.456031
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '6860748274a6'
+revision = '2c7349f53448'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -22,6 +22,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('email', sa.String(length=120), nullable=False),
     sa.Column('password', sa.String(length=180), nullable=False),
+    sa.Column('country', sa.String(length=120), nullable=False),
     sa.Column('is_brewer', sa.Boolean(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
@@ -30,11 +31,13 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=120), nullable=False),
-    sa.Column('addres', sa.String(length=120), nullable=True),
+    sa.Column('address', sa.String(length=120), nullable=True),
     sa.Column('history', sa.String(length=500), nullable=True),
     sa.Column('facebook_url', sa.String(length=120), nullable=True),
     sa.Column('instagram_url', sa.String(length=120), nullable=True),
     sa.Column('x_url', sa.String(length=120), nullable=True),
+    sa.Column('picture_of_brewery_url', sa.String(length=250), nullable=True),
+    sa.Column('logo_of_brewery_url', sa.String(length=250), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
@@ -48,6 +51,7 @@ def upgrade():
     sa.Column('IBUs', sa.String(length=120), nullable=False),
     sa.Column('volALC', sa.String(length=120), nullable=False),
     sa.Column('description', sa.String(length=120), nullable=False),
+    sa.Column('picture_of_beer_url', sa.String(length=250), nullable=True),
     sa.ForeignKeyConstraint(['brewery_id'], ['brewery.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -58,6 +62,7 @@ def upgrade():
     sa.Column('name', sa.String(length=120), nullable=False),
     sa.Column('description', sa.String(length=120), nullable=False),
     sa.Column('date', sa.String(length=120), nullable=False),
+    sa.Column('picture_of_event_url', sa.String(length=250), nullable=True),
     sa.ForeignKeyConstraint(['brewery_id'], ['brewery.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
