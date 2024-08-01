@@ -5,7 +5,7 @@ import beer from "../../img/beer.png";
 
 export const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg container-fluid nav my-5 ">
+    <nav className="navbar navbar-expand-lg container-fluid nav">
       <div className="container-fluid g-5 mx-5">
         <a
           className="navbar-brand d-flex justify-content-center mx-5 m"
