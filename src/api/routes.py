@@ -94,7 +94,7 @@ def create_new_brewery():
     picture_of_brewery_url =  body.get("picture_of_brewery_url", None)
     logo_of_brewery_url = body.get("logo_of_brewery_url", None)
 
-    if name is None:
+    if name is None or picture_of_brewery_url is None or logo_of_brewery_url is None:
         return jsonify({"error": "Debes llenar al menos el nombre"})
 
     try:
