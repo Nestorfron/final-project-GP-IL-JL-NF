@@ -11,8 +11,6 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  filter: blur(1px); /* Ajusta el nivel de desenfoque según necesites */
-  z-index: -1; /* Coloca la imagen detrás del contenido */
 }
 
 .nav {
