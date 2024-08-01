@@ -98,7 +98,7 @@ def create_new_brewery():
         return jsonify({"error": "Debes llenar al menos el nombre"})
 
     try:
-        new_brewery = Brewery(user_id=user_data, name = name, address=address, history=history, facebook_url = facebook_url, 
+        new_brewery = Brewery(user_id=user_data["id"], name = name, address=address, history=history, facebook_url = facebook_url, 
                               instagram_url = instagram_url, x_url = x_url, picture_of_brewery_url = picture_of_brewery_url, 
                               logo_of_brewery_url = logo_of_brewery_url )
         db.session.add(new_brewery)
@@ -118,19 +118,19 @@ def create_new_beer():
     user_data= get_jwt_identity()
 
     name= body.get("name", None)
-    brewery_name = body.get("brewery_name", None)
+    brewery_id = body.get("brewery_id", None)
     bjcp_style = body.get("bjcp_style", None)
     IBUs = body.get("IBUs", None)
     volALC = body.get("volALC", None)
     description = body.get("description", None)
     picture_of_beer_url = body.get("picture_of_beer_url", None)
 
-    if name is None or brewery_name is None or bjcp_style is None or IBUs is None or volALC is None or description is None:
+    if name is None or brewery_id is None or bjcp_style is None or IBUs is None or volALC is None or description is None:
         return jsonify({"error": "Debes llenar los campos obligatorios"}), 400
     
     try:
        
-        brewery = Brewery.query.filter_by(name=brewery_name, user_id=user_data["id"]).first()
+        brewery = Brewery.query.filter_by(id=brewery_id, user_id=user_data["id"]).first()
         if not brewery:
             return jsonify({"error": "Debes elegir una cervecería de la lista"}), 404
 
@@ -161,18 +161,18 @@ def create_new_event():
     user_data = get_jwt_identity()
 
     name = body.get("name", None)
-    brewery_name = body.get("brewery_name", None)
+    brewery_id = body.get("brewery_id", None)
     description = body.get("description", None)
     date = body.get("date", None)
     picture_of_event_url = body.get("picture_of_event_url", None)
 
     
-    if name is None or brewery_name is None or description is None or date is None:
+    if name is None or brewery_id is None or description is None or date is None:
         return jsonify({"error": "Debes llenar los campos obligatorios"}), 400
 
     try:
  
-        brewery = Brewery.query.filter_by(name=brewery_name, user_id=user_data["id"]).first()
+        brewery = Brewery.query.filter_by(id=brewery_id, user_id=user_data["id"]).first()
         if not brewery:
             return jsonify({"error": "Debes elegir una cervecería de la lista"}), 404
 

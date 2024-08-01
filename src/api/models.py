@@ -35,8 +35,8 @@ class Brewery(db.Model):
     facebook_url = db.Column(db.String(120), nullable=True)
     instagram_url = db.Column(db.String(120), nullable=True)
     x_url = db.Column(db.String(120), nullable=True)
-    picture_of_brewery_url = db.Column(db.String(250), nullable=True) 
-    logo_of_brewery_url = db.Column(db.String(250), nullable=True) 
+    picture_of_brewery_url = db.Column(db.String(250), nullable=False) 
+    logo_of_brewery_url = db.Column(db.String(250), nullable=False) 
     beers = db.relationship('Beer', backref='brewery', lazy=True)
     events = db.relationship('Event', backref='brewery', lazy=True)
 
@@ -50,7 +50,7 @@ class Brewery(db.Model):
             "id": self.id,
             "user_id": self.user_id,
             "name": self.name,
-            "address": self.addres,
+            "address": self.address,
             "history": self.history,
             "facebook_url": self.facebook_url,
             "instagram_url": self.instagram_url,
