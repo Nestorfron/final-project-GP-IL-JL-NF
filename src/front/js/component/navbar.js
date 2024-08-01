@@ -5,14 +5,8 @@ import beer from "../../img/beer.png";
 
 export const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg container-fluid nav my-5 ">
-      <div className="container-fluid g-5 mx-5">
-        <a
-          className="navbar-brand d-flex justify-content-center mx-5 m"
-          href="#"
-        >
-          HOME
-        </a>
+    <nav className="navbar navbar-expand-lg nav">
+      <div className="container-fluid">
         <button
           className="navbar-toggler"
           type="button"
@@ -24,78 +18,104 @@ export const Navbar = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <ul className="navbar-nav me-auto mb-2 my-2">
-            <li className="nav-item container-fluid g-5">
-              <a
-                className="navbar-brand d-flex justify-content-center my-2 m-5"
-                href="#"
+        <ul className="navbar-nav me-auto mb-2 mb-lg-0 mx-5">
+          <div>
+            <li className="nav-item mx-3">
+              <a 
+                className="nav-link active mx-2" 
+                aria-current="page" 
+                href="#" 
+                style={{ color: '#4B2E1D' }}
               >
-                ESTILOS
+                HOME
               </a>
             </li>
-            <li className="nav-item">
-              <a
-                className="navbar-brand d-flex justify-content-center my-2 ms-5 "
-                href="#"
-              >
-                CERVECERIA
-              </a>
-            </li>
-            <div className="mx-5 ms-5">
-              <img
-                src={beer}
-                alt="BEER"
-                width="50"
-                height="50"
-                className="mx-5"
-              />
-            </div>
-          </ul>
-          <form className="d-flex me-3" role="search">
+          </div>
+          <li className="nav-item mx-4">
+            <a 
+              className="nav-link" 
+              href="#" 
+              style={{ color: '#4B2E1D' }}
+            >
+              ESTILOS
+            </a>
+          </li>
+          <li className="nav-item mx-3">
+            <a 
+              className="nav-link active" 
+              aria-current="page" 
+              href="#" 
+              style={{ color: '#4B2E1D' }}
+            >
+              CERVECERIA
+            </a>
+          </li>
+        </ul>
+        <div className="container d-flex justify-content-center">
+          <a className="navbar-brand" href="#">
+            <img
+              src={beer}
+              alt="Logo"
+              width="90"
+              height="90"
+              className="d-inline-block align-top rounded-circle"
+            />
+          </a>
+        </div>
+        <div className="d-flex align-items-center">
+          <form className="d-flex" role="search">
             <input
               className="form-control me-2"
               type="search"
               placeholder="Search"
               aria-label="Search"
+              style={{ width: "140px", height: "35px" }}
             />
-            <button className="btn btn-outline-success" type="submit">
+            <button
+              className="btn btn-outline"
+              type="submit"
+              style={{ width: "160px", height: "35px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", color: '#4B2E1D' }}
+            >
               SOBRE NOSOTROS
             </button>
           </form>
-          <div className="btn-group">
-            <button
-              type="button"
-              className="btn btn-warning"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <span className="visually-hidden">Toggle Dropdown</span>
-              <i class="fa-solid fa-users"></i>
-            </button>
-            <ul className="dropdown-menu dropdown-menu-end my-4">
-              <li>
-                <a className="dropdown-item" href="">
-                  Favoritos
-                  <i class="fa-regular fa-heart mx-2"></i>
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Iniciar sesión
-                </a>
-              </li>
-              <li>
-                <hr className="dropdown-divider" />
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Cerrar sesión
-                </a>
-              </li>
-            </ul>
-          </div>
         </div>
+      </div>
+      <div className="dropdown">
+        <button
+          className="btn btn-warning dropdown-toggle me-5"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i 
+            className="fa-solid fa-user me-4" 
+            style={{ color: '#4B2E1D' }}
+          ></i>
+        </button>
+        <ul className="dropdown-menu dropdown-menu-warning my-4">
+          <li>
+            <a 
+              className="dropdown-item" 
+              href="#" 
+              style={{ color: 'black' }}
+            >
+              Iniciar Sesión
+            </a>
+          </li>
+          <li>
+            <hr className="dropdown-divider" />
+          </li>
+          <li>
+            <a 
+              className="dropdown-item" 
+              href="#" 
+              style={{ color: '#black' }}
+            >
+              Cerrar Sesión
+            </a>
+          </li>
+        </ul>
       </div>
     </nav>
   );

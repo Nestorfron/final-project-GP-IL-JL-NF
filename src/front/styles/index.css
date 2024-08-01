@@ -20,3 +20,8 @@ body {
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
 }
+
+.search-bar {
+  width: 200px;
+}
+
