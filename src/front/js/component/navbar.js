@@ -8,7 +8,7 @@ export const Navbar = () => {
     <nav className="navbar navbar-expand-lg container-fluid nav">
       <div className="container-fluid g-5 mx-5">
         <a
-          className="navbar-brand d-flex justify-content-center mx-5 m"
+          className="navbar-brand d-flex justify-content-center mx-5"
           href="#"
         >
           HOME
