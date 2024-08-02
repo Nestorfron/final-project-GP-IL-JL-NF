@@ -5,3 +5,64 @@
     one more css for each page that will contain the selected used 
     on that page only (the ones not reused in other pages).
 */
+.carousel-container {
+  padding-top: 48px;
+  width: 80%; /* Ajusta el ancho del carrusel como necesites */
+  height: 50vh; /* Ajusta la altura del carrusel como necesites */
+  margin: 0 auto; /* Centra el carrusel horizontalmente */
+}
+
+.carousel-inner {
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Asegura que la imagen cubra el área del carrusel sin distorsionar */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 3%; /* Ajusta el ancho de los controles */
+  height: 20%; /* Ajusta la altura de los controles */
+  position: absolute; /* Posiciona los controles sobre el carrusel */
+  top: 50%; /* Centra los controles verticalmente en el carrusel */
+  transform: translateY(-50%); /* Ajusta el posicionamiento vertical */
+  display: flex;
+  align-items: center; /* Centra el ícono verticalmente dentro del control */
+  justify-content: center; /* Centra el ícono horizontalmente dentro del control */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Fondo semi-transparente para los controles */
+  z-index: 1000; /* Asegura que los controles estén sobre el carrusel */
+}
+
+.carousel-control-prev {
+  left: 0; /* Posiciona el control "prev" a la izquierda */
+}
+
+.carousel-control-next {
+  right: 0; /* Posiciona el control "next" a la derecha */
+}
+
+.carousel-indicators {
+  bottom: 10px; /* Ajusta la posición vertical de los indicadores */
+}
+
+.carousel-indicators button {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.5
+  ); /* Color de fondo de los indicadores */
+}
+
+.carousel-indicators .active {
+  background-color: #fff; /* Color de fondo para el indicador activo */
+}
