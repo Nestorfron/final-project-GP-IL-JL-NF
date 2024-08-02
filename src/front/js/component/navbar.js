@@ -2,16 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../../styles/index.css";
 import beer from "../../img/beer.png";
+import Login from "../pages/login.jsx";
 
 export const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg container-fluid nav my-5 ">
-      <div className="container-fluid g-5 mx-5">
+    <nav className="navbar navbar-expand-lg nav mb-5">
+      <div className="container-fluid ">
         <a
-          className="navbar-brand d-flex justify-content-center mx-5 m"
+          className="navbar-brand d-flex justify-content-center mx-2 m"
           href="#"
         >
-          HOME
+          <Link to={"/"}>HOME</Link>
         </a>
         <button
           className="navbar-toggler"
@@ -82,7 +83,7 @@ export const Navbar = () => {
               </li>
               <li>
                 <a className="dropdown-item" href="#">
-                  Iniciar sesión
+                  <Link to={"/login"}> Iniciar Sesión</Link>
                 </a>
               </li>
               <li>

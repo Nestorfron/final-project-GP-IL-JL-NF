@@ -1,12 +1,17 @@
 import React from "react";
 import "../../styles/login.css";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
-    <div class="container">
+    <div class="container mt-5 home-login">
       <div class="row justify-content-center pt-5 mt-5 mr-1">
-        <div class="formulario col-md-4  ">
-          <img class="avatar" src="img/ceenergy.png" alt="logo empresa" />
+        <div class="formulario-login col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
+          <img
+            class="avatar"
+            src="https://www.alestilojalisco.com.mx/storage/articulos/salud-llega-la-ruta-de-la-cerveza-20220503171022.jpeg"
+            alt="logo empresa"
+          />
           <form action="">
             <div class="form form-grup mt-5 mb-5">
               <div class="card-body">
@@ -33,7 +38,7 @@ const Login = () => {
                   </button>
                 </div>
                 <div class="registro form-grup mt-4 d-flex justify-content-center">
-                  ¿No tienes Cuenta? <a class="registro">Registrate</a>
+                  ¿No tienes Cuenta? <Link to={"/register"}> Registrate </Link>
                 </div>
               </div>
             </div>
