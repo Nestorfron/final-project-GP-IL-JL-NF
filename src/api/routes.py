@@ -8,6 +8,8 @@ from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
+import re 
+email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 
 api = Blueprint('api', __name__)
 
@@ -15,25 +17,18 @@ api = Blueprint('api', __name__)
 CORS(api)
 
 
-@api.route('/hello', methods=['POST', 'GET'])
-def handle_hello():
-
-    response_body = {
-        "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
-    }
-
-    return jsonify(response_body), 200
-
-
 #Endpoint de registro de usuario
 
 @api.route("/signup", methods=["POST"])
-def handle_singnup():
+def handle_signup():
     body = request.json
     email = body.get("email", None)
     password = body.get("password", None)
     country = body.get("country", None)
     is_brewer= body.get("is_brewer", None)
+
+    if not re.match(email_regex, email):
+        return jsonify({"error": "El formato del email no es válido"}), 400
 
 #Validacion de llenado de todos los campos
     if email is None or password is None or country is None or is_brewer is None:
@@ -59,10 +54,14 @@ def handle_singnup():
 #Endpoint de inicio de sesion
 
 @api.route('/signin', methods=['POST'])
-def handle_sigin():
+def handle_signin():
     body = request.json
     email = body.get("email", None)
     password = body.get("password", None)
+
+    if not re.match(email_regex, email):
+        return jsonify({"error": "El formato del email no es válido"}), 400
+
 
     if email is None or password is None:
         return jsonify({"error": "El email y password es requerido para iniciar sesión"}), 400
@@ -94,8 +93,8 @@ def create_new_brewery():
     picture_of_brewery_url =  body.get("picture_of_brewery_url", None)
     logo_of_brewery_url = body.get("logo_of_brewery_url", None)
 
-    if name is None:
-        return jsonify({"error": "Debes llenar al menos el nombre"})
+    if name is None or picture_of_brewery_url is None or logo_of_brewery_url is None:
+        return jsonify({"error": "Debes llenar al menos el nombre"}), 400
 
     try:
         new_brewery = Brewery(user_id=user_data["id"], name = name, address=address, history=history, facebook_url = facebook_url, 
@@ -151,7 +150,7 @@ def create_new_beer():
 
     except Exception as error:
         db.session.rollback()
-        return jsonify({"error": f"{error}"}), 500
+        return jsonify({"error: f'{error}"}), 500
     
 #Endpoint de POST de Nuevo evento (requiere token)
 @api.route("/create_new_event", methods=["POST"])
@@ -191,3 +190,28 @@ def create_new_event():
     except Exception as error:
         db.session.rollback()
         return jsonify({"error": f"{error}"}), 500
+
+#Endpoint para obtener los estilos disponibles segun las cervezas disponibles
+
+@api.route('/styles', methods=['GET'])
+def get_styles():
+    try:
+        styles = db.session.query(Beer.bjcp_style.distinct()).all()
+        style_list = [style[0] for style in styles]
+        return jsonify({"styles": style_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500 
+    
+
+#Endpoint para obtener todas las cervezas por estilo
+
+@api.route('/beers_by_style/<style>', methods=['GET'])
+def get_beers_by_style(style):
+    try:
+        beers = Beer.query.filter_by(bjcp_style = style).all()
+        beers_list = [beer.serialize() for beer in beers]
+        return jsonify ({"beers": beers_list}), 200
+    except Exception as error:
+        return jsonify ({"error": f"{error}"}), 500
+    
+#Comentario de prueba para hacer merge desde git
