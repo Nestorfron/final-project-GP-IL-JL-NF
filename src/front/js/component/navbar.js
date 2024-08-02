@@ -20,15 +20,18 @@ export const Navbar = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <ul className="navbar-nav me-auto mb-2 my-2">
-            <li className="nav-item container-fluid g-5">
-              <Link
-                className="navbar-brand d-flex justify-content-center my-2 m-5"
-                to="#"
+        <ul className="navbar-nav me-auto mb-2 mb-lg-0 mx-5">
+          <div>
+            <li className="nav-item mx-3">
+              <a 
+                className="nav-link active mx-2" 
+                aria-current="page" 
+                href="#" 
+              
               >
-                ESTILOS
-              </Link>
+                <Link to={"/"}  style={{ color: '#4B2E1D' }}>HOME</Link>
+                
+              </a>
             </li>
             <li className="nav-item">
               <Link
