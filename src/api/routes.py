@@ -213,3 +213,5 @@ def get_beers_by_style(style):
         return jsonify ({"beers": beers_list}), 200
     except Exception as error:
         return jsonify ({"error": f"{error}"}), 500
+    
+#Comentario de prueba para hacer merge desde git
