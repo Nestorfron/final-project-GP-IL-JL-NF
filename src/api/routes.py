@@ -8,6 +8,8 @@ from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
+import re 
+email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 
 api = Blueprint('api', __name__)
 
@@ -18,12 +20,15 @@ CORS(api)
 #Endpoint de registro de usuario
 
 @api.route("/signup", methods=["POST"])
-def handle_singnup():
+def handle_signup():
     body = request.json
     email = body.get("email", None)
     password = body.get("password", None)
     country = body.get("country", None)
     is_brewer= body.get("is_brewer", None)
+
+    if not re.match(email_regex, email):
+        return jsonify({"error": "El formato del email no es válido"}), 400
 
 #Validacion de llenado de todos los campos
     if email is None or password is None or country is None or is_brewer is None:
@@ -49,10 +54,14 @@ def handle_singnup():
 #Endpoint de inicio de sesion
 
 @api.route('/signin', methods=['POST'])
-def handle_sigin():
+def handle_signin():
     body = request.json
     email = body.get("email", None)
     password = body.get("password", None)
+
+    if not re.match(email_regex, email):
+        return jsonify({"error": "El formato del email no es válido"}), 400
+
 
     if email is None or password is None:
         return jsonify({"error": "El email y password es requerido para iniciar sesión"}), 400
@@ -85,7 +94,7 @@ def create_new_brewery():
     logo_of_brewery_url = body.get("logo_of_brewery_url", None)
 
     if name is None or picture_of_brewery_url is None or logo_of_brewery_url is None:
-        return jsonify({"error": "Debes llenar al menos el nombre"})
+        return jsonify({"error": "Debes llenar al menos el nombre"}), 400
 
     try:
         new_brewery = Brewery(user_id=user_data["id"], name = name, address=address, history=history, facebook_url = facebook_url, 
@@ -141,7 +150,7 @@ def create_new_beer():
 
     except Exception as error:
         db.session.rollback()
-        return jsonify({"error": f"{error}"}), 500
+        return jsonify({"error: f'{error}"}), 500
     
 #Endpoint de POST de Nuevo evento (requiere token)
 @api.route("/create_new_event", methods=["POST"])
