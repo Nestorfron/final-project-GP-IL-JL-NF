@@ -190,3 +190,26 @@ def create_new_event():
     except Exception as error:
         db.session.rollback()
         return jsonify({"error": f"{error}"}), 500
+
+#Endpoint para obtener los estilos disponibles segun las cervezas disponibles
+
+@api.route('/styles', methods=['GET'])
+def get_styles():
+    try:
+        styles = db.session.query(Beer.bjcp_style.distinct()).all()
+        style_list = [style[0] for style in styles]
+        return jsonify({"styles": style_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500 
+    
+
+#Endpoint para obtener todas las cervezas por estilo
+
+@api.route('/beers_by_style/<style>', methods=['GET'])
+def get_beers_by_style(style):
+    try:
+        beers = Beer.query.filter_by(bjcp_style = style).all()
+        beers_list = [beer.serialize() for beer in beers]
+        return jsonify ({"beers": beers_list}), 200
+    except Exception as error:
+        return jsonify ({"error": f"{error}"}), 500
