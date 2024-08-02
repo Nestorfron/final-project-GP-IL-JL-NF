@@ -8,12 +8,7 @@ export const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg nav mb-5">
       <div className="container-fluid ">
-        <a
-          className="navbar-brand d-flex justify-content-center mx-2 m"
-          href="#"
-        >
-          <Link to={"/"}>HOME</Link>
-        </a>
+        <Link to={"/"}>HOME</Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -28,20 +23,20 @@ export const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
           <ul className="navbar-nav me-auto mb-2 my-2">
             <li className="nav-item container-fluid g-5">
-              <a
+              <Link
                 className="navbar-brand d-flex justify-content-center my-2 m-5"
-                href="#"
+                to="#"
               >
                 ESTILOS
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a
+              <Link
                 className="navbar-brand d-flex justify-content-center my-2 ms-5 "
-                href="#"
+                to="#"
               >
                 CERVECERIA
-              </a>
+              </Link>
             </li>
             <div className="mx-5 ms-5">
               <img
@@ -72,27 +67,25 @@ export const Navbar = () => {
               aria-expanded="false"
             >
               <span className="visually-hidden">Toggle Dropdown</span>
-              <i class="fa-solid fa-users"></i>
+              <i className="fa-solid fa-users"></i>
             </button>
             <ul className="dropdown-menu dropdown-menu-end my-4">
               <li>
-                <a className="dropdown-item" href="">
+                <Link className="dropdown-item" to="">
                   Favoritos
-                  <i class="fa-regular fa-heart mx-2"></i>
-                </a>
+                  <i className="fa-regular fa-heart mx-2"></i>
+                </Link>
               </li>
               <li>
-                <a className="dropdown-item" href="#">
-                  <Link to={"/login"}> Iniciar Sesión</Link>
-                </a>
+                <Link to={"/login"}> Iniciar Sesión</Link>
               </li>
               <li>
                 <hr className="dropdown-divider" />
               </li>
               <li>
-                <a className="dropdown-item" href="#">
+                <Link className="dropdown-item" to="#">
                   Cerrar sesión
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
