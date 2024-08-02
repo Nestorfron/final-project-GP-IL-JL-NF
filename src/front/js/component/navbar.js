@@ -25,9 +25,10 @@ export const Navbar = () => {
                 className="nav-link active mx-2" 
                 aria-current="page" 
                 href="#" 
-                style={{ color: '#4B2E1D' }}
+               
               >
-                HOME
+                <Link to={"/"}  style={{ color: '#4B2E1D' }}>HOME</Link>
+                
               </a>
             </li>
           </div>
