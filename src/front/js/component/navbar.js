@@ -1,9 +1,28 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Context } from "../store/appContext";
+
 import "../../styles/index.css";
 import BEER from "../../img/beer.jpeg";
 
 export const Navbar = () => {
+  const { store, actions } = useContext(Context);
+  const jwt = localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  function logout() {
+    actions.logout();
+    navigate("/");
+  }
+
+  useEffect(() => {
+    const jwt = localStorage.getItem("token");
+    if (!jwt) {
+      navigate("/");
+      return;
+    }
+  }, []);
+
   return (
     <nav className="navbar navbar-expand-md p-3 mb-5">
       <div className="container-fluid">
@@ -118,8 +137,6 @@ export const Navbar = () => {
                   </div>
                 </li>
               </ul>
-            </div>
-          </div>
         </div>
       </div>
     </nav>
