@@ -59,8 +59,8 @@ def handle_signin():
     email = body.get("email", None)
     password = body.get("password", None)
 
-    if not re.match(email_regex, email):
-        return jsonify({"error": "El formato del email no es válido"}), 400
+    #if not re.match(email_regex, email):
+     #   return jsonify({"error": "El formato del email no es válido"}), 400
 
 
     if email is None or password is None:
