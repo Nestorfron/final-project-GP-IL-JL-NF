@@ -4,6 +4,7 @@ import { Context } from "../store/appContext";
 
 import "../../styles/index.css";
 import BEER from "../../img/beer.jpeg";
+import { Context } from "../store/appContext";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
@@ -54,7 +55,13 @@ export const Navbar = () => {
                     ESTILOS
                   </a>
                   <ul className="dropdown-menu mx-3">
-                    <li className="nav-item">No hay</li>
+                    {store.styles.length > 0 ? (
+                      store.styles.map((style) => (
+                        <li key={style.id}>{style.name}</li>
+                      ))
+                    ) : (
+                      <h6 className="text-center">Sin Estilos</h6>
+                    )}
                   </ul>
                 </li>
                 <li className="nav-item dropdown mx-3">
