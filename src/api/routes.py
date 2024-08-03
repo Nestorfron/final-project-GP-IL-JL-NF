@@ -110,6 +110,7 @@ def create_new_brewery():
         return jsonify({"error: f'{error}"}), 500
 
 #Endpoint de POST de Nueva Cerveza (requiere token)
+
 @api.route("/create_new_beer", methods= ["POST"])
 @jwt_required()
 def create_new_beer():
@@ -153,6 +154,7 @@ def create_new_beer():
         return jsonify({"error: f'{error}"}), 500
     
 #Endpoint de POST de Nuevo evento (requiere token)
+
 @api.route("/create_new_event", methods=["POST"])
 @jwt_required()
 def create_new_event():

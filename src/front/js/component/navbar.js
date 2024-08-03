@@ -4,7 +4,6 @@ import { Context } from "../store/appContext";
 
 import "../../styles/index.css";
 import BEER from "../../img/beer.jpeg";
-import { Context } from "../store/appContext";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
