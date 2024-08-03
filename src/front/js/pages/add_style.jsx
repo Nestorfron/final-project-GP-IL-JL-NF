@@ -3,45 +3,36 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { uploadFile } from "../../../firebase/config";
 
-const Add_Brewery = () => {
+const Add_Style = () => {
   const { actions } = useContext(Context);
   const navigate = useNavigate();
-  const [logo_of_brewery, setLogo_of_brewery] = useState(null);
-  const [picture_of_brewery, setPicture_of_brewery] = useState(null);
+  const [picture_of_beer, setPicture_of_beer] = useState(null);
   const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [history, setHistory] = useState("");
-  const [facebook_url, setFacebook_url] = useState("");
-  const [instagram_url, setinstagram_url] = useState("");
-  const [x_url, setX_url] = useState("");
-  const [picture_of_brewery_url, setPicture_of_brewery_url] = useState("");
-  const [logo_of_brewery_url, setLogo_of_brewery_url] = useState("");
+  const [bjcp_style, setBjcp_style] = useState("");
+  const [IBUs, setIBUs] = useState("");
+  const [volALC, setVolAlc] = useState("");
+  const [description, setDescription] = useState("");
+  const [picture_of_beer_url, setPicture_of_beer_url] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const result = await uploadFile(logo_of_brewery);
+    const result = await uploadFile(picture_of_beer);
     if (result) {
       console.log(result);
     }
-    const result1 = await uploadFile(picture_of_brewery);
-    if (result1) {
-      console.log(result1);
-    }
 
-    const response = await actions.add_brewery(
+    const response = await actions.add_beer(
       name,
-      address,
-      history,
-      facebook_url,
-      instagram_url,
-      result1,
-      x_url,
+      bjcp_style,
+      IBUs,
+      volALC,
+      description,
       result
     );
     if (response) {
       console.log(response);
-      alert("Cervecería creada correctamente");
+      alert("Producto creado correctamente");
     }
   };
 
@@ -60,13 +51,13 @@ const Add_Brewery = () => {
           <form onSubmit={handleSubmit}>
             <div className="card-header">
               <div className="form form-grup">
-                <h1 className="registro">Agrega tu Cervecería</h1>
+                <h1 className="registro">Agrega tu Producto</h1>
               </div>
             </div>
             <div className="card-body">
               <div className="form form-grup mx-sm-4 mb-3 mt-1">
                 <label htmlFor="exampleInputEmail1" className="form-label">
-                  Nombre de tu cervecería
+                  Nombre de tu producto
                 </label>
                 <input
                   type="text"
@@ -79,81 +70,58 @@ const Add_Brewery = () => {
               </div>
               <div className="form form-grup mx-sm-4 mb-4">
                 <label htmlFor="exampleInputPassword1" className="form-label">
-                  Dirección de tu cervecería
+                  bjcp de tu producto
                 </label>
                 <input
                   type="text"
                   className="form-control"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  value={bjcp_style}
+                  onChange={(e) => setBjcp_style(e.target.value)}
                 />
               </div>
               <div className="form form-grup mx-sm-4 mb-4">
                 <label htmlFor="exampleInputPassword1" className="form-label">
-                  Breve descripción
+                  IBUs de tu producto
                 </label>
                 <input
                   type="text"
                   className="form-control"
-                  value={history}
-                  onChange={(e) => setHistory(e.target.value)}
+                  value={IBUs}
+                  onChange={(e) => setIBUs(e.target.value)}
                 />
               </div>
               <div className="form form-grup mx-sm-4 mb-4">
                 <label htmlFor="exampleInputPassword1" className="form-label">
-                  Ingresa tu Facebook
+                  volALC de tu producto
                 </label>
                 <input
                   type="text"
                   className="form-control"
-                  value={facebook_url}
-                  onChange={(e) => setFacebook_url(e.target.value)}
+                  value={volALC}
+                  onChange={(e) => setVolAlc(e.target.value)}
                 />
               </div>
               <div className="form form-grup mx-sm-4 mb-4">
                 <label htmlFor="exampleInputPassword1" className="form-label">
-                  Ingresa tu Instagram
+                  descripción de tu producto
                 </label>
                 <input
                   type="text"
                   className="form-control"
-                  value={instagram_url}
-                  onChange={(e) => setinstagram_url(e.target.value)}
-                />
-              </div>
-              <div className="form form-grup mx-sm-4 mb-4">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  Ingresa tu dirección de X
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={x_url}
-                  onChange={(e) => setX_url(e.target.value)}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
               <div className="mb-3 mx-sm-4 mb-4">
                 <label htmlFor="formFile" className="form-label">
-                  Sube tu foto de prtada
+                  Sube la imagen de tu producto
                 </label>
                 <input
-                  value={picture_of_brewery_url}
+                  value={picture_of_beer_url}
                   className="form-control"
                   type="file"
                   id="formFile"
-                  onChange={(e) => setPicture_of_brewery(e.target.files[0])}
-                />
-              </div>
-              <div className="mb-3 mx-sm-4 mb-4">
-                <label htmlFor="formFile" className="form-label">
-                  Sube tu logo
-                </label>
-                <input
-                  value={logo_of_brewery_url}
-                  className="form-control"
-                  type="file"
-                  id="formFile"
-                  onChange={(e) => setLogo_of_brewery(e.target.files[0])}
+                  onChange={(e) => setPicture_of_beer(e.target.files[0])}
                 />
               </div>
               <button type="submit" className="entrar mx-sm-4 mt-2">
@@ -167,4 +135,4 @@ const Add_Brewery = () => {
   );
 };
 
-export default Add_Brewery;
+export default Add_Style;
