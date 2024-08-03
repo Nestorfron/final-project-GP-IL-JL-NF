@@ -1,4 +1,28 @@
-.navbar {
+
+body {
+  margin: 0;
+  padding: 0;
+  padding-top: 35px;
+  min-height: 100vh;
+  background-color: rgba(237, 161, 15, 255);
+
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(https://www.alestilojalisco.com.mx/storage/articulos/salud-llega-la-ruta-de-la-cerveza-20220503171022.jpeg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  filter: blur(3px);
+}
+
+.nav {
   position: fixed;
   top: 20px;
   left: 0;
@@ -68,21 +92,6 @@
   height: 40px;
 }
 
-@media (max-width: 768px) {
-  .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(35, 21, 16, 1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-  }
-
-  .navbar-toggler {
-    border-color: transparent; /* Optional: Remove border */
-  }
-}
-
-.signin-button {
-  background-color: rgba(231, 162, 6, 255);
-  color: white;
-}
-.signin-button .dropdown-item:hover {
-  background-color: rgba(1, 60, 76, 255);
-  color: white;
+.menu {
+  background: rgb(245, 207, 70, 255);
 }
