@@ -14,19 +14,18 @@ const Add_Brewery = () => {
   const [facebook_url, setFacebook_url] = useState("");
   const [instagram_url, setinstagram_url] = useState("");
   const [x_url, setX_url] = useState("");
-  const [picture_of_brewery_url, setPicture_of_brewery_url] = useState("");
-  const [logo_of_brewery_url, setLogo_of_brewery_url] = useState("");
+  const [picture_of_brewer_label, setPicture_of_brewery_label] = useState("");
+  const [logo_of_brewery_label, setLogo_of_brewery_label] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const result = await uploadFile(logo_of_brewery);
     if (result) {
-      console.log(result);
+      console.log(logo_of_brewery.name);
     }
     const result1 = await uploadFile(picture_of_brewery);
     if (result1) {
-      console.log(result1);
+      console.log(picture_of_brewery.name);
     }
 
     const response = await actions.add_brewery(
@@ -137,7 +136,7 @@ const Add_Brewery = () => {
                   Sube tu foto de prtada
                 </label>
                 <input
-                  value={picture_of_brewery_url}
+                  value={""}
                   className="form-control"
                   type="file"
                   id="formFile"
@@ -149,7 +148,7 @@ const Add_Brewery = () => {
                   Sube tu logo
                 </label>
                 <input
-                  value={logo_of_brewery_url}
+                  value={""}
                   className="form-control"
                   type="file"
                   id="formFile"
