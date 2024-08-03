@@ -89,6 +89,43 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+      add_beer: async (
+        name,
+        bjcp_style,
+        IBUs,
+        volALC,
+        description,
+        picture_of_beer_url
+      ) => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/create_new_beer",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+              body: JSON.stringify({
+                name,
+                bjcp_style,
+                IBUs,
+                volALC,
+                description,
+                picture_of_beer_url,
+              }),
+            }
+          );
+          if (!response.ok) {
+            return false;
+          }
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
     },
   };
 };
