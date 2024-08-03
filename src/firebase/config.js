@@ -1,10 +1,12 @@
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyASCpveXH9Yrp21A5YB56bxIr0iQEVDduc",
   authDomain: "fir-auth-yt-e7836.firebaseapp.com",
+  databaseURL: "https://fir-auth-yt-e7836-default-rtdb.firebaseio.com",
   projectId: "fir-auth-yt-e7836",
   storageBucket: "fir-auth-yt-e7836.appspot.com",
   messagingSenderId: "807146426135",
@@ -12,6 +14,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
 export const storage = getStorage(app);
 
 export async function uploadFile(file) {
@@ -20,3 +23,5 @@ export async function uploadFile(file) {
   const url = await getDownloadURL(storafeRef);
   return url;
 }
+
+export const db = getFirestore(app);
