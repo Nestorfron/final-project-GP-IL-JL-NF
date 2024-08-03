@@ -1,57 +1,40 @@
-/*
-    home.css: This website contains selectors only used in home.css
-
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
 .carousel-container {
-  padding-top: 71px;
-  width: 80%; /* Ajusta el ancho del carrusel como necesites */
-  height: 50vh; /* Ajusta la altura del carrusel como necesites */
-  margin: 0 auto; /* Centra el carrusel horizontalmente */
-}
-
-.carousel-inner {
-  width: 100%;
-  height: 100%;
-}
-
-.carousel-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Asegura que la imagen cubra el área del carrusel sin distorsionar */
+  padding-top: 160px;
+  width: 80%; /* Adjust the width of the carousel as needed */
+  max-height: 200px; /* Set the height of the carousel to 500px */
+  margin: 0 auto; /* Center the carousel horizontally */
+  position: relative; /* Ensure positioning context for controls */
 }
 
 .carousel-control-prev,
 .carousel-control-next {
-  width: 3%; /* Ajusta el ancho de los controles */
-  height: 20%; /* Ajusta la altura de los controles */
-  position: absolute; /* Posiciona los controles sobre el carrusel */
-  top: 50%; /* Centra los controles verticalmente en el carrusel */
-  transform: translateY(-50%); /* Ajusta el posicionamiento vertical */
+  width: 3%; /* Adjust the width of the controls */
+  height: 20%; /* Adjust the height of the controls */
+  position: absolute; /* Position the controls over the carousel */
+  top: 50%; /* Center the controls vertically in the carousel */
+  transform: translateY(-50%); /* Adjust vertical positioning */
   display: flex;
-  align-items: center; /* Centra el ícono verticalmente dentro del control */
-  justify-content: center; /* Centra el ícono horizontalmente dentro del control */
+  align-items: center; /* Center the icon vertically within the control */
+  justify-content: center; /* Center the icon horizontally within the control */
   background-color: rgba(
     0,
     0,
     0,
     0.5
-  ); /* Fondo semi-transparente para los controles */
-  z-index: 1000; /* Asegura que los controles estén sobre el carrusel */
+  ); /* Semi-transparent background for controls */
+  z-index: 1000; /* Ensure the controls are above the carousel */
 }
 
 .carousel-control-prev {
-  left: 0; /* Posiciona el control "prev" a la izquierda */
+  left: 0; /* Position the "prev" control to the left */
 }
 
 .carousel-control-next {
-  right: 0; /* Posiciona el control "next" a la derecha */
+  right: 0; /* Position the "next" control to the right */
 }
 
 .carousel-indicators {
-  bottom: 10px; /* Ajusta la posición vertical de los indicadores */
+  bottom: 10px; /* Adjust the vertical position of the indicators */
 }
 
 .carousel-indicators button {
@@ -60,9 +43,13 @@
     255,
     255,
     0.5
-  ); /* Color de fondo de los indicadores */
+  ); /* Background color for indicators */
 }
 
 .carousel-indicators .active {
-  background-color: #fff; /* Color de fondo para el indicador activo */
+  background-color: #fff; /* Background color for the active indicator */
+}
+
+body {
+  background-color: rgba(1, 60, 76, 255);
 }
