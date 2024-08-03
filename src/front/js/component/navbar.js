@@ -1,13 +1,31 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Context } from "../store/appContext";
+
 import "../../styles/index.css";
 import BEER from "../../img/beer.jpeg";
 import { Context } from "../store/appContext";
 
 export const Navbar = () => {
-  const { store } = useContext(Context);
+  const { store, actions } = useContext(Context);
+  const jwt = localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  function logout() {
+    actions.logout();
+    navigate("/");
+  }
+
+  useEffect(() => {
+    const jwt = localStorage.getItem("token");
+    if (!jwt) {
+      navigate("/");
+      return;
+    }
+  }, []);
+
   return (
-    <nav className="navbar navbar-expand-md p-3 mb-5 nav">
+    <nav className="navbar navbar-expand-md p-3 mb-5">
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center w-100">
           <button
@@ -110,17 +128,41 @@ export const Navbar = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link to="/login" className="dropdown-item ">
+                        <Link
+                          to="/add_brewery"
+                          className={`${
+                            !jwt
+                              ? "dropdown-item text-dark d-none"
+                              : "dropdown-item text-dark"
+                          }`}
+                        >
+                          Agregar Cervecería
+                        </Link>
+                      </li>
+                      <hr className="dropdown-divider" />
+                      <li>
+                        <Link
+                          to="/login"
+                          className={`${
+                            !jwt
+                              ? "dropdown-item text-dark"
+                              : "dropdown-item text-dark d-none"
+                          }`}
+                        >
                           Iniciar Sesión
                         </Link>
                       </li>
                       <li>
-                        <hr className="dropdown-divider" />
-                      </li>
-                      <li>
-                        <Link className="dropdown-item text" to="#">
-                          Cerrar Sesión
-                        </Link>
+                        <button
+                          className={`${
+                            !jwt
+                              ? "dropdown-item text-dark d-none"
+                              : "dropdown-item text-dark"
+                          }`}
+                          onClick={logout}
+                        >
+                          Cerrar sesión
+                        </button>
                       </li>
                     </ul>
                   </div>

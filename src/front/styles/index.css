@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   padding: 0;
@@ -23,12 +24,13 @@ body::before {
 
 .nav {
   position: fixed;
-  top: 0;
+  top: 20px;
   left: 0;
   width: 100%;
-  height: 138px;
+  height: 100px;
   z-index: 1000;
-  background: rgba(35, 21, 16, 0.893);
+  background-color: rgba(255, 255, 255);
+
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
   font-family: "Azo Sans", sans-serif;
@@ -87,7 +89,7 @@ body::before {
 }
 
 .search {
-  width: 150px;
+  height: 40px;
 }
 
 .menu {
