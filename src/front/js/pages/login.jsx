@@ -4,7 +4,7 @@ import "../../styles/login.css";
 import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
-  const { store, actions } = useContext(Context);
+  const { actions } = useContext(Context);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -51,7 +51,7 @@ const Login = () => {
                   />
                 </div>
                 <div className="form-grup mx-sm-4 d-flex justify-content-center">
-                  <button className="entrar" type="button">
+                  <button className="entrar" type="submit">
                     <i className="fa-solid fa-right-to-bracket me-2"></i>
                     Ingresar
                   </button>
