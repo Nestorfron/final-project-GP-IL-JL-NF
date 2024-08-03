@@ -121,22 +121,48 @@ export const Navbar = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link to="/login" className="dropdown-item ">
+                        <Link
+                          to="/add_brewery"
+                          className={`${
+                            !jwt
+                              ? "dropdown-item text-dark d-none"
+                              : "dropdown-item text-dark"
+                          }`}
+                        >
+                          Agregar Cervecería
+                        </Link>
+                      </li>
+                      <hr className="dropdown-divider" />
+                      <li>
+                        <Link
+                          to="/login"
+                          className={`${
+                            !jwt
+                              ? "dropdown-item text-dark"
+                              : "dropdown-item text-dark d-none"
+                          }`}
+                        >
                           Iniciar Sesión
                         </Link>
                       </li>
                       <li>
-                        <hr className="dropdown-divider" />
-                      </li>
-                      <li>
-                        <Link className="dropdown-item text" to="#">
-                          Cerrar Sesión
-                        </Link>
+                        <button
+                          className={`${
+                            !jwt
+                              ? "dropdown-item text-dark d-none"
+                              : "dropdown-item text-dark"
+                          }`}
+                          onClick={logout}
+                        >
+                          Cerrar sesión
+                        </button>
                       </li>
                     </ul>
                   </div>
                 </li>
               </ul>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
