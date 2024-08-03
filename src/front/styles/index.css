@@ -3,7 +3,7 @@ body {
   padding: 0;
   padding-top: 35px;
   min-height: 100vh;
-  background-color: rgba(237,161,15,255);
+  background-color: rgba(237, 161, 15, 255);
 
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
@@ -31,14 +31,59 @@ body::before {
   background: rgba(35, 21, 16, 0.893);
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
+  font-family: "Azo Sans", sans-serif;
 }
 
-.search-bar {
-  width: 200px;
+/* Ensure the BEER image stays centered and within the navbar */
+.beer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
 }
 
-.Link {
-   background-color: sienna;
+.beer-image {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+  .beer-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Adjustments for small screens */
+  .beer-image {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Ensure the navbar height accommodates the BEER image */
+}
+
+/* Change color of "Estilos" and "Cervecerías" links */
+.navbar-nav .nav-link {
+  color: rgba(35, 21, 16, 1); /* Replace with your desired color */
+  font-weight: bold;
+}
+
+.navbar-nav .nav-link:hover {
+  color: rgba(231, 162, 6, 255); /* Optional: Add a hover color */
+  font-weight: bold;
+}
+
+/* Change color of "Sobre Nosotros" link */
+.navbar-nav .nav-link.text-dark {
+  color: rgba(191, 94, 1, 255); /* Replace with your desired color */
+  font-weight: bold;
+}
+
+.navbar-nav .nav-link.text-dark:hover {
+  color: rgba(231, 162, 6, 255); /* Optional: Add a hover color */
+  font-weight: bold;
 }
 
 .search {
@@ -46,7 +91,5 @@ body::before {
 }
 
 .menu {
-  background:rgb(245,207,70,255);
-  
+  background: rgb(245, 207, 70, 255);
 }
-
