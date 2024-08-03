@@ -1,9 +1,17 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { Context } from "../store/appContext";
 import "../../styles/index.css";
 import beer from "../../img/beer.png";
 
 export const Navbar = () => {
+  const navigate = useNavigate();
+  const { actions } = useContext(Context);
+
+  function logout() {
+    actions.logout();
+    navigate("/login");
+  }
   return (
     <nav
       className="navbar navbar-expand-lg nav mb-5"
@@ -76,9 +84,9 @@ export const Navbar = () => {
                 <hr className="dropdown-divider" />
               </li>
               <li>
-                <Link className="dropdown-item" to="#">
+                <button className="dropdown-item" onClick={logout}>
                   Cerrar sesión
-                </Link>
+                </button>
               </li>
             </ul>
           </div>

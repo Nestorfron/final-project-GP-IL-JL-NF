@@ -45,6 +45,9 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+      logout: () => {
+        localStorage.removeItem("token");
+      },
     },
   };
 };
