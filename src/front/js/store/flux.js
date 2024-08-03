@@ -2,10 +2,10 @@ const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {},
     actions: {
-      register: async (email, password, country, is_brewer) => {
+      register: async (email, password, is_brewer, country) => {
         try {
           const response = await fetch(
-            process.env.BACKEND_URL + "/api/singup",
+            process.env.BACKEND_URL + "/api/signup",
             {
               method: "POST",
               headers: {
@@ -26,11 +26,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       login: async (email, password) => {
         try {
           const response = await fetch(
-            process.env.BACKEND_URL + "/api/singin",
+            process.env.BACKEND_URL + "/api/signin",
             {
               method: "POST",
               headers: {
-                "Content-type": "application/json",
+                "Content-Type": "application/json",
               },
               body: JSON.stringify({ email, password }),
             }
@@ -44,6 +44,9 @@ const getState = ({ getStore, getActions, setStore }) => {
         } catch (error) {
           console.log(error);
         }
+      },
+      logout: () => {
+        localStorage.removeItem("token");
       },
     },
   };
