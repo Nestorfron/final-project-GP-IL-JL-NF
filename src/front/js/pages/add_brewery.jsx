@@ -14,8 +14,6 @@ const Add_Brewery = () => {
   const [facebook_url, setFacebook_url] = useState("");
   const [instagram_url, setinstagram_url] = useState("");
   const [x_url, setX_url] = useState("");
-  const [picture_of_brewer_label, setPicture_of_brewery_label] = useState("");
-  const [logo_of_brewery_label, setLogo_of_brewery_label] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -136,10 +134,9 @@ const Add_Brewery = () => {
                   Sube tu foto de prtada
                 </label>
                 <input
-                  value={""}
-                  className="form-control"
                   type="file"
-                  id="formFile"
+                  className="form-control"
+                  id="inputGroupFile02"
                   onChange={(e) => setPicture_of_brewery(e.target.files[0])}
                 />
               </div>
@@ -148,10 +145,9 @@ const Add_Brewery = () => {
                   Sube tu logo (*.png)
                 </label>
                 <input
-                  value={""}
-                  className="form-control"
                   type="file"
-                  id="formFile"
+                  className="form-control"
+                  id="inputGroupFile03"
                   onChange={(e) => setLogo_of_brewery(e.target.files[0])}
                 />
               </div>
