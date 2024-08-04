@@ -10,8 +10,8 @@
 }
 
 .beer-image {
-  width: 130px;
-  height: 130px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
 }
 
@@ -45,8 +45,41 @@
   background: rgb(245, 207, 70, 255);
 }
 
-.navbar-toggler {
-  position: relative;
-  background-color: white;
-  border: none !important;
+.dropdown-menu {
+  background-color: rgb(245, 207, 70, 255);
+  margin-top: 2.8rem !important;
+  margin-left: 0 !important;
+  width: 50vh !important;
+}
+
+.dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: -15px; /* Adjust this to move the arrow further above the dropdown menu */
+  left: 15px; /* Adjust this value to move the arrow horizontally */
+  border-width: 0 15px 15px 15px; /* Increase the size of the arrow */
+  border-style: solid;
+  border-color: transparent transparent rgb(245, 207, 70, 255) transparent; /* Match the color to the dropdown menu */
+}
+
+.menu {
+  background-color: rgb(245, 207, 70, 255);
+  margin-top: 2.8rem !important;
+  margin-left: 0 !important;
+  width: 120px !important;
+}
+
+.menu::before {
+  content: "";
+  position: absolute;
+  top: -15px; /* Adjust this to move the arrow further above the dropdown menu */
+  left: 120px; /* Adjust this value to move the arrow horizontally */
+  border-width: 0 15px 15px 15px; /* Increase the size of the arrow */
+  border-style: solid;
+  border-color: transparent transparent rgb(245, 207, 70, 255) transparent; /* Match the color to the dropdown menu */
+}
+
+.dropdown-toggle::after {
+  content: none; /* This ensures no arrow is added */
+  display: none; /* Hide any existing arrow */
 }
