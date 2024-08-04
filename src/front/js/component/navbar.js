@@ -109,12 +109,6 @@ export const Navbar = () => {
                     </button>
                     <ul className=" signin-button dropdown-menu dropdown-menu-end menu">
                       <li>
-                        <Link className="dropdown-item " to="#">
-                          Favoritos
-                          <i className="fa-regular fa-heart mx-2"></i>
-                        </Link>
-                      </li>
-                      <li>
                         <Link
                           to="/add_brewery"
                           className={`${
@@ -126,7 +120,35 @@ export const Navbar = () => {
                           Agregar Cervecería
                         </Link>
                       </li>
-                      <hr className="dropdown-divider" />
+                      <li>
+                        <Link
+                          to="/add_style"
+                          className={`${
+                            !jwt
+                              ? "dropdown-item text-dark d-none"
+                              : "dropdown-item text-dark"
+                          }`}
+                        >
+                          Agregar producto
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/my_account"
+                          className={`${
+                            !jwt
+                              ? "dropdown-item text-dark d-none"
+                              : "dropdown-item text-dark"
+                          }`}
+                        >
+                          Mi cuenta
+                        </Link>
+                      </li>
+                      <hr
+                        className={`${
+                          !jwt ? "dropdown-divider d-none" : "dropdown-divider"
+                        }`}
+                      />
                       <li>
                         <Link
                           to="/login"
