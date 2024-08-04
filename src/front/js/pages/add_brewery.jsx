@@ -145,7 +145,7 @@ const Add_Brewery = () => {
               </div>
               <div className="mb-3 mx-sm-4 mb-4">
                 <label htmlFor="formFile" className="form-label">
-                  Sube tu logo
+                  Sube tu logo (*.png)
                 </label>
                 <input
                   value={""}

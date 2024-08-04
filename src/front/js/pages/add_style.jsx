@@ -51,13 +51,13 @@ const Add_Style = () => {
           <form onSubmit={handleSubmit}>
             <div className="card-header">
               <div className="form form-grup">
-                <h1 className="registro">Agrega tu Producto</h1>
+                <h1 className="registro">Agrega un Cerveza </h1>
               </div>
             </div>
             <div className="card-body">
               <div className="form form-grup mx-sm-4 mb-3 mt-1">
                 <label htmlFor="exampleInputEmail1" className="form-label">
-                  Nombre de tu producto
+                  Nombre de tu cerveza
                 </label>
                 <input
                   type="text"
@@ -70,7 +70,7 @@ const Add_Style = () => {
               </div>
               <div className="form form-grup mx-sm-4 mb-4">
                 <label htmlFor="exampleInputPassword1" className="form-label">
-                  bjcp de tu producto
+                  Estilo BJCP
                 </label>
                 <input
                   type="text"
@@ -81,7 +81,7 @@ const Add_Style = () => {
               </div>
               <div className="form form-grup mx-sm-4 mb-4">
                 <label htmlFor="exampleInputPassword1" className="form-label">
-                  IBUs de tu producto
+                  IBU's
                 </label>
                 <input
                   type="text"
@@ -92,7 +92,7 @@ const Add_Style = () => {
               </div>
               <div className="form form-grup mx-sm-4 mb-4">
                 <label htmlFor="exampleInputPassword1" className="form-label">
-                  volALC de tu producto
+                  ABV
                 </label>
                 <input
                   type="text"
@@ -103,7 +103,7 @@ const Add_Style = () => {
               </div>
               <div className="form form-grup mx-sm-4 mb-4">
                 <label htmlFor="exampleInputPassword1" className="form-label">
-                  descripción de tu producto
+                  Describe tu cerveza
                 </label>
                 <input
                   type="text"
@@ -114,7 +114,7 @@ const Add_Style = () => {
               </div>
               <div className="mb-3 mx-sm-4 mb-4">
                 <label htmlFor="formFile" className="form-label">
-                  Sube la imagen de tu producto
+                  Sube una imagen de tu cerveza
                 </label>
                 <input
                   value={picture_of_beer_url}
