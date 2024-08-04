@@ -24,21 +24,9 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <nav className="navbar navbar-expand-md p-3 mb-5">
+    <nav className="navbar navbar-expand navbar-light ">
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center w-100">
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
           <div className="d-flex flex-grow-1 justify-content-between align-items-center row">
             {/* Left side: Navbar links */}
             <div className="collapse navbar-collapse col-4" id="navbarNav">
