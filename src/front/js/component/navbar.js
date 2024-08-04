@@ -41,7 +41,7 @@ export const Navbar = () => {
                   >
                     ESTILOS
                   </a>
-                  <ul className="dropdown-menu mx-3">
+                  <ul className="dropdown-menu mx-3 ">
                     {store.styles.length > 0 ? (
                       store.styles.map((style) => (
                         <li key={style.id}>{style.name}</li>
