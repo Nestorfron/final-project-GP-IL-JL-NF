@@ -14,19 +14,16 @@ const Add_Brewery = () => {
   const [facebook_url, setFacebook_url] = useState("");
   const [instagram_url, setinstagram_url] = useState("");
   const [x_url, setX_url] = useState("");
-  const [picture_of_brewery_url, setPicture_of_brewery_url] = useState("");
-  const [logo_of_brewery_url, setLogo_of_brewery_url] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const result = await uploadFile(logo_of_brewery);
     if (result) {
-      console.log(result);
+      console.log(logo_of_brewery.name);
     }
     const result1 = await uploadFile(picture_of_brewery);
     if (result1) {
-      console.log(result1);
+      console.log(picture_of_brewery.name);
     }
 
     const response = await actions.add_brewery(
@@ -137,22 +134,20 @@ const Add_Brewery = () => {
                   Sube tu foto de prtada
                 </label>
                 <input
-                  value={picture_of_brewery_url}
-                  className="form-control"
                   type="file"
-                  id="formFile"
+                  className="form-control"
+                  id="inputGroupFile02"
                   onChange={(e) => setPicture_of_brewery(e.target.files[0])}
                 />
               </div>
               <div className="mb-3 mx-sm-4 mb-4">
                 <label htmlFor="formFile" className="form-label">
-                  Sube tu logo
+                  Sube tu logo (*.png)
                 </label>
                 <input
-                  value={logo_of_brewery_url}
-                  className="form-control"
                   type="file"
-                  id="formFile"
+                  className="form-control"
+                  id="inputGroupFile03"
                   onChange={(e) => setLogo_of_brewery(e.target.files[0])}
                 />
               </div>

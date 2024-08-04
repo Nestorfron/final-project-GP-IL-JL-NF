@@ -4,7 +4,7 @@ import { Context } from "../store/appContext";
 import { uploadFile } from "../../../firebase/config";
 
 const Add_Style = () => {
-  const { actions } = useContext(Context);
+  const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [picture_of_beer, setPicture_of_beer] = useState(null);
   const [name, setName] = useState("");
@@ -12,7 +12,7 @@ const Add_Style = () => {
   const [IBUs, setIBUs] = useState("");
   const [volALC, setVolAlc] = useState("");
   const [description, setDescription] = useState("");
-  const [picture_of_beer_url, setPicture_of_beer_url] = useState("");
+  const [BreweryId, setIsBreweryId] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +24,7 @@ const Add_Style = () => {
 
     const response = await actions.add_beer(
       name,
+      BreweryId,
       bjcp_style,
       IBUs,
       volALC,
@@ -34,6 +35,7 @@ const Add_Style = () => {
       console.log(response);
       alert("Producto creado correctamente");
     }
+    console.log(name, BreweryId, bjcp_style, IBUs, volALC, description, result);
   };
 
   useEffect(() => {
@@ -51,13 +53,13 @@ const Add_Style = () => {
           <form onSubmit={handleSubmit}>
             <div className="card-header">
               <div className="form form-grup">
-                <h1 className="registro">Agrega tu Producto</h1>
+                <h1 className="registro">Agrega un Cerveza </h1>
               </div>
             </div>
             <div className="card-body">
               <div className="form form-grup mx-sm-4 mb-3 mt-1">
                 <label htmlFor="exampleInputEmail1" className="form-label">
-                  Nombre de tu producto
+                  Nombre de tu cerveza
                 </label>
                 <input
                   type="text"
@@ -70,7 +72,7 @@ const Add_Style = () => {
               </div>
               <div className="form form-grup mx-sm-4 mb-4">
                 <label htmlFor="exampleInputPassword1" className="form-label">
-                  bjcp de tu producto
+                  Estilo BJCP
                 </label>
                 <input
                   type="text"
@@ -81,7 +83,7 @@ const Add_Style = () => {
               </div>
               <div className="form form-grup mx-sm-4 mb-4">
                 <label htmlFor="exampleInputPassword1" className="form-label">
-                  IBUs de tu producto
+                  IBU's
                 </label>
                 <input
                   type="text"
@@ -92,7 +94,7 @@ const Add_Style = () => {
               </div>
               <div className="form form-grup mx-sm-4 mb-4">
                 <label htmlFor="exampleInputPassword1" className="form-label">
-                  volALC de tu producto
+                  ABV
                 </label>
                 <input
                   type="text"
@@ -103,7 +105,7 @@ const Add_Style = () => {
               </div>
               <div className="form form-grup mx-sm-4 mb-4">
                 <label htmlFor="exampleInputPassword1" className="form-label">
-                  descripción de tu producto
+                  Describe tu cerveza
                 </label>
                 <input
                   type="text"
@@ -112,15 +114,30 @@ const Add_Style = () => {
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
+              <select
+                className="form-select mx-sm-4 mb-4"
+                aria-label="Default select example"
+                onChange={(e) => setIsBreweryId(e.target.value)}
+              >
+                <option value="" selected>
+                  Selecciona una cervecería
+                </option>
+                {store.userBreweries.map((brewery) => {
+                  return (
+                    <option key={brewery.id} value={brewery.id}>
+                      {brewery.name}
+                    </option>
+                  );
+                })}
+              </select>
               <div className="mb-3 mx-sm-4 mb-4">
                 <label htmlFor="formFile" className="form-label">
-                  Sube la imagen de tu producto
+                  Sube una imagen de tu cerveza
                 </label>
                 <input
-                  value={picture_of_beer_url}
-                  className="form-control"
                   type="file"
-                  id="formFile"
+                  className="form-control"
+                  id="inputGroupFile03"
                   onChange={(e) => setPicture_of_beer(e.target.files[0])}
                 />
               </div>

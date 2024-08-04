@@ -4,7 +4,6 @@ import { Context } from "../store/appContext";
 
 import "../../styles/index.css";
 import BEER from "../../img/beer.jpeg";
-import { Context } from "../store/appContext";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
@@ -25,21 +24,9 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <nav className="navbar navbar-expand-md p-3 mb-5">
+    <nav className="navbar navbar-expand navbar-light ">
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center w-100">
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
           <div className="d-flex flex-grow-1 justify-content-between align-items-center row">
             {/* Left side: Navbar links */}
             <div className="collapse navbar-collapse col-4" id="navbarNav">
@@ -54,7 +41,7 @@ export const Navbar = () => {
                   >
                     ESTILOS
                   </a>
-                  <ul className="dropdown-menu mx-3">
+                  <ul className="dropdown-menu mx-3 ">
                     {store.styles.length > 0 ? (
                       store.styles.map((style) => (
                         <li key={style.id}>{style.name}</li>
@@ -122,12 +109,6 @@ export const Navbar = () => {
                     </button>
                     <ul className=" signin-button dropdown-menu dropdown-menu-end menu">
                       <li>
-                        <Link className="dropdown-item " to="#">
-                          Favoritos
-                          <i className="fa-regular fa-heart mx-2"></i>
-                        </Link>
-                      </li>
-                      <li>
                         <Link
                           to="/add_brewery"
                           className={`${
@@ -139,7 +120,35 @@ export const Navbar = () => {
                           Agregar Cervecería
                         </Link>
                       </li>
-                      <hr className="dropdown-divider" />
+                      <li>
+                        <Link
+                          to="/add_style"
+                          className={`${
+                            !jwt
+                              ? "dropdown-item text-dark d-none"
+                              : "dropdown-item text-dark"
+                          }`}
+                        >
+                          Agregar producto
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/my_account"
+                          className={`${
+                            !jwt
+                              ? "dropdown-item text-dark d-none"
+                              : "dropdown-item text-dark"
+                          }`}
+                        >
+                          Mi cuenta
+                        </Link>
+                      </li>
+                      <hr
+                        className={`${
+                          !jwt ? "dropdown-divider d-none" : "dropdown-divider"
+                        }`}
+                      />
                       <li>
                         <Link
                           to="/login"

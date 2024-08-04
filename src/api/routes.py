@@ -110,6 +110,7 @@ def create_new_brewery():
         return jsonify({"error: f'{error}"}), 500
 
 #Endpoint de POST de Nueva Cerveza (requiere token)
+
 @api.route("/create_new_beer", methods= ["POST"])
 @jwt_required()
 def create_new_beer():
@@ -135,7 +136,7 @@ def create_new_beer():
 
         new_beer = Beer(
             user_id=user_data["id"],
-            brewery_id=brewery.id,
+            brewery_id=brewery_id,
             name=name,
             bjcp_style=bjcp_style,
             IBUs=IBUs,
@@ -153,6 +154,7 @@ def create_new_beer():
         return jsonify({"error: f'{error}"}), 500
     
 #Endpoint de POST de Nuevo evento (requiere token)
+
 @api.route("/create_new_event", methods=["POST"])
 @jwt_required()
 def create_new_event():
@@ -213,5 +215,32 @@ def get_beers_by_style(style):
         return jsonify ({"beers": beers_list}), 200
     except Exception as error:
         return jsonify ({"error": f"{error}"}), 500
+    
+#Endpoint para obtener el nombre de las cervecerias
+
+@api.route('/breweries', methods=['GET'])
+def get_breweries():
+    try:
+        breweries = db.sesion.query(Brewery.name.distinct()).all()
+        brewerie_list = [brewerie[0] for brewerie in breweries]
+        return jsonify({"breweries": brewerie_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+
+#Endpoint para obtener todas las cervecerías del usuario logueado
+
+@api.route('/user/breweries', methods=['GET'])
+@jwt_required()
+def get_user_breweries():
+    try:
+        current_user = get_jwt_identity()
+        user_id = current_user.get("id")
+        user = User.query.get(user_id)
+        if user is None:
+            return  jsonify({'error': 'user not found'}),404
+        brewerie_list = [brewery.serialize() for brewery in user.brewery]
+        return jsonify({"breweries": brewerie_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
     
 #Comentario de prueba para hacer merge desde git
