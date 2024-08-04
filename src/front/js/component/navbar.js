@@ -134,6 +134,18 @@ export const Navbar = () => {
                       </li>
                       <li>
                         <Link
+                          to="/add_event"
+                          className={`${
+                            !jwt
+                              ? "dropdown-item text-dark d-none"
+                              : "dropdown-item text-dark"
+                          }`}
+                        >
+                          Agregar Evento
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
                           to="/my_account"
                           className={`${
                             !jwt

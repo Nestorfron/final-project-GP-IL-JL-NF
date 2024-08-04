@@ -12,6 +12,7 @@ import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import Add_Style from "./pages/add_style.jsx";
+import Add_Event from "./pages/add_event.jsx";
 
 //create your first component
 const Layout = () => {
@@ -33,6 +34,7 @@ const Layout = () => {
             <Route element={<Register />} path="/register" />
             <Route element={<Add_Brewery />} path="/add_brewery" />
             <Route element={<Add_Style />} path="/add_style" />
+            <Route element={<Add_Event />} path="/add_event" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />
