@@ -4,7 +4,7 @@ import { Context } from "../store/appContext";
 import { uploadFile } from "../../../firebase/config";
 
 const Add_Style = () => {
-  const { actions } = useContext(Context);
+  const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [picture_of_beer, setPicture_of_beer] = useState(null);
   const [name, setName] = useState("");
@@ -13,6 +13,7 @@ const Add_Style = () => {
   const [volALC, setVolAlc] = useState("");
   const [description, setDescription] = useState("");
   const [picture_of_beer_url, setPicture_of_beer_url] = useState("");
+  const [BreweryId, setIsBreweryId] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +25,7 @@ const Add_Style = () => {
 
     const response = await actions.add_beer(
       name,
+      BreweryId,
       bjcp_style,
       IBUs,
       volALC,
@@ -34,6 +36,7 @@ const Add_Style = () => {
       console.log(response);
       alert("Producto creado correctamente");
     }
+    console.log(name, BreweryId, bjcp_style, IBUs, volALC, description, result);
   };
 
   useEffect(() => {
@@ -112,6 +115,20 @@ const Add_Style = () => {
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
+              <select
+                className="form-select mx-sm-4 mb-4"
+                aria-label="Default select example"
+                onChange={(e) => setIsBreweryId(e.target.value)}
+              >
+                <option selected>Selecciona una cervecería</option>
+                {store.userBreweries.map((brewery) => {
+                  return (
+                    <option key={brewery.id} value={brewery.id}>
+                      {brewery.name}
+                    </option>
+                  );
+                })}
+              </select>
               <div className="mb-3 mx-sm-4 mb-4">
                 <label htmlFor="formFile" className="form-label">
                   Sube una imagen de tu cerveza
