@@ -83,3 +83,35 @@
   content: none; /* This ensures no arrow is added */
   display: none; /* Hide any existing arrow */
 }
+
+footer {
+  position: static;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+footer h5 {
+  font-weight: bold;
+}
+
+footer ul,
+footer li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+footer a {
+  color: #000;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+footer .col {
+  margin-bottom: 15px;
+  background-color: rgba(255, 255, 255, 0.9);
+}
