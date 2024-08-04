@@ -216,4 +216,15 @@ def get_beers_by_style(style):
     except Exception as error:
         return jsonify ({"error": f"{error}"}), 500
     
+#Endpoint para obtener el nombre de las cervecerias
+
+@api.route('/breweries', methods=['GET'])
+def get_breweries():
+    try:
+        breweries = db.sesion.query(Brewery.name.distinct()).all()
+        brewerie_list = [brewerie[0] for brewerie in breweries]
+        return jsonify({"breweries": brewerie_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+    
 #Comentario de prueba para hacer merge desde git

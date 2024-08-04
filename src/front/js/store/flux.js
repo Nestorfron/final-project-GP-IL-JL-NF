@@ -2,6 +2,7 @@ const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
       styles: [],
+      breweries: [],
     },
     actions: {
       register: async (email, password, is_brewer, country) => {
@@ -98,6 +99,19 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await response.json();
           return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      getBreweries: async () => {
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/breweries"
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setStore({ breweries: data });
+          }
         } catch (error) {
           console.log(error);
         }
