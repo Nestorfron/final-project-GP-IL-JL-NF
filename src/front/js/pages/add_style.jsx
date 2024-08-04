@@ -12,7 +12,6 @@ const Add_Style = () => {
   const [IBUs, setIBUs] = useState("");
   const [volALC, setVolAlc] = useState("");
   const [description, setDescription] = useState("");
-  const [picture_of_beer_url, setPicture_of_beer_url] = useState("");
   const [BreweryId, setIsBreweryId] = useState("");
 
   const handleSubmit = async (e) => {
@@ -120,7 +119,9 @@ const Add_Style = () => {
                 aria-label="Default select example"
                 onChange={(e) => setIsBreweryId(e.target.value)}
               >
-                <option selected>Selecciona una cervecería</option>
+                <option value="" selected>
+                  Selecciona una cervecería
+                </option>
                 {store.userBreweries.map((brewery) => {
                   return (
                     <option key={brewery.id} value={brewery.id}>
@@ -134,10 +135,9 @@ const Add_Style = () => {
                   Sube una imagen de tu cerveza
                 </label>
                 <input
-                  value={picture_of_beer_url}
-                  className="form-control"
                   type="file"
-                  id="formFile"
+                  className="form-control"
+                  id="inputGroupFile03"
                   onChange={(e) => setPicture_of_beer(e.target.files[0])}
                 />
               </div>
