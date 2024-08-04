@@ -1,28 +1,4 @@
-
-body {
-  margin: 0;
-  padding: 0;
-  padding-top: 35px;
-  min-height: 100vh;
-  background-color: rgba(237, 161, 15, 255);
-
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-}
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url(https://www.alestilojalisco.com.mx/storage/articulos/salud-llega-la-ruta-de-la-cerveza-20220503171022.jpeg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  filter: blur(3px);
-}
-
-.nav {
+.navbar {
   position: fixed;
   top: 20px;
   left: 0;
@@ -30,18 +6,7 @@ body::before {
   height: 100px;
   z-index: 1000;
   background-color: rgba(255, 255, 255);
-
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
   font-family: "Azo Sans", sans-serif;
-}
-
-/* Ensure the BEER image stays centered and within the navbar */
-.beer-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
 }
 
 .beer-image {
@@ -51,42 +16,26 @@ body::before {
 }
 
 @media (max-width: 768px) {
-  .beer-container {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
   /* Adjustments for small screens */
   .beer-image {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
+    margin-left: 9rem;
   }
-
-  /* Ensure the navbar height accommodates the BEER image */
 }
 
 /* Change color of "Estilos" and "Cervecerías" links */
 .navbar-nav .nav-link {
-  color: rgba(35, 21, 16, 1); /* Replace with your desired color */
+  color: rgba(35, 21, 16, 1) !important; /* Replace with your desired color */
   font-weight: bold;
 }
 
 .navbar-nav .nav-link:hover {
-  color: rgba(231, 162, 6, 255); /* Optional: Add a hover color */
+  color: rgba(231, 162, 6, 255) !important; /* Optional: Add a hover color */
   font-weight: bold;
 }
 
 /* Change color of "Sobre Nosotros" link */
-.navbar-nav .nav-link.text-dark {
-  color: rgba(191, 94, 1, 255); /* Replace with your desired color */
-  font-weight: bold;
-}
-
-.navbar-nav .nav-link.text-dark:hover {
-  color: rgba(231, 162, 6, 255); /* Optional: Add a hover color */
-  font-weight: bold;
-}
 
 .search {
   height: 40px;
@@ -94,4 +43,10 @@ body::before {
 
 .menu {
   background: rgb(245, 207, 70, 255);
+}
+
+.navbar-toggler {
+  position: relative;
+  background-color: white;
+  border: none !important;
 }
