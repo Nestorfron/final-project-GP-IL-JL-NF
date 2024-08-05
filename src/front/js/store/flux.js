@@ -61,7 +61,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const response = await fetch(process.env.BACKEND_URL + "/api/styles");
           const data = await response.json();
           if (response.ok) {
-            setStore({ styles: data });
+            setStore({ styles: data.styles });
           }
         } catch (error) {
           console.log(error);

@@ -1,5 +1,5 @@
 .beer-cards-title {
-  font-family: "Azo Sans", sans-serif !important;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: white;
 }
 
@@ -28,6 +28,7 @@
 .beer-name {
   font-size: 1.5em;
   margin: 16px 8px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 
   color: rgba(245, 201, 57, 255);
   padding-bottom: 10px;
@@ -36,6 +37,7 @@
 }
 
 .beer-brewery {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 1 em;
   margin: 16px 8px;
   color: rgba(231, 162, 6, 255);
@@ -44,6 +46,7 @@
 .beer-style,
 .beer-IBUs,
 .beer-abv {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   margin: 8px;
   color: white;
   border-bottom: 1px solid white;
@@ -62,6 +65,7 @@
   cursor: pointer;
   font-size: 1em;
   text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .add-to-basket:hover {

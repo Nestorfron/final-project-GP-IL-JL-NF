@@ -23,8 +23,12 @@ export const Navbar = () => {
     }
   }, []);
 
+  useEffect(() => {
+    actions.getStyles(); // Fetch styles on component mount
+  }, [actions]);
+
   return (
-    <nav className="navbar navbar-expand navbar-light ">
+    <nav className="navbar navbar-expand navbar-light">
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center w-100">
           <div className="d-flex flex-grow-1 justify-content-between align-items-center row">
@@ -36,12 +40,10 @@ export const Navbar = () => {
                     className="nav-link dropdown-toggle"
                     href="#"
                     role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
                   >
                     ESTILOS
                   </a>
-                  <ul className="dropdown-menu mx-3 ">
+                  <ul className="dropdown-menu mx-3">
                     {store.styles.length > 0 ? (
                       store.styles.map((style) => (
                         <li key={style.id}>{style.name}</li>
@@ -82,10 +84,10 @@ export const Navbar = () => {
             </div>
 
             {/* Right side: Search and other links */}
-            <div className="d-flex align-items-center justify-content-end col-4 ">
+            <div className="d-flex align-items-center justify-content-end col-4">
               <ul className="navbar-nav d-none d-md-flex">
                 <li className="nav-item">
-                  <form className="d-flex " role="search">
+                  <form className="d-flex" role="search">
                     <input
                       className="form-control search mt-3"
                       type="search"
@@ -104,7 +106,7 @@ export const Navbar = () => {
               </ul>
               <ul className="navbar-nav">
                 <li className="nav-item">
-                  <div className=" signin-button btn-group">
+                  <div className="signin-button btn-group">
                     <button
                       type="button"
                       className="btn btn-warning"
@@ -113,7 +115,7 @@ export const Navbar = () => {
                     >
                       <i className="fa-solid fa-users"></i>
                     </button>
-                    <ul className=" signin-button dropdown-menu dropdown-menu-end menu">
+                    <ul className="signin-button dropdown-menu dropdown-menu-end menu">
                       <li>
                         <Link
                           to="/add_brewery"

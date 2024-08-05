@@ -6,7 +6,7 @@
   height: 120px;
   z-index: 1;
   background-color: rgba(255, 255, 255);
-  font-family: "Azo Sans", sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .beer-image {
@@ -117,4 +117,12 @@ footer a:hover {
 footer .col {
   margin-bottom: 15px;
   background-color: rgba(255, 255, 255, 0.9);
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block; /* Show dropdown on hover */
+}
+
+.dropdown-menu {
+  display: none; /* Hide dropdown by default */
 }
