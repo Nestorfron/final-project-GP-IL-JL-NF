@@ -23,16 +23,11 @@ export const Navbar = () => {
     }
   }, []);
 
-  useEffect(() => {
-    actions.getStyles(); // Fetch styles on component mount
-  }, [actions]);
-
   return (
     <nav className="navbar navbar-expand navbar-light">
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center w-100">
           <div className="d-flex flex-grow-1 justify-content-between align-items-center row">
-            {/* Left side: Navbar links */}
             <div className="collapse navbar-collapse col-4" id="navbarNav">
               <ul className="navbar-nav">
                 <li className="nav-item dropdown mx-3">
@@ -46,7 +41,9 @@ export const Navbar = () => {
                   <ul className="dropdown-menu mx-3">
                     {store.styles.length > 0 ? (
                       store.styles.map((style) => (
-                        <li key={style.id}>{style.name}</li>
+                        <li key={style.id}>
+                          <Link to="/">{style.name}</Link>
+                        </li>
                       ))
                     ) : (
                       <h6 className="text-center">Sin Estilos</h6>
@@ -66,7 +63,9 @@ export const Navbar = () => {
                   <ul className="dropdown-menu">
                     {store.breweries.length > 0 ? (
                       store.breweries.map((brewery) => (
-                        <li key={brewery.id}>{brewery.name}</li>
+                        <li key={brewery.id}>
+                          <Link to="/">{brewery.name}</Link>
+                        </li>
                       ))
                     ) : (
                       <h6 className="text-center">Sin Cervecerías</h6>
@@ -75,15 +74,11 @@ export const Navbar = () => {
                 </li>
               </ul>
             </div>
-
-            {/* Center: BEER image */}
             <div className="beer-container text-center flex-grow-1 col-4">
               <Link to="/">
                 <img src={BEER} alt="BEER" className="beer-image" />
               </Link>
             </div>
-
-            {/* Right side: Search and other links */}
             <div className="d-flex align-items-center justify-content-end col-4">
               <ul className="navbar-nav d-none d-md-flex">
                 <li className="nav-item">

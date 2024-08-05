@@ -56,17 +56,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       logout: () => {
         localStorage.removeItem("token");
       },
-      getStyles: async () => {
-        try {
-          const response = await fetch(process.env.BACKEND_URL + "/api/styles");
-          const data = await response.json();
-          if (response.ok) {
-            setStore({ styles: data.styles });
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      },
+
       //ADD BREWERY
       add_brewery: async (
         name,
@@ -117,9 +107,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            console.log(data);
-
-            setStore({ breweries: data });
+            setStore({ breweries: data.breweries });
           }
         } catch (error) {
           console.log(error);
@@ -182,6 +170,40 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await response.json();
           return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      //GET STYLES//
+      getStyles: async () => {
+        try {
+          const response = await fetch(process.env.BACKEND_URL + "/api/styles");
+          const data = await response.json();
+          if (response.ok) {
+            setStore({ styles: data.styles });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      //GET USER BEERS//
+      getUserBeers: async () => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/user/beers",
+            {
+              method: "GET",
+              headers: {
+                authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            console.log(data);
+            setStore({ userBeers: data.beers });
+          }
         } catch (error) {
           console.log(error);
         }
