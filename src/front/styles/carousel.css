@@ -1,0 +1,36 @@
+.carousel {
+  margin-top: 130px;
+}
+.carousel-inner {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  height: 400px; /* Set the height for the carousel container */
+}
+
+.carousel-item {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 100%; /* Ensure full height */
+}
+
+.carousel-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover; /* Cover the area while maintaining aspect ratio */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%; /* Adjust control width */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Add background for better visibility */
+}

@@ -1,0 +1,69 @@
+.beer-cards-title {
+  font-family: "Azo Sans", sans-serif !important;
+  color: white;
+}
+
+.beer-card {
+  width: 300px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+
+  color: white;
+}
+
+.beer-card:hover {
+  transform: scale(1.05);
+}
+
+.beer-picture {
+  width: 92%;
+  height: auto;
+  display: block;
+  margin: 10px;
+}
+
+.beer-name {
+  font-size: 1.5em;
+  margin: 16px 8px;
+
+  color: rgba(245, 201, 57, 255);
+  padding-bottom: 10px;
+  border-bottom: 1px solid white;
+  max-width: 90%;
+}
+
+.beer-brewery {
+  font-size: 1 em;
+  margin: 16px 8px;
+  color: rgba(231, 162, 6, 255);
+}
+
+.beer-style,
+.beer-IBUs,
+.beer-abv {
+  margin: 8px;
+  color: white;
+  border-bottom: 1px solid white;
+  max-width: 90%;
+}
+
+.add-to-basket {
+  display: block;
+  width: 90%;
+  margin: 16px 8px;
+  padding: 10px;
+  background-color: rgba(231, 162, 6, 255);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  text-align: center;
+}
+
+.add-to-basket:hover {
+  background-color: #e65c00;
+}
