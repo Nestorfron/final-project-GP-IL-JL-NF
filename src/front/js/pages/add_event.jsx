@@ -3,36 +3,32 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { uploadFile } from "../../../firebase/config";
 
-const Add_Style = () => {
+const Add_Event = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
-  const [picture_of_beer, setPicture_of_beer] = useState(null);
+  const [picture_of_event, setpicture_of_event] = useState(null);
   const [name, setName] = useState("");
-  const [bjcp_style, setBjcp_style] = useState("");
-  const [IBUs, setIBUs] = useState("");
-  const [volALC, setVolAlc] = useState("");
-  const [description, setDescription] = useState("");
-  const [BreweryId, setIsBreweryId] = useState("");
+  const [description, setdescription] = useState("");
+  const [date, setdate] = useState("");
+  const [brewery_id, setIsbrewery_id] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const result = await uploadFile(picture_of_beer);
+    const result = await uploadFile(picture_of_event);
     if (result) {
-      return true;
+      console.log(result);
     }
 
-    const response = await actions.add_beer(
+    const response = await actions.add_event(
       name,
-      BreweryId,
-      bjcp_style,
-      IBUs,
-      volALC,
+      brewery_id,
       description,
+      date,
       result
     );
+    console.log(name, brewery_id, description, date, result);
     if (response) {
-      alert("Producto creado correctamente");
+      alert("Evento creado correctamente");
     }
   };
 
@@ -52,13 +48,13 @@ const Add_Style = () => {
           <form onSubmit={handleSubmit}>
             <div className="card-header">
               <div className="form form-grup">
-                <h1 className="registro">Agrega un Cerveza </h1>
+                <h1 className="registro">Agrega tu evento</h1>
               </div>
             </div>
             <div className="card-body">
               <div className="form form-grup mx-sm-4 mb-3 mt-1">
                 <label htmlFor="exampleInputEmail1" className="form-label">
-                  Nombre de tu cerveza
+                  Nombre del evento
                 </label>
                 <input
                   type="text"
@@ -71,52 +67,30 @@ const Add_Style = () => {
               </div>
               <div className="form form-grup mx-sm-4 mb-4">
                 <label htmlFor="exampleInputPassword1" className="form-label">
-                  Estilo BJCP
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={bjcp_style}
-                  onChange={(e) => setBjcp_style(e.target.value)}
-                />
-              </div>
-              <div className="form form-grup mx-sm-4 mb-4">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  IBU's
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={IBUs}
-                  onChange={(e) => setIBUs(e.target.value)}
-                />
-              </div>
-              <div className="form form-grup mx-sm-4 mb-4">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  ABV
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={volALC}
-                  onChange={(e) => setVolAlc(e.target.value)}
-                />
-              </div>
-              <div className="form form-grup mx-sm-4 mb-4">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  Describe tu cerveza
+                  Descripción de tu evento
                 </label>
                 <input
                   type="text"
                   className="form-control"
                   value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  onChange={(e) => setdescription(e.target.value)}
+                />
+              </div>
+              <div className="form form-grup mx-sm-4 mb-4">
+                <label htmlFor="exampleInputPassword1" className="form-label">
+                  Fecha de tu evento
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={date}
+                  onChange={(e) => setdate(e.target.value)}
                 />
               </div>
               <select
                 className="form-select mx-sm-4 mb-4"
                 aria-label="Default select example"
-                onChange={(e) => setIsBreweryId(e.target.value)}
+                onChange={(e) => setIsbrewery_id(e.target.value)}
               >
                 <option value="" selected>
                   Selecciona una cervecería
@@ -131,13 +105,13 @@ const Add_Style = () => {
               </select>
               <div className="mb-3 mx-sm-4 mb-4">
                 <label htmlFor="formFile" className="form-label">
-                  Sube una imagen de tu cerveza
+                  Sube una imagen de tu evento
                 </label>
                 <input
                   type="file"
                   className="form-control"
                   id="inputGroupFile03"
-                  onChange={(e) => setPicture_of_beer(e.target.files[0])}
+                  onChange={(e) => setpicture_of_event(e.target.files[0])}
                 />
               </div>
               <button type="submit" className="entrar mx-sm-4 mt-2">
@@ -151,4 +125,4 @@ const Add_Style = () => {
   );
 };
 
-export default Add_Style;
+export default Add_Event;

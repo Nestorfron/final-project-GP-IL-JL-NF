@@ -47,7 +47,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await response.json();
           localStorage.setItem("token", data.token);
-          actions.getUserBreweries();
           return true;
         } catch (error) {
           console.log(error);
@@ -175,6 +174,42 @@ const getState = ({ getStore, getActions, setStore }) => {
                 volALC,
                 description,
                 picture_of_beer_url,
+              }),
+            }
+          );
+          if (!response.ok) {
+            return false;
+          }
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      //ADD EVENT//
+      add_event: async (
+        name,
+        brewery_id,
+        description,
+        date,
+        picture_of_event_url
+      ) => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/create_new_event",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+              body: JSON.stringify({
+                name,
+                brewery_id,
+                description,
+                date,
+                picture_of_event_url,
               }),
             }
           );

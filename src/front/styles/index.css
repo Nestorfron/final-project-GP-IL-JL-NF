@@ -62,6 +62,10 @@
   border-color: transparent transparent rgb(245, 207, 70, 255) transparent; /* Match the color to the dropdown menu */
 }
 
+/* al pasar el mouse se despliega */
+.dropdown:hover .dropdown-menu {
+  display: block !important;
+}
 .menu {
   background-color: rgb(245, 207, 70, 255);
   margin-top: 2.8rem !important;
@@ -82,4 +86,36 @@
 .dropdown-toggle::after {
   content: none; /* This ensures no arrow is added */
   display: none; /* Hide any existing arrow */
+}
+
+footer {
+  position: relative;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+footer h5 {
+  font-weight: bold;
+}
+
+footer ul,
+footer li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+footer a {
+  color: #000;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+footer .col {
+  margin-bottom: 15px;
+  background-color: rgba(255, 255, 255, 0.9);
 }

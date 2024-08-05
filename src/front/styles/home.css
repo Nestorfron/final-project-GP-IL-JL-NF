@@ -1,6 +1,7 @@
 .carousel-container {
-  padding-top: 160px;
-  width: 80%; /* Adjust the width of the carousel as needed */
+  padding-top: 100px;
+  width: 80%;
+  height: 20rem; /* Adjust the width of the carousel as needed */
   max-height: 200px; /* Set the height of the carousel to 500px */
   margin: 0 auto; /* Center the carousel horizontally */
   position: relative; /* Ensure positioning context for controls */
@@ -25,6 +26,9 @@
   z-index: 1000; /* Ensure the controls are above the carousel */
 }
 
+.home-container {
+  height: 45rem;
+}
 .carousel-control-prev {
   left: 0; /* Position the "prev" control to the left */
 }
