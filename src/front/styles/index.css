@@ -62,6 +62,10 @@
   border-color: transparent transparent rgb(245, 207, 70, 255) transparent; /* Match the color to the dropdown menu */
 }
 
+/* al pasar el mouse se despliega */
+.dropdown:hover .dropdown-menu {
+  display: block !important;
+}
 .menu {
   background-color: rgb(245, 207, 70, 255);
   margin-top: 2.8rem !important;

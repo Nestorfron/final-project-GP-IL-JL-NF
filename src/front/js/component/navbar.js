@@ -62,7 +62,13 @@ export const Navbar = () => {
                     CERVECERÍAS
                   </a>
                   <ul className="dropdown-menu">
-                    <li className="nav-item">No hay</li>
+                    {store.breweries.length > 0 ? (
+                      store.breweries.map((brewery) => (
+                        <li key={brewery.id}>{brewery.name}</li>
+                      ))
+                    ) : (
+                      <h6 className="text-center">Sin Cervecerías</h6>
+                    )}
                   </ul>
                 </li>
               </ul>
