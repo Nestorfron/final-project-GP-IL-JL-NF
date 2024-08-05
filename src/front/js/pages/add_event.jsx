@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { uploadFile } from "../../../firebase/config";
+import "../../styles/addEvent.css";
 
 const Add_Event = () => {
   const { store, actions } = useContext(Context);
@@ -42,9 +43,9 @@ const Add_Event = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container-fluid">
       <div className="row justify-content-center pt-5 mt-5 mr-1">
-        <div className="formulario-register col-12 col-sm-10 col-md-8 col-lg-6 col-xl-7">
+        <div className="add-event-form  w-50">
           <form onSubmit={handleSubmit}>
             <div className="card-header">
               <div className="form form-grup">
@@ -88,7 +89,7 @@ const Add_Event = () => {
                 />
               </div>
               <select
-                className="form-select mx-sm-4 mb-4"
+                className="form-select ms-4 "
                 aria-label="Default select example"
                 onChange={(e) => setIsbrewery_id(e.target.value)}
               >
