@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { uploadFile } from "../../../firebase/config";
+import "../../styles/addStyle.css";
 
 const Add_Style = () => {
   const { store, actions } = useContext(Context);
@@ -48,101 +49,125 @@ const Add_Style = () => {
   return (
     <div className="container">
       <div className="row justify-content-center pt-5 mt-5 mr-1">
-        <div className="formulario-register col-12 col-sm-10 col-md-8 col-lg-6 col-xl-7">
+        <div className="add-style-form w-75">
           <form onSubmit={handleSubmit}>
             <div className="card-header">
               <div className="form form-grup">
-                <h1 className="registro">Agrega un Cerveza </h1>
+                <h5 className="registro fw-bolder text-center">
+                  AGREGA NUEVO ESTILO{" "}
+                </h5>
               </div>
             </div>
-            <div className="card-body">
-              <div className="form form-grup mx-sm-4 mb-3 mt-1">
-                <label htmlFor="exampleInputEmail1" className="form-label">
-                  Nombre de tu cerveza
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
+            <div className="card-body row">
+              <div className="col-6">
+                <div className="form form-grup mx-sm-4 mb-3 mt-1">
+                  <label
+                    htmlFor="exampleInputEmail1"
+                    className="form-label fw-bold"
+                  >
+                    NOMBRE
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="exampleInputEmail1"
+                    aria-describedby="emailHelp"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <div className="form form-grup mx-sm-4 mb-4">
+                  <label
+                    htmlFor="exampleInputPassword1"
+                    className="form-label fw-bold"
+                  >
+                    ESTILO BJCP
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={bjcp_style}
+                    onChange={(e) => setBjcp_style(e.target.value)}
+                  />
+                </div>
+                <div className="form form-grup mx-sm-4 mb-4">
+                  <label
+                    htmlFor="exampleInputPassword1"
+                    className="form-label fw-bold"
+                  >
+                    IBU's
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={IBUs}
+                    onChange={(e) => setIBUs(e.target.value)}
+                  />
+                </div>
+                <div className="form form-grup mx-sm-4 mb-4">
+                  <label
+                    htmlFor="exampleInputPassword1"
+                    className="form-label fw-bold"
+                  >
+                    ABV %
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={volALC}
+                    onChange={(e) => setVolAlc(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="form form-grup mx-sm-4 mb-4">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  Estilo BJCP
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={bjcp_style}
-                  onChange={(e) => setBjcp_style(e.target.value)}
-                />
+              <div className="col-6">
+                <div className="form form-grup mx-4 mt-2 mb-4">
+                  <label
+                    htmlFor="exampleInputPassword1"
+                    className="form-label fw-bold"
+                  >
+                    DESCRIPCIÓN
+                  </label>
+                  <textarea
+                    type="text"
+                    className="form-control"
+                    rows="6"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </div>
+                <select
+                  className="form-select mx-4 "
+                  aria-label="Default select example"
+                  onChange={(e) => setIsBreweryId(e.target.value)}
+                >
+                  <option value="" selected>
+                    Selecciona una cervecería
+                  </option>
+                  {store.userBreweries.map((brewery) => {
+                    return (
+                      <option key={brewery.id} value={brewery.id}>
+                        {brewery.name}
+                      </option>
+                    );
+                  })}
+                </select>
+                <div className=" mx-4 mt-3">
+                  <label htmlFor="formFile" className="form-label fw-bold">
+                    IMÁGEN
+                  </label>
+                  <input
+                    type="file"
+                    className="form-control"
+                    id="inputGroupFile03"
+                    onChange={(e) => setPicture_of_beer(e.target.files[0])}
+                  />
+                </div>
               </div>
-              <div className="form form-grup mx-sm-4 mb-4">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  IBU's
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={IBUs}
-                  onChange={(e) => setIBUs(e.target.value)}
-                />
+              <div className="text-center">
+                <button type="submit" className="entrar mx-sm-4 mt-2">
+                  ENVIAR
+                </button>
               </div>
-              <div className="form form-grup mx-sm-4 mb-4">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  ABV
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={volALC}
-                  onChange={(e) => setVolAlc(e.target.value)}
-                />
-              </div>
-              <div className="form form-grup mx-sm-4 mb-4">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  Describe tu cerveza
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
-              <select
-                className="form-select mx-sm-4 mb-4"
-                aria-label="Default select example"
-                onChange={(e) => setIsBreweryId(e.target.value)}
-              >
-                <option value="" selected>
-                  Selecciona una cervecería
-                </option>
-                {store.userBreweries.map((brewery) => {
-                  return (
-                    <option key={brewery.id} value={brewery.id}>
-                      {brewery.name}
-                    </option>
-                  );
-                })}
-              </select>
-              <div className="mb-3 mx-sm-4 mb-4">
-                <label htmlFor="formFile" className="form-label">
-                  Sube una imagen de tu cerveza
-                </label>
-                <input
-                  type="file"
-                  className="form-control"
-                  id="inputGroupFile03"
-                  onChange={(e) => setPicture_of_beer(e.target.files[0])}
-                />
-              </div>
-              <button type="submit" className="entrar mx-sm-4 mt-2">
-                Enviar
-              </button>
             </div>
           </form>
         </div>
