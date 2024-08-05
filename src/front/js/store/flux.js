@@ -4,6 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       styles: [],
       breweries: [],
       userBreweries: [],
+      userBeers: [],
     },
     actions: {
       //REGISTER USER//
@@ -151,7 +152,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             {
               method: "POST",
               headers: {
-                "Content-Type": "application/json",
+                "Content-type": "application/json",
                 authorization: `Bearer ${jwt}`,
               },
               body: JSON.stringify({
@@ -169,6 +170,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
           const data = await response.json();
+          console.log(data);
           return data;
         } catch (error) {
           console.log(error);
@@ -201,7 +203,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            console.log(data);
             setStore({ userBeers: data.beers });
           }
         } catch (error) {

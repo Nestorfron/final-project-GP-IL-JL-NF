@@ -7,11 +7,11 @@ import "../../styles/addEvent.css";
 const Add_Event = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
-  const [picture_of_event, setpicture_of_event] = useState(null);
+  const [picture_of_event, setPicture_of_event] = useState(null);
   const [name, setName] = useState("");
   const [description, setdescription] = useState("");
   const [date, setdate] = useState("");
-  const [brewery_id, setIsbrewery_id] = useState("");
+  const [brewery_id, setBrewery_id] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,7 +91,7 @@ const Add_Event = () => {
               <select
                 className="form-select ms-4 "
                 aria-label="Default select example"
-                onChange={(e) => setIsbrewery_id(e.target.value)}
+                onChange={(e) => setBrewery_id(e.target.value)}
               >
                 <option value="" selected>
                   Selecciona una cervecería
@@ -112,7 +112,7 @@ const Add_Event = () => {
                   type="file"
                   className="form-control"
                   id="inputGroupFile03"
-                  onChange={(e) => setpicture_of_event(e.target.files[0])}
+                  onChange={(e) => setPicture_of_event(e.target.files[0])}
                 />
               </div>
               <button type="submit" className="entrar mx-sm-4 mt-2">

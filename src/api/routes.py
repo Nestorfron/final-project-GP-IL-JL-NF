@@ -221,8 +221,8 @@ def get_user_beers():
         user = User.query.get(user_id)
         if user is None:
             return  jsonify({'error': 'user not found'}),404
-        beer_list = [beer.serialize() for beer in user.beer]
-        return jsonify({"breweries": beer_list}), 200
+        beer_list = [beer.serialize() for beer in user.beers]
+        return jsonify({"beers": beer_list}), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
     

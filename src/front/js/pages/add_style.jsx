@@ -11,27 +11,37 @@ const Add_Style = () => {
   const [name, setName] = useState("");
   const [bjcp_style, setBjcp_style] = useState("");
   const [IBUs, setIBUs] = useState("");
-  const [volALC, setVolAlc] = useState("");
+  const [volALC, setVolALC] = useState("");
   const [description, setDescription] = useState("");
-  const [BreweryId, setIsBreweryId] = useState("");
+  const [brewery_id, setBrewery_id] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const result = await uploadFile(picture_of_beer);
-    if (result) {
-      return true;
-    }
-
-    const response = await actions.add_beer(
+    console.log(
       name,
-      BreweryId,
+      brewery_id,
       bjcp_style,
       IBUs,
       volALC,
       description,
       result
     );
+
+    const result = await uploadFile(picture_of_beer);
+    if (result) {
+      console.log(result);
+    }
+
+    const response = await actions.add_beer(
+      name,
+      brewery_id,
+      bjcp_style,
+      IBUs,
+      volALC,
+      description,
+      result
+    );
+
     if (response) {
       alert("Producto creado correctamente");
     }
@@ -115,7 +125,7 @@ const Add_Style = () => {
                     type="text"
                     className="form-control"
                     value={volALC}
-                    onChange={(e) => setVolAlc(e.target.value)}
+                    onChange={(e) => setVolALC(e.target.value)}
                   />
                 </div>
               </div>
@@ -136,9 +146,10 @@ const Add_Style = () => {
                   />
                 </div>
                 <select
+                  value={brewery_id}
                   className="form-select mx-4 "
                   aria-label="Default select example"
-                  onChange={(e) => setIsBreweryId(e.target.value)}
+                  onChange={(e) => setBrewery_id(e.target.value)}
                 >
                   <option value="" selected>
                     Selecciona una cervecería
@@ -152,7 +163,7 @@ const Add_Style = () => {
                   })}
                 </select>
                 <div className=" mx-4 mt-3">
-                  <label htmlFor="formFile" className="form-label fw-bold">
+                  <label htmlFor="formFile" className="form-label">
                     IMÁGEN
                   </label>
                   <input
