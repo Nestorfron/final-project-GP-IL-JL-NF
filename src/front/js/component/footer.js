@@ -4,7 +4,7 @@ import "../../styles/index.css";
 
 export const Footer = () => {
   return (
-    <footer className="footer sticky-bottom container-fluid text-dark p-3 mt-5">
+    <footer className="footer sticky-bottom container-fluid text-light p-3 mt-5">
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-4">
