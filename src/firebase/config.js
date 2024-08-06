@@ -4,13 +4,12 @@ import { v4 } from "uuid";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyASCpveXH9Yrp21A5YB56bxIr0iQEVDduc",
-  authDomain: "fir-auth-yt-e7836.firebaseapp.com",
-  databaseURL: "https://fir-auth-yt-e7836-default-rtdb.firebaseio.com",
-  projectId: "fir-auth-yt-e7836",
-  storageBucket: "fir-auth-yt-e7836.appspot.com",
-  messagingSenderId: "807146426135",
-  appId: "1:807146426135:web:12f0b3b675e442ee7ff152",
+  apiKey: FIREBASE_API,
+  authDomain: AUTH_DOMAIN,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSAGING_SENDER_ID,
+  appId: APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);

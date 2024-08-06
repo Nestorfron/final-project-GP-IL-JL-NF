@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { Carousel } from "../component/carousel.jsx";
 import { BeerCards } from "../component/beerCards.jsx";
+import { Maps } from "../component/map.jsx";
 
 export const Home = () => {
   const { store, actions } = useContext(Context);
@@ -14,6 +15,7 @@ export const Home = () => {
       </div>
       <div className="container-fluid d-flex justify-content-center mt-3">
         <BeerCards />
+        <Maps />
       </div>
     </div>
   );

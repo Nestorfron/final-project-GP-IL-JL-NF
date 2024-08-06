@@ -126,3 +126,8 @@ footer .col {
 .dropdown-menu {
   display: none; /* Hide dropdown by default */
 }
+
+.marker {
+  font-size: 2rem;
+  color: rgb(38, 0, 255);
+}
