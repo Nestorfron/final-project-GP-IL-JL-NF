@@ -109,7 +109,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            setStore({ breweries: data });
+            setStore({ breweries: data.breweries });
           }
         } catch (error) {
           console.log(error);

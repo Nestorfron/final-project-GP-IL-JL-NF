@@ -4,14 +4,17 @@ import "../../styles/beerCards.css";
 import HazyIPA from "../../img/hazyipa.jpeg";
 
 export const BeerCards = () => {
-  // Get the store and actions from your context
   const { store } = useContext(Context);
-  const { beers = [] } = store; // Default to empty array if beers is undefined
+  const { beers, breweries } = store;
 
-  // Ensure beers is defined and an array before sorting
   const latestBeers = Array.isArray(beers)
     ? beers.sort((a, b) => b.id - a.id).slice(0, 9)
     : [];
+
+  const findBreweryName = (breweryId, breweries) => {
+    const brewery = breweries.find((b) => b.id === breweryId);
+    return brewery ? brewery.name : "Brewery not found";
+  };
 
   return (
     <div className="cards-container container-fluid">
@@ -28,7 +31,9 @@ export const BeerCards = () => {
                 />
               </div>
               <h4 className="beer-name">{beer.name}</h4>
-              <h5 className="beer-brewery">Cerveceria Cuspide</h5>
+              <h5 className="beer-brewery">
+                {findBreweryName(beer.brewery_id, breweries)}
+              </h5>
               <p className="beer-style">Estilo BJCP: {beer.bjcp_style}</p>
               <p className="beer-IBUs">IBUs: {beer.IBUs}</p>
               <p className="beer-abv">ABV: {beer.volALC}</p>
