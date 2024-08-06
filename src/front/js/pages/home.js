@@ -8,7 +8,7 @@ export const Home = () => {
   const { store, actions } = useContext(Context);
 
   return (
-    <div className="container-fluid d-flex flex-column">
+    <div className="container-fluid d-flex flex-column w-75">
       <div className="container-fluid d-flex justify-content-center carousel-wrapper">
         <Carousel />
       </div>
