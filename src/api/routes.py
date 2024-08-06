@@ -227,3 +227,9 @@ def get_user_beers():
         return jsonify({"error": f"{error}"}), 500
     
     
+@api.route('/beers', methods=['GET'])
+def get_all_beers():
+    
+    beers = Beer.query.all()
+    serialized_beers = [beer.serialize() for beer in beers]
+    return jsonify(serialized_beers)

@@ -5,6 +5,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       breweries: [],
       userBreweries: [],
       userBeers: [],
+      beers: [],
     },
     actions: {
       //REGISTER USER//
@@ -204,6 +205,19 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await response.json();
           if (response.ok) {
             setStore({ userBeers: data.beers });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      //GET ALL THE BEERS NO JWT REQUIRED//
+      getAllBeers: async () => {
+        try {
+          const response = await fetch(process.env.BACKEND_URL + "/api/beers");
+          const data = await response.json();
+          if (response.ok) {
+            setStore({ beers: data });
           }
         } catch (error) {
           console.log(error);
