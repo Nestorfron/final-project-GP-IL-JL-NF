@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { uploadFile } from "../../../firebase/config";
+import "../../styles/addBrewery.css";
 
 const Add_Brewery = () => {
   const { actions } = useContext(Context);
@@ -51,109 +52,136 @@ const Add_Brewery = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container-fluid w-75">
       <div className="row justify-content-center pt-5 mt-5 mr-1">
-        <div className="formulario-register col-12 col-sm-10 col-md-8 col-lg-6 col-xl-7">
+        <div className="add-brewery-form col-12 col-sm-10 col-md-8 col-lg-6 col-xl-7">
           <form onSubmit={handleSubmit}>
             <div className="card-header">
               <div className="form form-grup">
-                <h1 className="registro">Agrega tu Cervecería</h1>
+                <h4 className="registro text-center fw-bold">
+                  AGREGAR CERVECERÍA
+                </h4>
               </div>
             </div>
-            <div className="card-body">
-              <div className="form form-grup mx-sm-4 mb-3 mt-1">
-                <label htmlFor="exampleInputEmail1" className="form-label">
-                  Nombre de tu cervecería
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
+            <div className="card-body d-flex row">
+              <div className="col-6">
+                <div className="form form-grup mx-sm-4 mb-3 mt-1">
+                  <label
+                    htmlFor="exampleInputEmail1"
+                    className="form-label fw-bold"
+                  >
+                    NOMBRE
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="exampleInputEmail1"
+                    aria-describedby="emailHelp"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <div className="form form-grup mx-sm-4 mb-4">
+                  <label
+                    htmlFor="exampleInputPassword1"
+                    className="form-label fw-bold"
+                  >
+                    CIUDAD
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </div>
+                <div className="form form-grup mx-sm-4 mb-4">
+                  <label
+                    htmlFor="exampleInputPassword1"
+                    className="form-label fw-bold"
+                  >
+                    DESCRIPCIÓN
+                  </label>
+                  <textarea
+                    type="text"
+                    className="form-control"
+                    rows="9"
+                    value={history}
+                    onChange={(e) => setHistory(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="form form-grup mx-sm-4 mb-4">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  Dirección de tu cervecería
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                />
+              <div className="col-6">
+                <div className="form form-grup mx-sm-4 mb-4">
+                  <label
+                    htmlFor="exampleInputPassword1"
+                    className="form-label fw-bold"
+                  >
+                    LINK FaceBook
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={facebook_url}
+                    onChange={(e) => setFacebook_url(e.target.value)}
+                  />
+                </div>
+                <div className="form form-grup mx-sm-4 mb-4">
+                  <label
+                    htmlFor="exampleInputPassword1"
+                    className="form-label fw-bold"
+                  >
+                    LINK Instagram
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={instagram_url}
+                    onChange={(e) => setinstagram_url(e.target.value)}
+                  />
+                </div>
+                <div className="form form-grup mx-sm-4 mb-4">
+                  <label
+                    htmlFor="exampleInputPassword1"
+                    className="form-label fw-bold"
+                  >
+                    LINK DE X
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={x_url}
+                    onChange={(e) => setX_url(e.target.value)}
+                  />
+                </div>
+                <div className="mb-3 mx-sm-4 mb-4">
+                  <label htmlFor="formFile" className="form-label fw-bold">
+                    FOTO PORTADA
+                  </label>
+                  <input
+                    type="file"
+                    className="form-control"
+                    id="inputGroupFile02"
+                    onChange={(e) => setPicture_of_brewery(e.target.files[0])}
+                  />
+                </div>
+                <div className="mb-3 mx-sm-4 mb-4">
+                  <label htmlFor="formFile" className="form-label fw-bold">
+                    LOGO (*.png)
+                  </label>
+                  <input
+                    type="file"
+                    className="form-control"
+                    id="inputGroupFile03"
+                    onChange={(e) => setLogo_of_brewery(e.target.files[0])}
+                  />
+                </div>
               </div>
-              <div className="form form-grup mx-sm-4 mb-4">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  Breve descripción
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={history}
-                  onChange={(e) => setHistory(e.target.value)}
-                />
+              <div className="d-flex justify-content-center">
+                <button type="submit" className="entrar mx-sm-4 mt-2">
+                  ENVIAR
+                </button>
               </div>
-              <div className="form form-grup mx-sm-4 mb-4">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  Ingresa tu Facebook
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={facebook_url}
-                  onChange={(e) => setFacebook_url(e.target.value)}
-                />
-              </div>
-              <div className="form form-grup mx-sm-4 mb-4">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  Ingresa tu Instagram
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={instagram_url}
-                  onChange={(e) => setinstagram_url(e.target.value)}
-                />
-              </div>
-              <div className="form form-grup mx-sm-4 mb-4">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  Ingresa tu dirección de X
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={x_url}
-                  onChange={(e) => setX_url(e.target.value)}
-                />
-              </div>
-              <div className="mb-3 mx-sm-4 mb-4">
-                <label htmlFor="formFile" className="form-label">
-                  Sube tu foto de prtada
-                </label>
-                <input
-                  type="file"
-                  className="form-control"
-                  id="inputGroupFile02"
-                  onChange={(e) => setPicture_of_brewery(e.target.files[0])}
-                />
-              </div>
-              <div className="mb-3 mx-sm-4 mb-4">
-                <label htmlFor="formFile" className="form-label">
-                  Sube tu logo (*.png)
-                </label>
-                <input
-                  type="file"
-                  className="form-control"
-                  id="inputGroupFile03"
-                  onChange={(e) => setLogo_of_brewery(e.target.files[0])}
-                />
-              </div>
-              <button type="submit" className="entrar mx-sm-4 mt-2">
-                Enviar
-              </button>
             </div>
           </form>
         </div>

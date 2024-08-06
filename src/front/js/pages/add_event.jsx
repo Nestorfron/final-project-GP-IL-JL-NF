@@ -2,15 +2,16 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { uploadFile } from "../../../firebase/config";
+import "../../styles/addEvent.css";
 
 const Add_Event = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
-  const [picture_of_event, setpicture_of_event] = useState(null);
+  const [picture_of_event, setPicture_of_event] = useState(null);
   const [name, setName] = useState("");
   const [description, setdescription] = useState("");
   const [date, setdate] = useState("");
-  const [brewery_id, setIsbrewery_id] = useState("");
+  const [brewery_id, setBrewery_id] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,9 +43,9 @@ const Add_Event = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container-fluid">
       <div className="row justify-content-center pt-5 mt-5 mr-1">
-        <div className="formulario-register col-12 col-sm-10 col-md-8 col-lg-6 col-xl-7">
+        <div className="add-event-form  w-50">
           <form onSubmit={handleSubmit}>
             <div className="card-header">
               <div className="form form-grup">
@@ -88,9 +89,9 @@ const Add_Event = () => {
                 />
               </div>
               <select
-                className="form-select mx-sm-4 mb-4"
+                className="form-select ms-4 "
                 aria-label="Default select example"
-                onChange={(e) => setIsbrewery_id(e.target.value)}
+                onChange={(e) => setBrewery_id(e.target.value)}
               >
                 <option value="" selected>
                   Selecciona una cervecería
@@ -111,7 +112,7 @@ const Add_Event = () => {
                   type="file"
                   className="form-control"
                   id="inputGroupFile03"
-                  onChange={(e) => setpicture_of_event(e.target.files[0])}
+                  onChange={(e) => setPicture_of_event(e.target.files[0])}
                 />
               </div>
               <button type="submit" className="entrar mx-sm-4 mt-2">

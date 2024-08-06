@@ -1,14 +1,18 @@
 .navbar {
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100px;
-  z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.9);
-  font-family: "Azo Sans", sans-serif;
+  height: 120px;
+  margin: 0 auto;
+  z-index: 1;
+  background-color: rgba(255, 255, 255);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-
+header,
+nav {
+  display: block;
+}
 .beer-image {
   width: 110px;
   height: 110px;
@@ -45,53 +49,117 @@
   background: rgb(245, 207, 70, 255);
 }
 
-.dropdown-menu {
-  background-color: rgb(245, 207, 70, 255);
-  margin-top: 2.8rem !important;
-  margin-left: 0 !important;
-  width: fit-content !important;
+nav ul#menu {
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: 0;
 }
 
-.dropdown-menu::before {
-  content: "";
+nav ul#menu li {
+  position: relative;
+  display: inline-block;
+  margin-top: 45px;
+  height: 75px;
+}
+
+nav ul#menu li a {
+  display: block;
+  height: 50px;
+  font-weight: bold;
+  line-height: 50px;
+  color: rgba(35, 21, 16, 1);
+  text-decoration: none;
+  padding: 0 15px;
+}
+
+nav ul#menu li a:hover,
+nav ul#menu li:hover > a {
+  color: rgba(231, 162, 6, 255) !important;
+}
+
+nav ul#menu li:hover > #mega {
+  display: block;
+}
+
+#mega {
   position: absolute;
-  top: -15px; /* Adjust this to move the arrow further above the dropdown menu */
-  left: 15px; /* Adjust this value to move the arrow horizontally */
-  border-width: 0 15px 15px 15px; /* Increase the size of the arrow */
-  border-style: solid;
-  border-color: transparent transparent rgb(245, 207, 70, 255) transparent; /* Match the color to the dropdown menu */
+  color: gba(35, 21, 16, 1) !important;
+  top: 100%;
+  left: 0;
+  width: 100vw;
+  height: auto;
+  padding: 5px 10px;
+  background: rgba(245, 207, 70, 255);
+  display: none;
+  box-sizing: border-box;
+  z-index: 1000;
 }
 
-/* al pasar el mouse se despliega */
-.dropdown:hover .dropdown-menu {
-  display: block !important;
-}
-.menu {
-  background-color: rgb(245, 207, 70, 255);
-  margin-top: 2.8rem !important;
-  margin-left: 0 !important;
-  width: fit-content !important;
+nav ul#menu {
+  position: relative; /* Necesario para que el submenú se posicione correctamente */
+  margin: 0;
+  padding: 30px;
+  list-style: none;
 }
 
-.menu::before {
-  content: "";
-  position: absolute;
-  top: -15px; /* Adjust this to move the arrow further above the dropdown menu */
-  left: 120px; /* Adjust this value to move the arrow horizontally */
-  border-width: 0 15px 15px 15px; /* Increase the size of the arrow */
-  border-style: solid;
-  border-color: transparent transparent rgb(245, 207, 70, 255) transparent; /* Match the color to the dropdown menu */
+ul#menu ul {
+  float: left;
+  width: 50%;
+  margin: 0 2% 15px 0;
+  padding: 0;
+  list-style: none;
 }
 
-.dropdown-toggle::after {
-  content: none; /* This ensures no arrow is added */
-  display: none; /* Hide any existing arrow */
+ul#menu ul li {
+  display: block;
+}
+
+ul#menu ul li a {
+  float: left;
+  display: block;
+  width: 100%;
+  height: auto;
+  line-height: 1.3em;
+  color: rgba(35, 21, 16, 1);
+  text-decoration: none;
+  padding: 6px 0;
+}
+
+ul#menu ul li a:hover {
+  color: #fff !important;
+  background: none;
+}
+
+/* clearfix */
+nav ul:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+nav ul {
+  display: inline-block;
+}
+
+html[xmlns] nav ul {
+  display: block;
+}
+
+* html nav ul {
+  height: 1%;
+}
+
+#content {
+  padding: 30px 0;
 }
 
 footer {
-  position: relative;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.9) !important;
+  background-color: black;
+  color: white;
 }
 
 footer h5 {

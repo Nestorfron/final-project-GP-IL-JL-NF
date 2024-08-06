@@ -21,6 +21,7 @@ const Register = () => {
     );
     if (response) {
       console.log(response);
+      alert("usuario creado correctamente");
       navigate("/login");
     }
   };

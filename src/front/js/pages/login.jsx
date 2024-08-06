@@ -12,6 +12,9 @@ const Login = () => {
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
     const isLoggedIn = await actions.login(email, password);
+    if (!isLoggedIn) {
+      alert("error al iniciar sesión");
+    }
     if (isLoggedIn) {
       navigate("/");
     }

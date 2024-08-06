@@ -160,13 +160,13 @@ def create_new_event():
         db.session.rollback()
         return jsonify({"error": f"{error}"}), 500
 
-#Endpoint para obtener los estilos disponibles segun las cervezas disponibles
+#Endpoint para obtener los estilos
 
 @api.route('/styles', methods=['GET'])
 def get_styles():
     try:
-        styles = db.session.query(Beer.bjcp_style.distinct()).all()
-        style_list = [style[0] for style in styles]
+        styles = Beer.query.all()
+        style_list = [style.serialize() for style in styles ]
         return jsonify({"styles": style_list}), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500 
@@ -188,8 +188,8 @@ def get_beers_by_style(style):
 @api.route('/breweries', methods=['GET'])
 def get_breweries():
     try:
-        breweries = db.sesion.query(Brewery.name.distinct()).all()
-        brewerie_list = [brewerie[0] for brewerie in breweries]
+        breweries = Brewery.query.all()
+        brewerie_list = [brewerie.serialize() for brewerie in breweries]
         return jsonify({"breweries": brewerie_list}), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
@@ -210,3 +210,26 @@ def get_user_breweries():
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
     
+#Endpoint para obtener todas las cervezas del usuario logueado
+
+@api.route('/user/beers', methods=['GET'])
+@jwt_required()
+def get_user_beers():
+    try:
+        current_user = get_jwt_identity()
+        user_id = current_user.get("id")
+        user = User.query.get(user_id)
+        if user is None:
+            return  jsonify({'error': 'user not found'}),404
+        beer_list = [beer.serialize() for beer in user.beers]
+        return jsonify({"beers": beer_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+    
+    
+@api.route('/beers', methods=['GET'])
+def get_all_beers():
+    
+    beers = Beer.query.all()
+    serialized_beers = [beer.serialize() for beer in beers]
+    return jsonify(serialized_beers)
