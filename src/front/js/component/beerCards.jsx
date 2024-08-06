@@ -19,10 +19,10 @@ export const BeerCards = () => {
   return (
     <div className="cards-container container-fluid">
       <h3 className="beer-cards-title">Estilos:</h3>
-      <div className="beer-cards">
+      <div className="d-flex justify-content-between row">
         {latestBeers.length > 0 ? (
           latestBeers.map((beer) => (
-            <div key={beer.id} className="beer-card">
+            <div key={beer.id} className="beer-card col-4 mx-3 mb-3">
               <div className="d-flex justify-content-center">
                 <img
                   src={beer.picture_of_beer_url || HazyIPA}
