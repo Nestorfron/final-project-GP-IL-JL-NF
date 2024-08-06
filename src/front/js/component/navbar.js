@@ -29,48 +29,41 @@ export const Navbar = () => {
         <div className="d-flex justify-content-between align-items-center w-100">
           <div className="d-flex flex-grow-1 justify-content-between align-items-center row">
             <div className="collapse navbar-collapse col-4" id="navbarNav">
-              <ul className="navbar-nav">
-                <li className="nav-item dropdown mx-3">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                  >
-                    ESTILOS
-                  </a>
-                  <ul className="dropdown-menu mx-3">
-                    {store.styles.length > 0 ? (
-                      store.styles.map((style) => (
-                        <li key={style.id}>
-                          <Link to="/">{style.name}</Link>
-                        </li>
-                      ))
-                    ) : (
-                      <h6 className="text-center">Sin Estilos</h6>
-                    )}
-                  </ul>
+              <ul id="menu">
+                <li>
+                  <a href="#">Estilos</a>
+
+                  <div id="mega">
+                    <ul>
+                      {store.styles.length > 0 ? (
+                        store.styles.map((style) => (
+                          <li key={style.id}>
+                            <Link to="/" type="submit">
+                              {style.name}
+                            </Link>
+                          </li>
+                        ))
+                      ) : (
+                        <h6 className="text-center">Sin Estilos</h6>
+                      )}
+                    </ul>
+                  </div>
                 </li>
-                <li className="nav-item dropdown mx-3">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    CERVECERÍAS
-                  </a>
-                  <ul className="dropdown-menu">
-                    {store.breweries.length > 0 ? (
-                      store.breweries.map((brewery) => (
-                        <li key={brewery.id}>
-                          <Link to="/">{brewery.name}</Link>
-                        </li>
-                      ))
-                    ) : (
-                      <h6 className="text-center">Sin Cervecerías</h6>
-                    )}
-                  </ul>
+                <li>
+                  <a href="#">Cervecerías</a>
+                  <div id="mega">
+                    <ul>
+                      {store.breweries.length > 0 ? (
+                        store.breweries.map((brewery) => (
+                          <li key={brewery.id}>
+                            <Link to="/">{brewery.name}</Link>
+                          </li>
+                        ))
+                      ) : (
+                        <h6 className="text-center">Sin Cervecerías</h6>
+                      )}
+                    </ul>
+                  </div>
                 </li>
               </ul>
             </div>
