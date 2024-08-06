@@ -233,3 +233,10 @@ def get_all_beers():
     beers = Beer.query.all()
     serialized_beers = [beer.serialize() for beer in beers]
     return jsonify(serialized_beers)
+
+@api.route('/events', methods=['GET'])
+def get_events():
+
+    events = Event.query.all()
+    serialized_events = [event.serialize() for event in events]
+    return jsonify(serialized_events)

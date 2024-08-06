@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userBreweries: [],
       userBeers: [],
       beers: [],
+      events: [],
     },
     actions: {
       //REGISTER USER//
@@ -255,6 +256,18 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await response.json();
           return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      //GET ALL EVENTS (PUBLIC)
+      getEvents: async () => {
+        try {
+          const response = await fetch(process.env.BACKEND_URL + "/api/events");
+          const data = await response.json();
+          if (response.ok) {
+            setStore({ events: data });
+          }
         } catch (error) {
           console.log(error);
         }
