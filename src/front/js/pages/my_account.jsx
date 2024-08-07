@@ -15,6 +15,7 @@ const MyAccount = () => {
     }
     actions.getUserBreweries();
     actions.getUserBeers();
+    actions.getUserEvents();
   }, []);
 
   return (
@@ -74,7 +75,27 @@ const MyAccount = () => {
             })
           ) : (
             <h6 className="text-center">
-              Sin Cervezas, por favor <Link to="/add_style">ingresa una </Link>
+              Sin Cervezas, por favor <Link to="/add_beer">ingresa una </Link>
+            </h6>
+          )}
+        </div>
+        <div className="add-event-form mx-auto text-center">
+          <h1 className="text-black m-3">Mis Eventos</h1>
+          {store.breweryEvents.length > 0 ? (
+            store.breweryEvents.map((event) => {
+              return (
+                <div
+                  key={event.id}
+                  className="p-2 m-1 text-black border rounded-2 bg-white text center"
+                >
+                  <h4> Nombre: {event.name}</h4>
+                  <div />
+                </div>
+              );
+            })
+          ) : (
+            <h6 className="text-center">
+              Sin Eventos, por favor <Link to="/add_event">ingresa uno </Link>
             </h6>
           )}
         </div>

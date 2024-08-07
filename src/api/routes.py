@@ -183,7 +183,7 @@ def get_beers_by_style(style):
     except Exception as error:
         return jsonify ({"error": f"{error}"}), 500
     
-#Endpoint para obtener el nombre de las cervecerias
+#Endpoint para obtener  las cervecerias
 
 @api.route('/breweries', methods=['GET'])
 def get_breweries():
@@ -229,14 +229,35 @@ def get_user_beers():
     
 @api.route('/beers', methods=['GET'])
 def get_all_beers():
+    try:
+        beers = Beer.query.all()
+        serialized_beers = [beer.serialize() for beer in beers]
+        return jsonify({"Events": serialized_beers}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
     
-    beers = Beer.query.all()
-    serialized_beers = [beer.serialize() for beer in beers]
-    return jsonify(serialized_beers)
 
 @api.route('/events', methods=['GET'])
 def get_events():
+    try:
+        events = Event.query.all()
+        serialized_events = [event.serialize() for event in events]
+        return jsonify({"Events": serialized_events}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
 
-    events = Event.query.all()
-    serialized_events = [event.serialize() for event in events]
-    return jsonify(serialized_events)
+
+@api.route('/brewery/events', methods=['GET'])
+@jwt_required()
+def get_user_events():
+    try:
+        current_user = get_jwt_identity()
+        user_id = current_user.get("id")
+        brewery = Brewery.query.filter_by(user_id = user_id).first()
+        if brewery is None:
+            return  jsonify({'error': 'brewery not found'}),404
+        
+        event_list = [event.serialize() for event in brewery.events]
+        return jsonify({"events": event_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500

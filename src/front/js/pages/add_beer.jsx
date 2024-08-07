@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { uploadFile } from "../../../firebase/config";
-import "../../styles/addStyle.css";
+import "../../styles/addBeer.css";
 
 const Add_Style = () => {
   const { store, actions } = useContext(Context);
@@ -45,6 +45,8 @@ const Add_Style = () => {
     if (response) {
       alert("Producto creado correctamente");
     }
+    actions.getBreweries();
+    actions.getUserBreweries();
   };
 
   useEffect(() => {

@@ -2,11 +2,13 @@ const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
       styles: [],
+      beers: [],
+      events: [],
       breweries: [],
       userBreweries: [],
       userBeers: [],
-      beers: [],
-      events: [],
+      breweryEvents: [],
+      userStyles: [],
     },
     actions: {
       //REGISTER USER//
@@ -103,7 +105,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
       //GET BREWERIES//
-      getBreweries: async () => {
+      getAllBreweries: async () => {
         try {
           const response = await fetch(
             process.env.BACKEND_URL + "/api/breweries"
@@ -211,7 +213,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
-
       //GET ALL THE BEERS NO JWT REQUIRED//
       getAllBeers: async () => {
         try {
@@ -260,8 +261,29 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+      //GET BREWERY EVENTS//
+      getUserEvents: async () => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/brewery/events",
+            {
+              method: "GET",
+              headers: {
+                authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setStore({ breweryEvents: data.events });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
       //GET ALL EVENTS (PUBLIC)
-      getEvents: async () => {
+      getAllEvents: async () => {
         try {
           const response = await fetch(process.env.BACKEND_URL + "/api/events");
           const data = await response.json();
