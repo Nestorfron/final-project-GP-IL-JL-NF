@@ -15,14 +15,6 @@ export const Navbar = () => {
     navigate("/");
   }
 
-  useEffect(() => {
-    const jwt = localStorage.getItem("token");
-    if (!jwt) {
-      navigate("/");
-      return;
-    }
-  }, []);
-
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid w-75">
@@ -147,14 +139,14 @@ export const Navbar = () => {
                     </li>
                     <li>
                       <Link
-                        to="/add_style"
+                        to="/add_beer"
                         className={`${
                           !jwt
                             ? "dropdown-item text-dark d-none"
                             : "dropdown-item text-dark"
                         }`}
                       >
-                        Agregar producto
+                        Agregar Cerveza
                       </Link>
                     </li>
                     <li>
