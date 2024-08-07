@@ -38,8 +38,8 @@ export const Navbar = () => {
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item dropdown me-5">
+          <ul id="menu" class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
@@ -64,12 +64,11 @@ export const Navbar = () => {
                 )}
               </ul>
             </li>
-
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
-                id="navbarDropdown"
+                id="navbarDropdown2"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
@@ -96,124 +95,127 @@ export const Navbar = () => {
               <img src={BEER} alt="BEER" className="beer-image" />
             </Link>
           </div>
-          <form class="d-flex" role="search">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Buscar"
-              aria-label="Buscar"
-            />
-          </form>
-          <div>
-            <Link
-              to="/"
-              className="nav-link d-flex align-items-center justify-content-center mx-3 text-center"
-              type="submit"
-            >
-              SOBRE NOSOTROS
-            </Link>
+          <div class="d-flex align-items-center justify-content-end col-4">
+            <ul class="navbar-nav d-none d-md-flex">
+              <li class="nav-item">
+                <form class="d-flex" role="search">
+                  <input
+                    class="form-control search mt-3"
+                    type="search"
+                    placeholder="Búsqueda"
+                    aria-label="Search"
+                  />
+                  <Link
+                    to="/"
+                    className="nav-link d-flex align-items-center justify-content-center mx-3 text-center"
+                    type="submit"
+                  >
+                    SOBRE NOSOTROS
+                  </Link>
+                </form>
+              </li>
+            </ul>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <div class="signin-button btn-group">
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <i class="fa-solid fa-users"></i>
+                  </button>
+                  <ul class="signin-button dropdown-menu dropdown-menu-end menu">
+                    <li>
+                      <a href="#" class="dropdown-item text-dark">
+                        Agregar Cervecería
+                      </a>
+                    </li>
+                    <li>
+                      <Link
+                        to="/add_brewery"
+                        className={`${
+                          !jwt
+                            ? "dropdown-item text-dark d-none"
+                            : "dropdown-item text-dark"
+                        }`}
+                      >
+                        Agregar Cervecería
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/add_style"
+                        className={`${
+                          !jwt
+                            ? "dropdown-item text-dark d-none"
+                            : "dropdown-item text-dark"
+                        }`}
+                      >
+                        Agregar producto
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/add_event"
+                        className={`${
+                          !jwt
+                            ? "dropdown-item text-dark d-none"
+                            : "dropdown-item text-dark"
+                        }`}
+                      >
+                        Agregar Evento
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/my_account"
+                        className={`${
+                          !jwt
+                            ? "dropdown-item text-dark d-none"
+                            : "dropdown-item text-dark"
+                        }`}
+                      >
+                        Mi cuenta
+                      </Link>
+                    </li>
+                    <li>
+                      <hr
+                        className={`${
+                          !jwt ? "dropdown-divider d-none" : "dropdown-divider"
+                        }`}
+                      />
+                    </li>
+                    <li>
+                      <Link
+                        to="/login"
+                        className={`${
+                          !jwt
+                            ? "dropdown-item text-dark"
+                            : "dropdown-item text-dark d-none"
+                        }`}
+                      >
+                        Iniciar Sesión
+                      </Link>
+                    </li>
+                    <li>
+                      <button
+                        className={`${
+                          !jwt
+                            ? "dropdown-item text-dark d-none"
+                            : "dropdown-item text-dark"
+                        }`}
+                        onClick={logout}
+                      >
+                        Cerrar sesión
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
           </div>
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <div class="signin-button btn-group">
-                <button
-                  type="button"
-                  class="btn btn-warning"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <i class="fa-solid fa-users"></i>
-                </button>
-                <ul class="signin-button dropdown-menu dropdown-menu-end menu">
-                  <li>
-                    <a href="#" class="dropdown-item text-dark">
-                      Agregar Cervecería
-                    </a>
-                  </li>
-                  <li>
-                    <Link
-                      to="/add_brewery"
-                      className={`${
-                        !jwt
-                          ? "dropdown-item text-dark d-none"
-                          : "dropdown-item text-dark"
-                      }`}
-                    >
-                      Agregar Cervecería
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/add_style"
-                      className={`${
-                        !jwt
-                          ? "dropdown-item text-dark d-none"
-                          : "dropdown-item text-dark"
-                      }`}
-                    >
-                      Agregar producto
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/add_event"
-                      className={`${
-                        !jwt
-                          ? "dropdown-item text-dark d-none"
-                          : "dropdown-item text-dark"
-                      }`}
-                    >
-                      Agregar Evento
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/my_account"
-                      className={`${
-                        !jwt
-                          ? "dropdown-item text-dark d-none"
-                          : "dropdown-item text-dark"
-                      }`}
-                    >
-                      Mi cuenta
-                    </Link>
-                  </li>
-                  <li>
-                    <hr
-                      className={`${
-                        !jwt ? "dropdown-divider d-none" : "dropdown-divider"
-                      }`}
-                    />
-                  </li>
-                  <li>
-                    <Link
-                      to="/login"
-                      className={`${
-                        !jwt
-                          ? "dropdown-item text-dark"
-                          : "dropdown-item text-dark d-none"
-                      }`}
-                    >
-                      Iniciar Sesión
-                    </Link>
-                  </li>
-                  <li>
-                    <button
-                      className={`${
-                        !jwt
-                          ? "dropdown-item text-dark d-none"
-                          : "dropdown-item text-dark"
-                      }`}
-                      onClick={logout}
-                    >
-                      Cerrar sesión
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-          <div></div>
         </div>
       </div>
     </nav>

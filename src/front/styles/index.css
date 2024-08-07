@@ -4,6 +4,8 @@
   margin-bottom: 4px;
   background: rgba(245, 207, 70, 1);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin-top: 30px;
+  border-bottom: solid black;
 }
 
 /* Estilos de la imagen de cerveza */
