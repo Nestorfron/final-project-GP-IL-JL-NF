@@ -8,7 +8,7 @@ import Login from "./pages/login.jsx";
 import Register from "./pages/register.jsx";
 import Add_Brewery from "./pages/add_brewery.jsx";
 import injectContext from "./store/appContext";
-
+import { Ticker } from "./component/ticker.jsx";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import Add_Style from "./pages/add_style.jsx";
@@ -28,6 +28,7 @@ const Layout = () => {
     <div>
       <BrowserRouter basename={basename}>
         <ScrollToTop>
+          <Ticker />
           <Navbar />
           <Routes>
             <Route element={<Home />} path="/" />
