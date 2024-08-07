@@ -45,8 +45,6 @@ const Add_Style = () => {
     if (response) {
       alert("Producto creado correctamente");
     }
-    actions.getBreweries();
-    actions.getUserBreweries();
   };
 
   useEffect(() => {
