@@ -1,0 +1,33 @@
+/* src/styles/ticker.css */
+.ticker-container {
+  width: 100%;
+  background-color: black;
+  color: #fff;
+  padding: 8px 0;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  overflow: hidden; /* Ensure text stays within bounds */
+}
+
+.ticker-text {
+  font-size: 15px;
+  white-space: nowrap;
+  display: inline-block;
+  animation: tickerScroll 60s linear infinite; /* Slower scrolling */
+}
+
+.brewery-name {
+  color: #ffd700; /* Gold color, change as desired */
+}
+
+@keyframes tickerScroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

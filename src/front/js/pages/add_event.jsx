@@ -39,7 +39,6 @@ const Add_Event = () => {
       navigate("/login");
       return;
     }
-    actions.getUserBreweries();
   }, []);
 
   return (

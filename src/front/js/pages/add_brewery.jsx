@@ -38,7 +38,6 @@ const Add_Brewery = () => {
       result
     );
     if (response) {
-      console.log(response);
       alert("Cervecería creada correctamente");
     }
   };

@@ -1,14 +1,11 @@
 /* Estilos generales de la navbar */
 .navbar {
+  margin-top: 20px;
+  margin-bottom: 4px;
   background: rgba(245, 207, 70, 1);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  z-index: 1500;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para profundidad */
 }
+
 /* Estilos de la imagen de cerveza */
 .beer-image {
   width: 80px;
