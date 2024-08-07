@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { Carousel } from "../component/carousel.jsx";
@@ -6,6 +6,13 @@ import { BeerCards } from "../component/beerCards.jsx";
 
 export const Home = () => {
   const { store, actions } = useContext(Context);
+
+  useEffect(() => {
+    actions.getAllBreweries();
+    actions.getAllBeers();
+    actions.getAllEvents();
+    actions.getStyles();
+  }, []);
 
   return (
     <div className="container-fluid d-flex flex-column w-75">

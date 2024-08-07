@@ -8,10 +8,10 @@ import Login from "./pages/login.jsx";
 import Register from "./pages/register.jsx";
 import Add_Brewery from "./pages/add_brewery.jsx";
 import injectContext from "./store/appContext";
-
+import { Ticker } from "./component/ticker.jsx";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
-import Add_Style from "./pages/add_style.jsx";
+import Add_Beer from "./pages/add_beer.jsx";
 import Add_Event from "./pages/add_event.jsx";
 import MyAccount from "./pages/my_account.jsx";
 
@@ -28,13 +28,14 @@ const Layout = () => {
     <div>
       <BrowserRouter basename={basename}>
         <ScrollToTop>
+          <Ticker />
           <Navbar />
           <Routes>
             <Route element={<Home />} path="/" />
             <Route element={<Login />} path="/login" />
             <Route element={<Register />} path="/register" />
             <Route element={<Add_Brewery />} path="/add_brewery" />
-            <Route element={<Add_Style />} path="/add_style" />
+            <Route element={<Add_Beer />} path="/add_beer" />
             <Route element={<Add_Event />} path="/add_event" />
             <Route element={<MyAccount />} path="/my_account" />
             <Route element={<h1>Not found!</h1>} />
