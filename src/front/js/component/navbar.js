@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 import "../../styles/index.css";
-import BEER from "../../img/BEER.jpeg";
+import BEER from "../../img/beer.jpeg";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
@@ -15,90 +15,92 @@ export const Navbar = () => {
     navigate("/");
   }
 
+  useEffect(() => {
+    const jwt = localStorage.getItem("token");
+    if (!jwt) {
+      navigate("/");
+      return;
+    }
+  }, []);
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <div className="container-fluid w-75">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
         <button
-          className="navbar-toggler"
+          class="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse " id="navbarNav">
-          <div className="d-flex flex-grow-1">
-            <ul id="menu" className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown1"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Estilos
-                </a>
-                <div id="mega" className="dropdown-menu">
-                  <ul className="list-unstyled">
-                    {store.styles.length > 0 ? (
-                      store.styles.map((style) => (
-                        <li key={style.id}>
-                          <Link className="dropdown-item" to="/" type="submit">
-                            {style.name}
-                          </Link>
-                        </li>
-                      ))
-                    ) : (
-                      <h6 className="text-center">Sin Estilos</h6>
-                    )}
-                  </ul>
-                </div>
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown2"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Cervecerías
-                </a>
-                <div id="mega" className="dropdown-menu">
-                  <ul className="list-unstyled">
-                    {store.breweries.length > 0 ? (
-                      store.breweries.map((brewery) => (
-                        <li key={brewery.id}>
-                          <Link className="dropdown-item" to="/">
-                            {brewery.name}
-                          </Link>
-                        </li>
-                      ))
-                    ) : (
-                      <h6 className="text-center">Sin Cervecerías</h6>
-                    )}
-                  </ul>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div className="beer-container text-center flex-grow-1 col-4">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul id="menu" class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Estilos
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {store.styles.length > 0 ? (
+                  store.styles.map((style) => (
+                    <li key={style.id}>
+                      <Link className="dropdown-item" to="/" type="submit">
+                        {style.name}
+                      </Link>
+                    </li>
+                  ))
+                ) : (
+                  <h6 className="text-center">Sin Estilos</h6>
+                )}
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown2"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Cervecerías
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {store.breweries.length > 0 ? (
+                  store.breweries.map((brewery) => (
+                    <li key={brewery.id}>
+                      <Link className="dropdown-item" to="/">
+                        {brewery.name}
+                      </Link>
+                    </li>
+                  ))
+                ) : (
+                  <h6 className="text-center">Sin Cervecerías</h6>
+                )}
+              </ul>
+            </li>
+          </ul>
+          <div class="beer-container text-center flex-grow-1 col-4">
             <Link to="/">
               <img src={BEER} alt="BEER" className="beer-image" />
             </Link>
           </div>
-          <div className="d-flex align-items-center justify-content-end col-4">
-            <ul className="navbar-nav d-none d-md-flex">
-              <li className="nav-item">
-                <form className="d-flex" role="search">
+          <div class="d-flex align-items-center justify-content-end col-4">
+            <ul class="navbar-nav d-none d-md-flex">
+              <li class="nav-item">
+                <form class="d-flex" role="search">
                   <input
-                    className="form-control search mt-3"
+                    class="form-control search mt-3"
                     type="search"
                     placeholder="Búsqueda"
                     aria-label="Search"
@@ -113,18 +115,23 @@ export const Navbar = () => {
                 </form>
               </li>
             </ul>
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <div className="signin-button btn-group">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <div class="signin-button btn-group">
                   <button
                     type="button"
-                    className="btn btn-warning"
+                    class="btn btn-warning"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <i className="fa-solid fa-users"></i>
+                    <i class="fa-solid fa-users"></i>
                   </button>
-                  <ul className="signin-button dropdown-menu dropdown-menu-end menu">
+                  <ul class="signin-button dropdown-menu dropdown-menu-end menu">
+                    <li>
+                      <a href="#" class="dropdown-item text-dark">
+                        Agregar Cervecería
+                      </a>
+                    </li>
                     <li>
                       <Link
                         to="/add_brewery"
@@ -139,14 +146,14 @@ export const Navbar = () => {
                     </li>
                     <li>
                       <Link
-                        to="/add_beer"
+                        to="/add_style"
                         className={`${
                           !jwt
                             ? "dropdown-item text-dark d-none"
                             : "dropdown-item text-dark"
                         }`}
                       >
-                        Agregar Cerveza
+                        Agregar producto
                       </Link>
                     </li>
                     <li>
@@ -173,11 +180,13 @@ export const Navbar = () => {
                         Mi cuenta
                       </Link>
                     </li>
-                    <hr
-                      className={`${
-                        !jwt ? "dropdown-divider d-none" : "dropdown-divider"
-                      }`}
-                    />
+                    <li>
+                      <hr
+                        className={`${
+                          !jwt ? "dropdown-divider d-none" : "dropdown-divider"
+                        }`}
+                      />
+                    </li>
                     <li>
                       <Link
                         to="/login"
