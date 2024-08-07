@@ -11,6 +11,7 @@ export const Home = () => {
     actions.getAllBreweries();
     actions.getAllBeers();
     actions.getAllEvents();
+    actions.getStyles();
   }, []);
 
   return (
