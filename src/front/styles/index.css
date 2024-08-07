@@ -1,28 +1,29 @@
 /* Estilos generales de la navbar */
 .navbar {
-  position: relative;
-  width: 100%;
-  height: 120px;
-  background-color: rgba(255, 255, 255);
+  background: rgba(245, 207, 70, 1);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  z-index: 1500;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para profundidad */
 }
-
 /* Estilos de la imagen de cerveza */
 .beer-image {
-  width: 110px;
-  height: 110px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Agregamos transición para la sombra */
 }
 
-@media (max-width: 768px) {
-  .beer-image {
-    width: 90px;
-    height: 90px;
-  }
+.beer-image:hover {
+  transform: scale(1.1) rotate(88deg); /* Escala y rotación al pasar el ratón */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra más prominente */
 }
 
 /* Cambia el color de los enlaces en el menú de navegación */
-.navbar-nav .nav-link {
+.nav-link {
   color: rgba(35, 21, 16, 1) !important;
   font-weight: bold;
 }
@@ -32,162 +33,128 @@
   font-weight: bold;
 }
 
-/* Estilos para el campo de búsqueda */
-.search {
-  height: 40px;
+/* Estilos para los elementos del menú desplegable */
+.dropdown-menu {
+  background: rgba(245, 207, 70, 1);
+  border: none;
 }
 
-.menu {
-  background: rgb(245, 207, 70, 255);
-}
-
-nav ul#menu {
-  display: block;
-  margin: 0;
-  padding: 0;
-  list-style: 0;
-}
-
-nav ul#menu li {
-  position: relative;
-  display: inline-block;
-  margin-top: 45px;
-  height: 75px;
-}
-
-nav ul#menu li a {
-  display: block;
-  height: 50px;
-  font-weight: bold;
-  line-height: 50px;
-  color: rgba(35, 21, 16, 1);
-  text-decoration: none;
-  padding: 0 15px;
-}
-
-nav ul#menu li a:hover,
-nav ul#menu li:hover > a {
-  color: rgba(231, 162, 6, 255) !important;
-}
-
-nav ul#menu li:hover > #mega {
+/* Mostrar el dropdown al pasar el mouse */
+.nav-item.dropdown:hover .dropdown-menu {
   display: block;
 }
-
-#mega {
-  position: absolute;
-  color: gba(35, 21, 16, 1) !important;
-  top: 100%;
-  left: 0;
-  width: 97vw;
-  height: auto;
-  padding: 5px 10px;
-  background: rgba(245, 207, 70, 255);
-  display: none;
-  box-sizing: border-box;
-  z-index: 1000;
-}
-#mega::before {
-  content: "";
-
-  position: absolute;
-
-  top: -10px; /* Posiciona la flecha justo arriba del submenú */
-  left: 20px; /* Ajusta la posición horizontal de la flecha */
-  border-width: 0 15px 15px 15px; /* Tamaño de la flecha */
-
-  border-style: solid;
-  border-color: transparent transparent rgba(245, 207, 70, 255) transparent; /* Color de la flecha */
+.dropdown-toggle::after {
+  content: none;
 }
 
-nav ul#menu {
-  position: relative; /* Necesario para que el submenú se posicione correctamente */
-  margin: 0;
-  padding: 30px;
-  list-style: none;
+/* Estilo de los elementos del submenú */
+.dropdown-item {
+  color: black;
+  border-radius: 6px;
+  padding: 10px 15px;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease, color 0.5s ease, transform 0.8s ease; /* Transiciones suaves */
 }
 
-ul#menu ul {
-  float: left;
-  width: 50%;
-  margin: 0 2% 15px 0;
-  padding: 0;
-  list-style: none;
-}
-
-ul#menu ul li {
-  display: block;
-}
-
-ul#menu ul li a {
-  float: left;
-  display: block;
-  width: 100%;
-  height: auto;
-  line-height: 1.3em;
-  color: rgba(35, 21, 16, 1);
-  text-decoration: none;
-  padding: 6px 0;
-}
-
-ul#menu ul li a:hover {
+.dropdown-item:hover {
+  background-color: rgba(231, 162, 6, 0.2) !important;
   color: #fff !important;
-  background: none;
+  font-weight: 600;
+  transform: scale(1); /* Efecto de escala al pasar el mouse */
+  cursor: pointer;
 }
 
-/* clearfix */
-nav ul:after {
-  content: ".";
-  display: block;
-  clear: both;
-  visibility: hidden;
-  line-height: 0;
-  height: 0;
-}
-
-nav ul {
-  display: inline-block;
-}
-
-html[xmlns] nav ul {
-  display: block;
-}
-
-* html nav ul {
-  height: 1%;
-}
-
-#content {
-  padding: 30px 0;
-}
-
+/* Estilos para el pie de página */
 footer {
   background-color: black;
   color: white;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Sombra para profundidad */
 }
 
+/* Estilos específicos para el pie de página */
 footer h5 {
   font-weight: bold;
+  margin-bottom: 15px;
 }
 
-footer ul,
-footer li {
-  margin: 0;
+footer ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   padding: 0;
+  margin: 0;
   list-style: none;
-  background-color: rgba(255, 255, 255, 0.9);
+}
+
+footer li {
+  margin: 0 15px;
 }
 
 footer a {
-  color: #000;
+  color: #fff;
   text-decoration: none;
+  transition: color 0.3s ease; /* Transición suave para el color del enlace */
 }
 
 footer a:hover {
   text-decoration: underline;
+  color: rgba(231, 162, 6, 1); /* Cambio de color al pasar el mouse */
 }
 
 footer .col {
   margin-bottom: 15px;
-  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Ajuste para pantallas con un ancho máximo de 950px */
+@media (max-width: 950px) {
+  .navbar {
+    flex-direction: column; /* Disposición en columna para pantallas pequeñas */
+    align-items: center !important; /* Centra el contenido horizontalmente */
+    justify-content: center;
+  }
+
+  .beer-image {
+    width: 60px; /* Tamaño ajustado para pantallas pequeñas */
+    height: 60px;
+    margin-bottom: 25px; /* Espacio debajo de la imagen */
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar-nav {
+    width: 100%; /* Asegura que los enlaces ocupen el ancho completo */
+    display: flex;
+    flex-direction: column; /* Alinea los enlaces en columna */
+    justify-content: center !important; /* Centra los enlaces verticalmente */
+    align-items: center !important; /* Centra los enlaces horizontalmente */
+    padding: 0; /* Elimina el padding para ajustar el diseño */
+  }
+
+  .nav-link {
+    font-size: 0.85em; /* Tamaño de fuente reducido */
+    padding: 8px 10px; /* Espaciado reducido */
+    margin: 1px 0; /* Margen vertical entre los enlaces */
+    text-align: center; /* Centra el texto dentro del enlace */
+  }
+
+  footer {
+    padding: 10px; /* Espaciado reducido en el pie de página */
+  }
+
+  footer h5 {
+    margin-bottom: 8px; /* Margen reducido en el pie de página */
+  }
+
+  footer li {
+    margin: 0 8px; /* Margen reducido en los elementos del pie de página */
+  }
+
+  footer .col {
+    margin-bottom: 8px; /* Margen reducido en las columnas del pie de página */
+  }
 }
