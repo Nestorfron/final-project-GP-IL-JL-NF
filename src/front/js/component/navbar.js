@@ -128,11 +128,6 @@ export const Navbar = () => {
                   </button>
                   <ul class="signin-button dropdown-menu dropdown-menu-end menu">
                     <li>
-                      <a href="#" class="dropdown-item text-dark">
-                        Agregar Cervecería
-                      </a>
-                    </li>
-                    <li>
                       <Link
                         to="/add_brewery"
                         className={`${
@@ -146,7 +141,7 @@ export const Navbar = () => {
                     </li>
                     <li>
                       <Link
-                        to="/add_style"
+                        to="/add_beer"
                         className={`${
                           !jwt
                             ? "dropdown-item text-dark d-none"

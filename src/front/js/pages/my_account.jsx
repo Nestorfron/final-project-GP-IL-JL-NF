@@ -8,8 +8,8 @@ const MyAccount = () => {
   const navigate = useNavigate();
 
   function deleteBrewery(brewery_id) {
-    actions.deleteBrewery(brewery_id);
-    navigate("/my_account");
+    const deleted = actions.deleteBrewery(brewery_id);
+    if (deleted) navigate("/my_account");
   }
 
   function deleteBeer(beer_id) {
