@@ -226,25 +226,30 @@ def get_user_beers():
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
     
+#endpoint para obtener todas las cervezas
     
 @api.route('/beers', methods=['GET'])
 def get_all_beers():
     try:
         beers = Beer.query.all()
         serialized_beers = [beer.serialize() for beer in beers]
-        return jsonify({"Events": serialized_beers}), 200
+        return jsonify(serialized_beers), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
-    
+
+#endpoint para obtener todos los eventos
 
 @api.route('/events', methods=['GET'])
 def get_events():
     try:
         events = Event.query.all()
         serialized_events = [event.serialize() for event in events]
-        return jsonify({"Events": serialized_events}), 200
+        return jsonify(serialized_events), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
+    
+
+#endpoint para obtener los eventos de una cerveceria REQUIERE TOKEN
 
 
 @api.route('/brewery/events', methods=['GET'])
@@ -261,3 +266,61 @@ def get_user_events():
         return jsonify({"events": event_list}), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
+    
+#Endpoint para borrar Cervecería REQUIERE TOKEN
+
+@api.route('/delete_brewery', methods=['DELETE'])
+@jwt_required()
+def delete_brewery():
+    try:
+        body = request.json
+        user_data = get_jwt_identity()
+        brewery_id = body.get("brewery_id", None)
+        user_id = user_data.get("id")
+        brewery = Brewery.query.filter_by(user_id = user_id, id=brewery_id).first()
+        if brewery is None:
+            return  jsonify({'error': 'brewery not found'}),404
+        db.session.delete(brewery)
+        db.session.commit()
+        return jsonify({"message": f"Brewery removed"}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+
+#endpoint para borrar cervezas REQUIERE TOKEN
+
+@api.route('/delete_beer', methods=['DELETE'])
+@jwt_required()
+def delete_beer():
+    try:
+        body = request.json
+        user_data = get_jwt_identity()
+        beer_id = body.get("beer_id", None)
+        user_id = user_data.get("id")
+        beer = Beer.query.filter_by(user_id = user_id, id=beer_id).first()
+        if beer is None:
+            return  jsonify({'error': 'beer not found'}),404
+        db.session.delete(beer)
+        db.session.commit()
+        return jsonify({"message": f"Beer removed"}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+    
+#endpoint para borrar evento REQUIERE TOKEN
+
+@api.route('/delete_event', methods=['DELETE'])
+@jwt_required()
+def delete_event():
+    try:
+        body = request.json
+        user_data = get_jwt_identity()
+        event_id = body.get("event_id", None)
+        event = Event.query.filter_by(id=event_id).first()
+        if event is None:
+            return  jsonify({'error': 'event not found'}),404
+        db.session.delete(event)
+        db.session.commit()
+        return jsonify({"message": f"Event removed"}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+    
+

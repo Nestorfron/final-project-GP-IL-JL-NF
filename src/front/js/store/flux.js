@@ -174,7 +174,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
           const data = await response.json();
-          console.log(data);
           return data;
         } catch (error) {
           console.log(error);
@@ -290,6 +289,91 @@ const getState = ({ getStore, getActions, setStore }) => {
           if (response.ok) {
             setStore({ events: data });
           }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      //DELETE BREWERY
+
+      deleteBrewery: async (brewery_id) => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/delete_brewery",
+            {
+              method: "DELETE",
+              headers: {
+                "Content-type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+              body: JSON.stringify({
+                brewery_id,
+              }),
+            }
+          );
+          if (!response.ok) {
+            return false;
+          }
+          const data = await response.json();
+          console.log(data);
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      //DELETE BEER
+
+      deleteBeer: async (beer_id) => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/delete_beer",
+            {
+              method: "DELETE",
+              headers: {
+                "Content-type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+              body: JSON.stringify({
+                beer_id,
+              }),
+            }
+          );
+          if (!response.ok) {
+            return false;
+          }
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      //DELETE EVENT
+
+      deleteEvent: async (event_id) => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/delete_event",
+            {
+              method: "DELETE",
+              headers: {
+                "Content-type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+              body: JSON.stringify({
+                event_id,
+              }),
+            }
+          );
+          if (!response.ok) {
+            return false;
+          }
+          const data = await response.json();
+          return data;
         } catch (error) {
           console.log(error);
         }
