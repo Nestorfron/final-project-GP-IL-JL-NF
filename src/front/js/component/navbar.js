@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 import "../../styles/index.css";
-import BEER from "../../img/beer.jpeg";
+import BEER from "../../img/BEER.jpeg";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
