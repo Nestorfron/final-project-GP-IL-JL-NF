@@ -5,7 +5,7 @@
 
 .beer-card {
   width: 100%; /* This means take up 100% of the column, not the entire screen */
-  max-width: 290px; /* Ensures it doesn't exceed the column's width */
+  max-width: 280px; /* Ensures it doesn't exceed the column's width */
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
