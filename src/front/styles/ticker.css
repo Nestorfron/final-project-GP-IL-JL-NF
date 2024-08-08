@@ -4,7 +4,7 @@
   background-color: black;
   color: #fff;
   padding: 8px 0;
-  position: fixed;
+  position: absolute;
   top: 0;
   z-index: 1000;
   display: flex;
