@@ -232,7 +232,7 @@ def get_all_beers():
     try:
         beers = Beer.query.all()
         serialized_beers = [beer.serialize() for beer in beers]
-        return jsonify({"Events": serialized_beers}), 200
+        return jsonify(serialized_beers), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
     
@@ -242,7 +242,7 @@ def get_events():
     try:
         events = Event.query.all()
         serialized_events = [event.serialize() for event in events]
-        return jsonify({"Events": serialized_events}), 200
+        return jsonify(serialized_events), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
 

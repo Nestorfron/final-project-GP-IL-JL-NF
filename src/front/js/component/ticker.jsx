@@ -16,7 +16,7 @@ export const Ticker = () => {
           const randomBeer = beers[Math.floor(Math.random() * beers.length)];
           const randomBrewery =
             breweries[Math.floor(Math.random() * breweries.length)];
-          text += `${randomBeer.name}-<span class="brewery-name">${randomBrewery.name}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`;
+          text += `${randomBeer.name}-<span class="brewery-name">${randomBrewery.name}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`;
         }
         return text;
       };
@@ -35,7 +35,7 @@ export const Ticker = () => {
   return (
     <div className="ticker-container w-100">
       <div
-        className="ticker-text w-100"
+        className="ticker-text w-75"
         dangerouslySetInnerHTML={{ __html: tickerText }}
       ></div>
     </div>

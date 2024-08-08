@@ -6,7 +6,8 @@ import HazyIPA from "../../img/hazyipa.jpeg";
 export const BeerCards = () => {
   const { store } = useContext(Context);
   const { beers, breweries } = store;
-
+  console.log(beers);
+  console.log(breweries);
   const latestBeers = Array.isArray(beers)
     ? beers.sort((a, b) => b.id - a.id).slice(0, 9)
     : [];
