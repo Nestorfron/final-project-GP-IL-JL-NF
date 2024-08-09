@@ -45,7 +45,7 @@ export const Navbar = () => {
           </span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul id="menu" className="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul id="menu" className="estilos navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
@@ -108,11 +108,7 @@ export const Navbar = () => {
             />
           </form>
           <hr />
-          <Link to="/" className="nav-link ps-0" type="submit">
-            Sobre Nosotros
-          </Link>
-          <hr />
-          <div className="signin-button btn-group d-flex">
+          <div className="signin-button">
             <button
               type="button"
               className="btn btn-warning "
@@ -121,6 +117,7 @@ export const Navbar = () => {
             >
               <i className="fa-solid fa-user"></i>
             </button>
+
             <ul className="signin-button dropdown-menu dropdown-menu-end menu">
               <li>
                 <Link
