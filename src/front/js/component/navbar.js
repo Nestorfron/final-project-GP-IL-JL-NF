@@ -24,10 +24,15 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
+    <nav className="container-nav navbar navbar-expand-lg">
+      <div class="beer-container">
+        <Link to="/">
+          <img src={BEER} alt="BEER" className="beer-image" />
+        </Link>
+      </div>
+      <div className="container-fluid">
         <button
-          class="navbar-toggler"
+          className="navbar-toggler fs-dark"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
@@ -35,13 +40,15 @@ export const Navbar = () => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon">
+            <i className="nav-icon fa-solid fa-bars"></i>
+          </span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul id="menu" class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item dropdown">
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul id="menu" className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item dropdown">
               <a
-                class="nav-link dropdown-toggle"
+                className="nav-link dropdown-toggle"
                 href="#"
                 id="navbarDropdown"
                 role="button"
@@ -50,7 +57,7 @@ export const Navbar = () => {
               >
                 Estilos
               </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                 {store.styles.length > 0 ? (
                   store.styles.map((style) => (
                     <li key={style.id}>
@@ -64,9 +71,10 @@ export const Navbar = () => {
                 )}
               </ul>
             </li>
-            <li class="nav-item dropdown">
+            <hr />
+            <li className="nav-item dropdown">
               <a
-                class="nav-link dropdown-toggle"
+                className="nav-link dropdown-toggle"
                 href="#"
                 id="navbarDropdown2"
                 role="button"
@@ -75,7 +83,7 @@ export const Navbar = () => {
               >
                 Cervecerías
               </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                 {store.breweries.length > 0 ? (
                   store.breweries.map((brewery) => (
                     <li key={brewery.id}>
@@ -90,124 +98,108 @@ export const Navbar = () => {
               </ul>
             </li>
           </ul>
-          <div class="beer-container text-center flex-grow-1 col-4">
-            <Link to="/">
-              <img src={BEER} alt="BEER" className="beer-image" />
-            </Link>
-          </div>
-          <div class="d-flex align-items-center justify-content-end col-4">
-            <ul class="navbar-nav d-none d-md-flex">
-              <li class="nav-item">
-                <form class="d-flex" role="search">
-                  <input
-                    class="form-control search mt-3"
-                    type="search"
-                    placeholder="Búsqueda"
-                    aria-label="Search"
-                  />
-                  <Link
-                    to="/"
-                    className="nav-link d-flex align-items-center justify-content-center mx-3 text-center"
-                    type="submit"
-                  >
-                    SOBRE NOSOTROS
-                  </Link>
-                </form>
+          <hr />
+          <form className="d-flex" role="search">
+            <input
+              className="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+          </form>
+          <hr />
+          <Link to="/" className="nav-link ps-0" type="submit">
+            Sobre Nosotros
+          </Link>
+          <hr />
+          <div className="signin-button btn-group d-flex">
+            <button
+              type="button"
+              className="btn btn-warning "
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i className="fa-solid fa-user"></i>
+            </button>
+            <ul className="signin-button dropdown-menu dropdown-menu-end menu">
+              <li>
+                <Link
+                  to="/add_brewery"
+                  className={`${
+                    !jwt
+                      ? "dropdown-item text-dark d-none"
+                      : "dropdown-item text-dark"
+                  }`}
+                >
+                  Agregar Cervecería
+                </Link>
               </li>
-            </ul>
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <div class="signin-button btn-group">
-                  <button
-                    type="button"
-                    class="btn btn-warning"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <i class="fa-solid fa-users"></i>
-                  </button>
-                  <ul class="signin-button dropdown-menu dropdown-menu-end menu">
-                    <li>
-                      <Link
-                        to="/add_brewery"
-                        className={`${
-                          !jwt
-                            ? "dropdown-item text-dark d-none"
-                            : "dropdown-item text-dark"
-                        }`}
-                      >
-                        Agregar Cervecería
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/add_beer"
-                        className={`${
-                          !jwt
-                            ? "dropdown-item text-dark d-none"
-                            : "dropdown-item text-dark"
-                        }`}
-                      >
-                        Agregar producto
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/add_event"
-                        className={`${
-                          !jwt
-                            ? "dropdown-item text-dark d-none"
-                            : "dropdown-item text-dark"
-                        }`}
-                      >
-                        Agregar Evento
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/my_account"
-                        className={`${
-                          !jwt
-                            ? "dropdown-item text-dark d-none"
-                            : "dropdown-item text-dark"
-                        }`}
-                      >
-                        Mi cuenta
-                      </Link>
-                    </li>
-                    <li>
-                      <hr
-                        className={`${
-                          !jwt ? "dropdown-divider d-none" : "dropdown-divider"
-                        }`}
-                      />
-                    </li>
-                    <li>
-                      <Link
-                        to="/login"
-                        className={`${
-                          !jwt
-                            ? "dropdown-item text-dark"
-                            : "dropdown-item text-dark d-none"
-                        }`}
-                      >
-                        Iniciar Sesión
-                      </Link>
-                    </li>
-                    <li>
-                      <button
-                        className={`${
-                          !jwt
-                            ? "dropdown-item text-dark d-none"
-                            : "dropdown-item text-dark"
-                        }`}
-                        onClick={logout}
-                      >
-                        Cerrar sesión
-                      </button>
-                    </li>
-                  </ul>
-                </div>
+              <li>
+                <Link
+                  to="/add_beer"
+                  className={`${
+                    !jwt
+                      ? "dropdown-item text-dark d-none"
+                      : "dropdown-item text-dark"
+                  }`}
+                >
+                  Agregar producto
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/add_event"
+                  className={`${
+                    !jwt
+                      ? "dropdown-item text-dark d-none"
+                      : "dropdown-item text-dark"
+                  }`}
+                >
+                  Agregar Evento
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/my_account"
+                  className={`${
+                    !jwt
+                      ? "dropdown-item text-dark d-none"
+                      : "dropdown-item text-dark"
+                  }`}
+                >
+                  Mi cuenta
+                </Link>
+              </li>
+              <li>
+                <hr
+                  className={`${
+                    !jwt ? "dropdown-divider d-none" : "dropdown-divider"
+                  }`}
+                />
+              </li>
+              <li>
+                <Link
+                  to="/login"
+                  className={`${
+                    !jwt
+                      ? "dropdown-item text-dark"
+                      : "dropdown-item text-dark d-none"
+                  }`}
+                >
+                  Iniciar Sesión
+                </Link>
+              </li>
+              <li>
+                <button
+                  className={`${
+                    !jwt
+                      ? "dropdown-item text-dark d-none"
+                      : "dropdown-item text-dark"
+                  }`}
+                  onClick={logout}
+                >
+                  Cerrar sesión
+                </button>
               </li>
             </ul>
           </div>
