@@ -9,14 +9,17 @@ export const Ticker = () => {
 
   useEffect(() => {
     if (beers.length > 0 && breweries.length > 0) {
+      const findBreweryName = (breweryId, breweries) => {
+        const brewery = breweries.find((b) => b.id === breweryId);
+        return brewery ? brewery.name : "Brewery not found";
+      };
+
       const generateTickerText = () => {
         let text = "";
         for (let i = 0; i < 5; i++) {
-          // Show 3 combinations
           const randomBeer = beers[Math.floor(Math.random() * beers.length)];
-          const randomBrewery =
-            breweries[Math.floor(Math.random() * breweries.length)];
-          text += `${randomBeer.name}-<span class="brewery-name">${randomBrewery.name}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`;
+          const breweryName = findBreweryName(randomBeer.brewery_id, breweries);
+          text += `${randomBeer.name} - <span class="brewery-name">${breweryName}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`;
         }
         return text;
       };
@@ -26,7 +29,7 @@ export const Ticker = () => {
 
       const intervalId = setInterval(() => {
         setTickerText(generateTickerText() + generateTickerText());
-      }, 60000); // Adjust the time interval as needed (10s to match the animation duration)
+      }, 60000); // Adjust the time interval as needed (60s in this case)
 
       return () => clearInterval(intervalId);
     }
