@@ -14,6 +14,7 @@ export const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { store } = useContext(Context);
   const { events } = store;
+  console.log(events);
 
   // Default images if no events or no images in events
   const defaultImages = [Slider1, Slider2, Slider3, Slider4, Slider5];

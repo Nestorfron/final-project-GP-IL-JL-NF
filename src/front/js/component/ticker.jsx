@@ -38,7 +38,7 @@ export const Ticker = () => {
   return (
     <div className="ticker-container w-100">
       <div
-        className="ticker-text w-100"
+        className="ticker-text w-75"
         dangerouslySetInnerHTML={{ __html: tickerText }}
       ></div>
     </div>
