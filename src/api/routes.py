@@ -324,3 +324,15 @@ def delete_event():
         return jsonify({"error": f"{error}"}), 500
     
 
+#endopoint para obtener vista de detalles de cerveza
+
+@api.route('/beer/<int:beer_id>', methods=['GET'])
+def get_beer_details(beer_id):
+    try:
+        beer = Beer.query.get(beer_id)
+        if beer is None:
+            return jsonify({"error": "Cerveza no encontrada"}), 404
+        return jsonify(beer.serialize()), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+    
