@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/beerDetails.css";
@@ -8,6 +8,7 @@ export const BeerDetails = () => {
   const { id } = useParams();
   const { store, actions } = useContext(Context);
   const { beerDetails, breweries } = store;
+  const navigate = useNavigate();
 
   useEffect(() => {
     actions.getBeerDetails(id);
@@ -22,15 +23,21 @@ export const BeerDetails = () => {
 
     return brewery ? brewery.logo_of_brewery : "path/to/placeholder-image.jpg";
   };
+  const handleBreweryClick = (breweryId) => {
+    navigate(`/brewery/${breweryId}`);
+  };
+
   return (
-    <div>
-      <div className="m-5 text-center">
+    <div w-75>
+      <div className="logo-header p-5 d-flex justify-content-center row">
         <img
-          className=" brewery-beer-details-picture"
+          className=" brewery-beer-details-picture col-12"
           src={findBreweryLogo(beerDetails.brewery_id, breweries)}
+          onClick={() => handleBreweryClick(beerDetails.brewery_id)}
+          style={{ cursor: "pointer" }}
         />
       </div>
-      <div className="container-fluid text-light d-flex justify-content-center row">
+      <div className="container-fluid text-light d-flex justify-content-center align-items-center row">
         <div className="beer-text col-6">
           <div className="beer-details-header">
             <h2 className="beer-name">{beerDetails.name}</h2>
@@ -42,7 +49,7 @@ export const BeerDetails = () => {
             <p>ABV: {beerDetails.volALC}</p>
           </div>
         </div>
-        <div className="container text-center col-6">
+        <div className="d-flex justify-content-center align-items-center col-6">
           <img
             className="beer-detail-picture"
             src={beerDetails.picture_of_beer_url}
