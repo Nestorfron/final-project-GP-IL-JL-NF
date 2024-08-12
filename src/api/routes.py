@@ -125,7 +125,7 @@ def create_new_beer():
         return jsonify({"new_beer": new_beer.serialize()}), 201
     except Exception as error:
         db.session.rollback()
-        return jsonify({"error: f'{error}"}), 500
+        return jsonify({"error": f"{error}"}), 500
     
 #Endpoint de POST de Nuevo evento (requiere token)
 

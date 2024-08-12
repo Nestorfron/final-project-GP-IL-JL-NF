@@ -1,13 +1,14 @@
 import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/beerCards.css";
 import HazyIPA from "../../img/hazyipa.jpeg";
 import { BeerDetails } from "../pages/beer_details.jsx";
 
 export const BeerCards = () => {
-
   const { store, actions } = useContext(Context);
   const { beers, breweries, beerDetails } = store;
+  const navigate = useNavigate();
 
   const [selectedBeer, setSelectedBeer] = useState(null);
 
@@ -20,9 +21,9 @@ export const BeerCards = () => {
     return brewery ? brewery.name : "Brewery not found";
   };
 
-  const handleMoreInfoClick = (beerId) => {
-    actions.getBeerDetails(beerId); // Call the flux action
-    setSelectedBeer(beerId);
+  const handleMoreInfoClick = async (beerId) => {
+    await actions.getBeerDetails(beerId); // Call the flux action to get beer details
+    navigate(`/beer/${beerId}`); // Navigate to the beer details page
   };
 
   return (

@@ -173,6 +173,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           );
           if (!response.ok) {
+            const errorText = await response.text();
+            console.log("Error:", errorText);
             return false;
           }
           const data = await response.json();
@@ -388,7 +390,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       getBeerDetails: async (beer_id) => {
         try {
           const response = await fetch(
-            process.env.BACKEND_URL + "/beer/<int:beer_id>",
+            process.env.BACKEND_URL + `/api/beer/${beer_id}`,
             {
               method: "GET",
               headers: {
