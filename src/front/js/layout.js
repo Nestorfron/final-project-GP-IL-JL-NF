@@ -15,6 +15,7 @@ import Add_Beer from "./pages/add_beer.jsx";
 import Add_Event from "./pages/add_event.jsx";
 import MyAccount from "./pages/my_account.jsx";
 import { BeerDetails } from "./pages/beer_details.jsx";
+import { BreweryDetails } from "./pages/brewery.jsx";
 
 //create your first component
 const Layout = () => {
@@ -40,6 +41,7 @@ const Layout = () => {
             <Route element={<Add_Event />} path="/add_event" />
             <Route element={<MyAccount />} path="/my_account" />
             <Route element={<BeerDetails />} path="/beer/:id" />
+            <Route element={<BreweryDetails />} path="/brewery/:breweryId" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />
