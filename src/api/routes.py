@@ -14,7 +14,9 @@ email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
-CORS(api)
+
+CORS(api, resources={r"/api/*": {"origins": "*"}})  
+
 
 
 #Endpoint de registro de usuario
@@ -324,3 +326,27 @@ def delete_event():
         return jsonify({"error": f"{error}"}), 500
     
 
+@api.route('/api/search_beers', methods=['GET'])
+
+def search_beers():
+    query = request.args.get('query', '')
+    print(query)
+    if not query:
+        return jsonify([])
+
+    results = Beer.query.filter(Beer.name.ilike(f'%{query}%')).all()
+    beers = [{
+        "id": beer.id,
+        "name": beer.name,
+        "bjcp_style": beer.bjcp_style,
+        "IBUs": beer.IBUs,
+        "volALC": beer.volALC,
+        "description": beer.description,
+        "picture_of_beer_url": beer.picture_of_beer_url
+    } for beer in results]
+
+    return jsonify(beers)
+
+
+if __name__ == "__main__":
+    api.run(debug=True)

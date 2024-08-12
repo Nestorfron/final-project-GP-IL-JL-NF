@@ -1,14 +1,15 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-
 import "../../styles/index.css";
 import BEER from "../../img/BEER.jpeg";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
-  const jwt = localStorage.getItem("token");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showResults, setShowResults] = useState(false);
   const navigate = useNavigate();
+  const jwt = localStorage.getItem("token");
 
   function logout() {
     actions.logout();
@@ -21,11 +22,32 @@ export const Navbar = () => {
       navigate("/");
       return;
     }
-  }, []);
+  }, [navigate]);
+
+  const handleSearchChange = (event) => {
+    console.log("handelsearchchange")
+    setSearchQuery(event.target.value);
+    console.log(event)
+    if (event.target.value.length > 2) {
+    
+      actions.searchBeers(event.target.value);
+      setShowResults(true);
+    } else {
+      setShowResults(false);
+    }
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    if (searchQuery.length > 2) {
+      actions.searchBeers(searchQuery);
+      setShowResults(true);
+    }
+  };
 
   return (
     <nav className="container-nav navbar navbar-expand-lg">
-      <div class="beer-container">
+      <div className="beer-container">
         <Link to="/">
           <img src={BEER} alt="BEER" className="beer-image" />
         </Link>
@@ -99,13 +121,30 @@ export const Navbar = () => {
             </li>
           </ul>
           <hr />
-          <form className="d-flex" role="search">
+          <form className="d-flex" role="search" onSubmit={handleSearchSubmit}>
             <input
               className="form-control me-2"
-              type="search"
+              type="text"
               placeholder="Search"
-              aria-label="Search"
+              //aria-label="Search"
+              value={searchQuery}
+              onChange={(e)=>handleSearchChange(e)}
             />
+            {showResults && (
+              <ul className="search-results">
+                {store.searchResults.length > 0 ? (
+                  store.searchResults.map((beer) => (
+                    <li key={beer.id}>
+                      <Link to={`/beer/${beer.id}`} className="dropdown-item">
+                        {beer.name}
+                      </Link>
+                    </li>
+                  ))
+                ) : (
+                  <li className="dropdown-item">No se encontraron resultados</li>
+                )}
+              </ul>
+            )}
           </form>
           <hr />
           <div className="signin-button">

@@ -43,7 +43,7 @@ class Brewery(db.Model):
 
 
     def __repr__(self):
-        return f'<User {self.name}>'
+        return f'<Brewery {self.name}>'
 
     def serialize(self):
         return {
@@ -72,7 +72,7 @@ class Beer(db.Model):
 
 
     def __repr__(self):
-        return f'<User {self.name}>'
+        return f'Beer {self.name}>'
 
     def serialize(self):
         return {
@@ -99,7 +99,7 @@ class Event(db.Model):
     
 
     def __repr__(self):
-        return f'<User {self.name}>'
+        return f'<Event {self.name}>'
 
     def serialize(self):
         return {

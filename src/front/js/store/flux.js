@@ -9,6 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userBeers: [],
       breweryEvents: [],
       userStyles: [],
+      searchResults: [],
     },
     actions: {
       //REGISTER USER//
@@ -383,6 +384,30 @@ const getState = ({ getStore, getActions, setStore }) => {
         } catch (error) {
           console.log(error);
         }
+      },
+      searchBeers: async (query) => {
+        console.log(query)
+        try {
+          const response = await fetch(
+            `${
+              process.env.BACKEND_URL
+            }/api/search_beers?query=${encodeURIComponent(query)}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          if (!response.ok) {
+            const errorData = await response.text();
+            console.error("Error fetching beers:", errorData);
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const data = await response.json();
+          setStore({ beers: data });
+        } catch (error) {}
       },
     },
   };
