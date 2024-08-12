@@ -1,0 +1,14 @@
+.beer-detail-picture {
+  width: 300px;
+  height: auto;
+  border-radius: 5%;
+}
+.brewery-beer-details-picture {
+  width: 400px;
+  height: auto;
+}
+.Description {
+  border-bottom: solid white;
+  max-width: 90%;
+  font-size: large;
+}

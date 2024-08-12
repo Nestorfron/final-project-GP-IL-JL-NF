@@ -9,7 +9,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       userBeers: [],
       breweryEvents: [],
       userStyles: [],
+<<<<<<< HEAD
       searchResults: [],
+=======
+      beerDetails: [],
+>>>>>>> 4e3ed42a6916f763c7f3449f2ded07115d59ac78
     },
     actions: {
       //REGISTER USER//
@@ -173,6 +177,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           );
           if (!response.ok) {
+            const errorText = await response.text();
+            console.log("Error:", errorText);
             return false;
           }
           const data = await response.json();
@@ -392,6 +398,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             `${
               process.env.BACKEND_URL
             }/api/search_beers?query=${encodeURIComponent(query)}`,
+    
             {
               method: "GET",
               headers: {
@@ -399,15 +406,34 @@ const getState = ({ getStore, getActions, setStore }) => {
               },
             }
           );
+          const data = await response.json();
+          setStore({ beers: data });
+          }catch(error)
+          {console.log(error)}
+        },
+          getBeerDetails: async (beer_id) => {
+            try {
+              const response = await fetch(
+                process.env.BACKEND_URL + `/api/beer/${beer_id}`,
+                {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              )
 
           if (!response.ok) {
             const errorData = await response.text();
             console.error("Error fetching beers:", errorData);
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
+         
           const data = await response.json();
-          setStore({ beers: data });
-        } catch (error) {}
+          setStore({ beerDetails: data });
+        } catch (error) {
+          console.log(error);
+        }
       },
     },
   };
