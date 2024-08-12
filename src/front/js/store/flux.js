@@ -9,6 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userBeers: [],
       breweryEvents: [],
       userStyles: [],
+      beerDetails: [],
     },
     actions: {
       //REGISTER USER//
@@ -380,6 +381,26 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await response.json();
           return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      getBeerDetails: async (beer_id) => {
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/beer/<int:beer_id>",
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (!response.ok) {
+            return false;
+          }
+          const data = await response.json();
+          setStore({ beerDetails: data });
         } catch (error) {
           console.log(error);
         }

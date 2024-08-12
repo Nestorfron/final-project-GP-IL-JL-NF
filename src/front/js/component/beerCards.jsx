@@ -1,11 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/beerCards.css";
 import HazyIPA from "../../img/hazyipa.jpeg";
+import { BeerDetails } from "../pages/beer_details.jsx";
 
 export const BeerCards = () => {
-  const { store } = useContext(Context);
-  const { beers, breweries } = store;
+  const { store, actions } = useContext(Context);
+  const { beers, breweries, beerDetails } = store;
+
+  const [selectedBeer, setSelectedBeer] = useState(null);
 
   const latestBeers = Array.isArray(beers)
     ? beers.sort((a, b) => b.id - a.id).slice(0, 9)
@@ -14,6 +17,11 @@ export const BeerCards = () => {
   const findBreweryName = (breweryId, breweries) => {
     const brewery = breweries.find((b) => b.id === breweryId);
     return brewery ? brewery.name : "Brewery not found";
+  };
+
+  const handleMoreInfoClick = (beerId) => {
+    actions.getBeerDetails(beerId); // Call the flux action
+    setSelectedBeer(beerId);
   };
 
   return (
@@ -40,13 +48,19 @@ export const BeerCards = () => {
               <p className="beer-style">Estilo BJCP: {beer.bjcp_style}</p>
               <p className="beer-IBUs">IBUs: {beer.IBUs}</p>
               <p className="beer-abv">ABV: {beer.volALC}</p>
-              <button className="add-to-basket">Más Info</button>
+              <button
+                className="add-to-basket"
+                onClick={() => handleMoreInfoClick(beer.id)}
+              >
+                Más Info
+              </button>
             </div>
           ))
         ) : (
           <p>No beers available</p>
         )}
       </div>
+      {selectedBeer && beerDetails && <BeerDetails beer={beerDetails} />}
     </div>
   );
 };
