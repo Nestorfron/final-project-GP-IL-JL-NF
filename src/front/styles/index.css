@@ -1,17 +1,27 @@
 /* Estilos generales de la navbar */
 .navbar {
-  margin-top: 20px;
-  margin-bottom: 4px;
+  margin-top: 40 !important;
+  min-height: 80px;
+  margin-bottom: 35px;
   background: rgba(245, 207, 70, 1);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   margin-top: 30px;
-  border-bottom: solid black;
 }
 
+.nav-icon {
+  font-size: 2rem;
+  margin-top: 3px;
+}
+
+.beer-container {
+  position: absolute;
+  top: 5px;
+  right: 47%;
+}
 /* Estilos de la imagen de cerveza */
 .beer-image {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Agregamos transición para la sombra */
 }
@@ -36,6 +46,7 @@
 .dropdown-menu {
   background: rgba(245, 207, 70, 1);
   border: none;
+  width: auto !important;
 }
 
 /* Mostrar el dropdown al pasar el mouse */
@@ -109,51 +120,18 @@ footer .col {
   margin-bottom: 15px;
 }
 
-/* Ajuste para pantallas con un ancho máximo de 950px */
-@media (max-width: 950px) {
-  .navbar {
-    flex-direction: column; /* Disposición en columna para pantallas pequeñas */
-    align-items: center !important; /* Centra el contenido horizontalmente */
-    justify-content: center;
+@media (max-width: 800px) {
+  .beer-container {
+    position: absolute;
+    top: 0px;
+    right: 40%;
   }
-
-  .beer-image {
-    width: 60px; /* Tamaño ajustado para pantallas pequeñas */
-    height: 60px;
-    margin-bottom: 25px; /* Espacio debajo de la imagen */
-    display: flex;
-    align-items: center;
+  .signin-button {
+    margin-left: auto;
+    padding: 4px;
+    width: 4rem;
   }
-
-  .navbar-nav {
-    width: 100%; /* Asegura que los enlaces ocupen el ancho completo */
-    display: flex;
-    flex-direction: column; /* Alinea los enlaces en columna */
-    justify-content: center !important; /* Centra los enlaces verticalmente */
-    align-items: center !important; /* Centra los enlaces horizontalmente */
-    padding: 0; /* Elimina el padding para ajustar el diseño */
-  }
-
-  .nav-link {
-    font-size: 0.85em; /* Tamaño de fuente reducido */
-    padding: 8px 10px; /* Espaciado reducido */
-    margin: 1px 0; /* Margen vertical entre los enlaces */
-    text-align: center; /* Centra el texto dentro del enlace */
-  }
-
-  footer {
-    padding: 10px; /* Espaciado reducido en el pie de página */
-  }
-
-  footer h5 {
-    margin-bottom: 8px; /* Margen reducido en el pie de página */
-  }
-
-  footer li {
-    margin: 0 8px; /* Margen reducido en los elementos del pie de página */
-  }
-
-  footer .col {
-    margin-bottom: 8px; /* Margen reducido en las columnas del pie de página */
+  .estilos {
+    margin-top: 30px;
   }
 }

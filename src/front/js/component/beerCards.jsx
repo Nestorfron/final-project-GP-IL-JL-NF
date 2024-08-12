@@ -5,6 +5,7 @@ import HazyIPA from "../../img/hazyipa.jpeg";
 import { BeerDetails } from "../pages/beer_details.jsx";
 
 export const BeerCards = () => {
+
   const { store, actions } = useContext(Context);
   const { beers, breweries, beerDetails } = store;
 
