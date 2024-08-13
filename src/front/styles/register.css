@@ -40,7 +40,5 @@ label {
   color: #318aac !important;
 }
 .entrar:active {
-  transform: scale(
-    0.5
-  ); /* Reduce ligeramente el tamaño del botón cuando se hace clic */
+  transform: scale(0.5);
 }

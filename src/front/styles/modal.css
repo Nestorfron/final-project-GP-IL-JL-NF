@@ -1,0 +1,88 @@
+/* Modal Container */
+.modal-dialog {
+  max-width: 60%; /* Ajusta el ancho máximo del modal */
+  margin: 1.75rem auto; /* Centra el modal verticalmente con margen */
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+/* Modal Content */
+.modal-content {
+  border-radius: 0.5rem; /* Esquinas redondeadas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+  width: 100%;
+}
+
+/* Modal Header */
+.modal-header {
+  background: rgba(0, 38, 71, 0.89); /* Color de fondo del encabezado */
+  color: #fff; /* Color del texto */
+  border-bottom: 1px solid #e9ecef; /* Línea sutil debajo del encabezado */
+}
+
+.modal-header .modal-title {
+  font-size: 1.5rem; /* Tamaño del texto del título */
+  font-weight: bold; /* Texto en negrita */
+}
+
+.modal-header .btn-close {
+  background-color: #fff; /* Fondo del botón de cerrar */
+  border: 1px solid #007bff; /* Borde del botón de cerrar */
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 1.5rem; /* Espaciado interno */
+  background-color: #f8f9fa; /* Color de fondo */
+  max-height: 80vh; /* Altura máxima del contenido del cuerpo */
+  overflow-y: auto; /* Desplazamiento vertical si es necesario */
+}
+
+/* Modal Footer */
+.modal-footer {
+  border-top: 1px solid #e9ecef; /* Línea sutil encima del pie de página */
+  padding: 1rem; /* Espaciado interno */
+  background-color: #fff; /* Fondo del pie de página */
+  display: flex; /* Flexbox para alineación */
+  justify-content: flex-end; /* Alinea los botones al final */
+}
+
+.modal-footer .btn {
+  background-color: #007bff; /* Color del botón */
+  border: none; /* Sin borde */
+  color: #fff; /* Color del texto */
+  font-size: 1rem; /* Tamaño del texto */
+  font-weight: bold; /* Texto en negrita */
+  padding: 0.5rem 1rem; /* Espaciado interno */
+  border-radius: 0.25rem; /* Esquinas redondeadas */
+  transition: background-color 0.3s; /* Transición suave para el hover */
+}
+
+.modal-footer .btn:hover {
+  background-color: #0056b3; /* Color del botón al pasar el cursor */
+}
+
+/* Modal Close Button */
+.modal-close {
+  color: #fff; /* Color del botón de cerrar */
+  opacity: 0.8; /* Opacidad ligeramente reducida */
+}
+
+.modal-close:hover {
+  opacity: 1; /* Opacidad completa al pasar el cursor */
+}
+
+/* Modal on Small Screens */
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-width: 95%; /* Ancho completo en pantallas pequeñas */
+    margin: 0; /* Sin margen vertical */
+  }
+
+  .modal-body {
+    padding: 1rem; /* Reducir el espaciado interno en pantallas pequeñas */
+  }
+
+  .modal-footer .btn {
+    padding: 0.5rem 0.75rem; /* Reducir el espaciado interno en pantallas pequeñas */
+  }
+}

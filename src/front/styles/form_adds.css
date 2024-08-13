@@ -1,0 +1,73 @@
+/* General Form Container */
+.form-container {
+  background: #f8f9fa; /* Light background color */
+  padding: 2rem; /* Space around the form */
+  border-radius: 0.5rem; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  max-width: 800px; /* Max width for form container */
+  margin: auto; /* Center the form */
+}
+
+/* Heading */
+.form-container h2 {
+  color: #343a40; /* Darker text color for the heading */
+  font-size: 2rem; /* Font size for the heading */
+  margin-bottom: 1.5rem; /* Space below the heading */
+}
+
+/* Form Elements */
+.form-container .form-label {
+  font-weight: bold; /* Bold labels */
+  color: #495057; /* Slightly lighter text color for labels */
+}
+
+.form-container .form-control {
+  border-radius: 0.25rem; /* Rounded corners for inputs */
+  border: 1px solid #ced4da; /* Border color for inputs */
+  box-shadow: none; /* Remove default shadow */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus */
+}
+
+.form-container .form-control:focus {
+  border-color: #007bff; /* Border color on focus */
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25); /* Shadow on focus */
+}
+
+.form-container .btn {
+  background-color: #007bff; /* Primary button color */
+  border: none; /* Remove border */
+  border-radius: 0.25rem; /* Rounded corners */
+  padding: 0.75rem 1.5rem; /* Padding inside the button */
+  color: #fff; /* White text color */
+  font-size: 1rem; /* Font size for the button */
+  font-weight: bold; /* Bold button text */
+  transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for hover */
+}
+
+.form-container .btn:hover {
+  background-color: #0056b3; /* Darker button color on hover */
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5); /* Shadow on hover */
+}
+
+/* Input File Styling */
+.form-container input[type="file"] {
+  border: none; /* Remove default border */
+  padding: 0.5rem; /* Padding around the file input */
+  background-color: #e9ecef; /* Light background for file input */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 1rem; /* Reduce padding on smaller screens */
+  }
+
+  .form-container .row {
+    flex-direction: column; /* Stack columns vertically */
+  }
+
+  .form-container .col-md-6 {
+    width: 100%; /* Full width for columns */
+    margin-bottom: 1rem; /* Space below each column */
+  }
+}

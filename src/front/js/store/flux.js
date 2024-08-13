@@ -119,6 +119,53 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+
+      edit_breweries: async (
+        id,
+        name,
+        address,
+        history,
+        facebook_url,
+        instagram_url,
+        picture_of_brewery_url,
+        x_url,
+        logo_of_brewery_url
+      ) => {
+        const action = getActions();
+        const jwt = localStorage.getItem("token");
+
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/edit_breweries",
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                id,
+                name,
+                address,
+                history,
+                facebook_url,
+                instagram_url,
+                picture_of_brewery_url,
+                x_url,
+                logo_of_brewery_url,
+              }),
+              headers: {
+                "Content-type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            action.getAllBreweries();
+            return true;
+          }
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      },
       //GET USER BREWERIES //
       getUserBreweries: async () => {
         const jwt = localStorage.getItem("token");
@@ -178,6 +225,94 @@ const getState = ({ getStore, getActions, setStore }) => {
           return data;
         } catch (error) {
           console.log(error);
+        }
+      },
+
+      // Editar cervezas
+      edit_beer: async (
+        id,
+        name,
+        beer_id,
+        bjcp_style,
+        IBUs,
+        volALC,
+        description,
+        picture_of_beer_url
+      ) => {
+        const action = getActions();
+        const jwt = localStorage.getItem("token");
+
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/edit_beers",
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                id,
+                name,
+                beer_id,
+                bjcp_style,
+                IBUs,
+                volALC,
+                description,
+                picture_of_beer_url,
+              }),
+              headers: {
+                "Content-type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            action.getAllBeers();
+            return true;
+          }
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      },
+
+      // Editar eventos
+      edit_event: async (
+        id,
+        brewery_id,
+        name,
+        date,
+        description,
+        picture_of_event_url
+      ) => {
+        const action = getActions();
+        const jwt = localStorage.getItem("token");
+
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/edit_event",
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                id,
+                name,
+                brewery_id,
+                date,
+                description,
+                picture_of_event_url,
+              }),
+              headers: {
+                "Content-type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            action.getAllEvents();
+            return true;
+          }
+        } catch (error) {
+          console.log(error);
+          return false;
         }
       },
       //GET STYLES//
