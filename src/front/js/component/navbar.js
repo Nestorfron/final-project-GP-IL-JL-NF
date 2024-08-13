@@ -58,11 +58,15 @@ export const Navbar = () => {
                 Estilos
               </a>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                {store.styles.length > 0 ? (
-                  store.styles.map((style) => (
-                    <li key={style.id}>
-                      <Link className="dropdown-item" to="/" type="submit">
-                        {style.name}
+                {store.beers.length > 0 ? (
+                  store.beers.map((beer) => (
+                    <li key={beer.id}>
+                      <Link
+                        className="dropdown-item"
+                        to={`/styles/${encodeURIComponent(beer.bjcp_style)}`}
+                        type="submit"
+                      >
+                        {beer.bjcp_style}
                       </Link>
                     </li>
                   ))
@@ -71,6 +75,7 @@ export const Navbar = () => {
                 )}
               </ul>
             </li>
+
             <hr />
             <li className="nav-item dropdown">
               <a
@@ -87,7 +92,10 @@ export const Navbar = () => {
                 {store.breweries.length > 0 ? (
                   store.breweries.map((brewery) => (
                     <li key={brewery.id}>
-                      <Link className="dropdown-item" to="/">
+                      <Link
+                        className="dropdown-item"
+                        to={`/brewery/${brewery.id}`}
+                      >
                         {brewery.name}
                       </Link>
                     </li>
