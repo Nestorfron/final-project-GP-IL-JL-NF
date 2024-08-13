@@ -127,7 +127,7 @@ def create_new_beer():
         return jsonify({"new_beer": new_beer.serialize()}), 201
     except Exception as error:
         db.session.rollback()
-        return jsonify({"error": f"{error}"}), 500
+        return jsonify({"error: f'{error}"}), 500
     
 #Endpoint de POST de Nuevo evento (requiere token)
 
@@ -330,7 +330,6 @@ def delete_event():
 
 def search_beers():
     query = request.args.get('query', '')
-    print(query)
     if not query:
         return jsonify([])
 
@@ -348,18 +347,5 @@ def search_beers():
     return jsonify(beers)
 
 
-
-#endopoint para obtener vista de detalles de cerveza
-
-@api.route('/beer/<int:beer_id>', methods=['GET'])
-def get_beer_details(beer_id):
-    try:
-        beer = Beer.query.get(beer_id)
-        if beer is None:
-            return jsonify({"error": "Cerveza no encontrada"}), 404
-        return jsonify(beer.serialize()), 200
-    except Exception as error:
-        return jsonify({"error": f"{error}"}), 500
-    
 if __name__ == "__main__":
     api.run(debug=True)

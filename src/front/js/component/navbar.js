@@ -6,10 +6,11 @@ import BEER from "../../img/BEER.jpeg";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showResults, setShowResults] = useState(false);
   const navigate = useNavigate();
   const jwt = localStorage.getItem("token");
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showResults, setShowResults] = useState(false);
 
   function logout() {
     actions.logout();
@@ -17,31 +18,26 @@ export const Navbar = () => {
   }
 
   useEffect(() => {
-    const jwt = localStorage.getItem("token");
     if (!jwt) {
       navigate("/");
-      return;
     }
-  }, [navigate]);
+  }, [jwt, navigate]);
 
-  const handleSearchChange = (event) => {
-    console.log("handelsearchchange")
-    setSearchQuery(event.target.value);
-    console.log(event)
-    if (event.target.value.length > 2) {
-    
-      actions.searchBeers(event.target.value);
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    if (query) {
+      actions.searchBeers(query); // Asegúrate de que `actions.searchBeers` esté definido
       setShowResults(true);
     } else {
       setShowResults(false);
     }
   };
 
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-    if (searchQuery.length > 2) {
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery) {
       actions.searchBeers(searchQuery);
-      setShowResults(true);
     }
   };
 
@@ -80,10 +76,10 @@ export const Navbar = () => {
                 Estilos
               </a>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                {store.styles.length > 0 ? (
+                {store.styles?.length > 0 ? (
                   store.styles.map((style) => (
                     <li key={style.id}>
-                      <Link className="dropdown-item" to="/" type="submit">
+                      <Link className="dropdown-item" to="/">
                         {style.name}
                       </Link>
                     </li>
@@ -106,7 +102,7 @@ export const Navbar = () => {
                 Cervecerías
               </a>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                {store.breweries.length > 0 ? (
+                {store.breweries?.length > 0 ? (
                   store.breweries.map((brewery) => (
                     <li key={brewery.id}>
                       <Link className="dropdown-item" to="/">
@@ -126,13 +122,12 @@ export const Navbar = () => {
               className="form-control me-2"
               type="text"
               placeholder="Search"
-              //aria-label="Search"
               value={searchQuery}
-              onChange={(e)=>handleSearchChange(e)}
+              onChange={handleSearchChange}
             />
             {showResults && (
               <ul className="search-results">
-                {store.searchResults.length > 0 ? (
+                {store.searchResults?.length > 0 ? (
                   store.searchResults.map((beer) => (
                     <li key={beer.id}>
                       <Link to={`/beer/${beer.id}`} className="dropdown-item">
