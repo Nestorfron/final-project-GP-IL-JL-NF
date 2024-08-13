@@ -34,7 +34,7 @@ export const BeerCards = () => {
           latestBeers.map((beer) => (
             <div
               key={beer.id}
-              className="beer-card col-12 col-sm-6 col-md-4 col-lg-3 mx-2 mb-3"
+              className=" beer-card col-12 col-sm-6 col-md-4 col-lg-3 mx-2 mb-3"
             >
               <div className="d-flex justify-content-center">
                 <img
@@ -43,19 +43,30 @@ export const BeerCards = () => {
                   className="beer-picture"
                 />
               </div>
-              <h4 className="beer-name">{beer.name}</h4>
-              <h5 className="beer-brewery">
-                {findBreweryName(beer.brewery_id, breweries)}
-              </h5>
-              <p className="beer-style">Estilo BJCP: {beer.bjcp_style}</p>
-              <p className="beer-IBUs">IBUs: {beer.IBUs}</p>
-              <p className="beer-abv">ABV: {beer.volALC}</p>
-              <button
-                className="add-to-basket"
-                onClick={() => handleMoreInfoClick(beer.id)}
-              >
-                Más Info
-              </button>
+              <div>
+                <h4 className="beer-name">{beer.name}</h4>
+                <h5 className="beer-brewery">
+                  {findBreweryName(beer.brewery_id, breweries)}
+                </h5>
+                <p className="beer-style d-flex justify-content-between">
+                  <span>Estilo:</span>
+                  <span> {beer.bjcp_style}</span>
+                </p>
+                <p className="beer-IBUs d-flex justify-content-between">
+                  <span>IBUs:</span>
+                  <span> {beer.IBUs}</span>
+                </p>
+                <p className="beer-abv d-flex justify-content-between">
+                  <span>ABV:</span>
+                  <span>{beer.volALC}%</span>
+                </p>
+                <button
+                  className="add-to-basket"
+                  onClick={() => handleMoreInfoClick(beer.id)}
+                >
+                  Más Info
+                </button>
+              </div>
             </div>
           ))
         ) : (

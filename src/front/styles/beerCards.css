@@ -5,7 +5,7 @@
 
 .beer-card {
   width: 100%; /* This means take up 100% of the column, not the entire screen */
-  max-width: 280px; /* Ensures it doesn't exceed the column's width */
+  max-width: 300px; /* Ensures it doesn't exceed the column's width */
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
@@ -13,10 +13,13 @@
   transition: transform 0.2s;
   color: white;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .beer-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 .beer-picture {
