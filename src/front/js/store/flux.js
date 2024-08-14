@@ -123,7 +123,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            console.log(data.breweries);
             setStore({ breweries: data.breweries });
           }
         } catch (error) {
@@ -332,8 +331,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           const response = await fetch(process.env.BACKEND_URL + "/api/styles");
           const data = await response.json();
           if (response.ok) {
-            console.log(data);
-
             setStore({ styles: data.styles });
           }
         } catch (error) {
@@ -367,7 +364,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           const response = await fetch(process.env.BACKEND_URL + "/api/beers");
           const data = await response.json();
           if (response.ok) {
-            console.log(data);
             setStore({ beers: data });
           }
         } catch (error) {
@@ -438,8 +434,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           const response = await fetch(process.env.BACKEND_URL + "/api/events");
           const data = await response.json();
           if (response.ok) {
-            console.log(data);
-
             setStore({ events: data });
           }
         } catch (error) {

@@ -25,7 +25,7 @@ export const Navbar = () => {
 
   return (
     <nav className="container-nav navbar navbar-expand-lg">
-      <div class="beer-container">
+      <div className="beer-container">
         <Link to="/">
           <img src={BEER} alt="BEER" className="beer-image" />
         </Link>
