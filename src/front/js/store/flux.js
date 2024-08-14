@@ -10,6 +10,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       breweryEvents: [],
       userStyles: [],
       beerDetails: [],
+      searchResults: [],
     },
     actions: {
       //REGISTER USER//
@@ -408,6 +409,25 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           setStore({ beerDetails: data });
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      searchBeers: async (query) => {
+        try {
+          const response = await fetch(
+            `${
+              process.env.BACKEND_URL
+            }/api/search_beers?query=${encodeURIComponent(query)}`
+          );
+          console.log(response.status);
+          if (response.status == 200) {
+            const data = await response.json();
+            setStore({ searchResults: data }); 
+          } else {
+            const data = await response.json();
+            console.error(data.msg);
+          }
         } catch (error) {
           console.log(error);
         }

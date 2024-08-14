@@ -27,7 +27,7 @@ export const Navbar = () => {
     const query = e.target.value;
     setSearchQuery(query);
     if (query) {
-      actions.searchBeers(query); // Asegúrate de que `actions.searchBeers` esté definido
+      actions.searchBeers(query); 
       setShowResults(true);
     } else {
       setShowResults(false);
@@ -136,7 +136,9 @@ export const Navbar = () => {
                     </li>
                   ))
                 ) : (
-                  <li className="dropdown-item">No se encontraron resultados</li>
+                  <li className="dropdown-item">
+                    No se encontraron resultados
+                  </li>
                 )}
               </ul>
             )}

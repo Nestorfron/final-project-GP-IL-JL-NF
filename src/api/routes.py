@@ -325,15 +325,17 @@ def delete_event():
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
     
-
-@api.route('/api/search_beers', methods=['GET'])
-
+@api.route('/search_beers', methods=['GET'])
 def search_beers():
     query = request.args.get('query', '')
     if not query:
-        return jsonify([])
+        return jsonify([]), 404 #Agregar codigo de estado
 
     results = Beer.query.filter(Beer.name.ilike(f'%{query}%')).all()
+    #Agregar este chequeo
+    if results == []: 
+        return jsonify({"msg": "No existen cervezas"}), 404 
+
     beers = [{
         "id": beer.id,
         "name": beer.name,
@@ -344,7 +346,9 @@ def search_beers():
         "picture_of_beer_url": beer.picture_of_beer_url
     } for beer in results]
 
-    return jsonify(beers)
+    return jsonify(beers), 200
+
+
 
 
 if __name__ == "__main__":
