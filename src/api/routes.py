@@ -75,12 +75,14 @@ def create_new_brewery():
     x_url = body.get("x_url", None)
     picture_of_brewery_url =  body.get("picture_of_brewery_url", None)
     logo_of_brewery_url = body.get("logo_of_brewery_url", None)
+    latitude = body.get("latitude",None)
+    longitude = body.get("longitude",None)
     if name is None or picture_of_brewery_url is None or logo_of_brewery_url is None:
         return jsonify({"error": "Debes llenar al menos el nombre"}), 400
     try:
         new_brewery = Brewery(user_id=user_data["id"], name = name, address=address, history=history, facebook_url = facebook_url, 
                               instagram_url = instagram_url, x_url = x_url, picture_of_brewery_url = picture_of_brewery_url, 
-                              logo_of_brewery_url = logo_of_brewery_url )
+                              logo_of_brewery_url = logo_of_brewery_url, latitude = latitude, longitude = longitude )
         db.session.add(new_brewery)
         db.session.commit()
         db.session.refresh(new_brewery)
@@ -125,7 +127,7 @@ def create_new_beer():
         return jsonify({"new_beer": new_beer.serialize()}), 201
     except Exception as error:
         db.session.rollback()
-        return jsonify({"error: f'{error}"}), 500
+        return jsonify({"error": f"{error}"}), 500
     
 #Endpoint de POST de Nuevo evento (requiere token)
 
@@ -146,6 +148,7 @@ def create_new_event():
         if not brewery:
             return jsonify({"error": "Debes elegir una cervecería de la lista"}), 404
         new_event = Event(
+            user_id=user_data["id"],
             brewery_id=brewery_id,
             name=name,
             description=description,
@@ -285,6 +288,95 @@ def delete_brewery():
         return jsonify({"message": f"Brewery removed"}), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
+    
+    #endpoint para editar cerveceria REQUIERE TOKEN
+@api.route('/edit_breweries', methods=['PUT'])
+@jwt_required()    
+def edit_breweries():
+    try:
+        body = request.json
+        user_data = get_jwt_identity()
+        brewery_id = body.get("id", None)
+        user_id = user_data.get("id")
+
+        
+        brewery = Brewery.query.filter_by(id=brewery_id, user_id=user_id).first()
+        if brewery is None:
+            return jsonify({'error': 'Brewery not found'}), 404
+
+        
+        brewery.name = body.get("name", brewery.name)
+        brewery.address = body.get("address", brewery.address)
+        brewery.history = body.get("history", brewery.history)
+        brewery.facebook_url = body.get("facebook_url", brewery.facebook_url)
+        brewery.instagram_url = body.get("instagram_url", brewery.instagram_url)
+        brewery.x_url = body.get("x_url", brewery.x_url)
+        brewery.logo_of_brewery_url = body.get("logo_of_brewery_url", brewery.logo_of_brewery_url)
+        brewery.picture_of_brewery_url = body.get("picture_of_brewery_url", brewery.picture_of_brewery_url)
+
+        db.session.commit()
+
+        return jsonify({"message": "Brewery updated successfully"}), 200
+
+    except Exception as error:
+        return jsonify({"error": str(error)}), 500
+    
+    
+#endpoint para editar cervezas REQUIERE TOKEN
+@api.route('/edit_beers', methods=['PUT'])
+@jwt_required()    
+def edit_beers():
+    try:
+         body = request.json
+         user_data = get_jwt_identity()
+         beer_id = body.get("id", None)
+         user_id = user_data.get("id")
+        
+         
+         beer = Beer.query.filter_by(id=beer_id, user_id=user_id).first()
+         if beer is None:
+            return jsonify({'error': 'Beer not found'}), 404
+        
+         beer.name= body.get("name", beer.name)
+         beer.bjcp_style= body.get("bjcp_style", beer.bjcp_style)
+         beer.IBUs= body.get("IBUs", beer.IBUs)
+         beer.volALC= body.get("volALC", beer.volALC)
+         beer.description= body.get("description", beer.description)
+         beer.picture_of_beer_url=body.get("picture_of_beer_url", beer.picture_of_beer_url)
+         
+         db.session.commit()
+         
+         return jsonify({"message": "Beer updated successfully"}), 200
+        
+    except Exception as error:
+        return jsonify({"error": str(error)}), 500
+    
+#endpoint para editar eventos REQUIERE TOKEN
+@api.route('/edit_event', methods=['PUT'])
+@jwt_required()    
+def edit_event():
+    try:
+         body = request.json
+         user_data = get_jwt_identity()
+         event_id = body.get("id", None)
+         user_id = user_data.get("id")
+        
+         
+         event = Event.query.filter_by(id=event_id, user_id=user_id).first()
+         if event is None:
+            return jsonify({'error': 'Event not found'}), 404
+        
+         event.name= body.get("name", event.name)
+         event.date= body.get("bjcp_style", event.date)
+         event.description= body.get("description", event.description)
+         event.picture_of_event_url= body.get("picture_of_event_url", event.picture_of_event_url)
+         
+         db.session.commit()
+         
+         return jsonify({"message": "Beer updated successfully"}), 200
+        
+    except Exception as error:
+        return jsonify({"error": str(error)}), 500
 
 #endpoint para borrar cervezas REQUIERE TOKEN
 
@@ -304,6 +396,7 @@ def delete_beer():
         return jsonify({"message": f"Beer removed"}), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
+    
     
 #endpoint para borrar evento REQUIERE TOKEN
 

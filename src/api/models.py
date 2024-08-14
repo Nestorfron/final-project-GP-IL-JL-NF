@@ -12,6 +12,7 @@ class User(db.Model):
     is_brewer = db.Column(db.Boolean(), nullable=False)
     brewery = db.relationship('Brewery', backref='user', lazy=True)
     beers = db.relationship('Beer', backref='user', lazy=True)
+    events = db.relationship('Event', backref='user', lazy=True)
 
 
     def __repr__(self):
@@ -37,6 +38,8 @@ class Brewery(db.Model):
     x_url = db.Column(db.String(120), nullable=True)
     picture_of_brewery_url = db.Column(db.String(250), nullable=False) 
     logo_of_brewery_url = db.Column(db.String(250), nullable=False) 
+    latitude = db.Column(db.Float, nullable=True)
+    longitude = db.Column(db.Float, nullable=True)
     beers = db.relationship('Beer', backref='brewery', lazy=True)
     events = db.relationship('Event', backref='brewery', lazy=True)
 
@@ -56,7 +59,9 @@ class Brewery(db.Model):
             "instagram_url": self.instagram_url,
             "x_url": self.x_url,
             "picture_of_brewery_url": self.picture_of_brewery_url,
-            "logo_of_brewery": self.logo_of_brewery_url
+            "logo_of_brewery": self.logo_of_brewery_url,
+            "lat": self.latitude,
+            "lng": self.longitude
         }
     
 class Beer(db.Model):
@@ -90,6 +95,7 @@ class Beer(db.Model):
     
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     brewery_id = db.Column(db.Integer, db.ForeignKey('brewery.id'), nullable=False)
     name = db.Column(db.String(120), nullable=False)
     description = db.Column(db.String(120), nullable=False)

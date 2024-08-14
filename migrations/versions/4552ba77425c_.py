@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 3b1a8681fcb3
+Revision ID: 4552ba77425c
 Revises: 
-Create Date: 2024-08-05 17:41:38.681919
+Create Date: 2024-08-13 20:21:06.166038
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '3b1a8681fcb3'
+revision = '4552ba77425c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -38,6 +38,8 @@ def upgrade():
     sa.Column('x_url', sa.String(length=120), nullable=True),
     sa.Column('picture_of_brewery_url', sa.String(length=250), nullable=False),
     sa.Column('logo_of_brewery_url', sa.String(length=250), nullable=False),
+    sa.Column('latitude', sa.Float(), nullable=True),
+    sa.Column('longitude', sa.Float(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
@@ -58,12 +60,14 @@ def upgrade():
     )
     op.create_table('event',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('brewery_id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=120), nullable=False),
     sa.Column('description', sa.String(length=120), nullable=False),
     sa.Column('date', sa.String(length=120), nullable=False),
     sa.Column('picture_of_event_url', sa.String(length=250), nullable=True),
     sa.ForeignKeyConstraint(['brewery_id'], ['brewery.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

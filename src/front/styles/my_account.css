@@ -1,0 +1,125 @@
+/* Encabezados de secciones */
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 2rem;
+}
+
+/* Contenedor con desplazamiento horizontal */
+.overflow-auto {
+  overflow-x: auto;
+  padding: 20px 0;
+}
+
+/* Tarjetas */
+.cardAccount {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #fff;
+  margin-right: 1rem;
+  width: 350px;
+}
+
+.card-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* Contenido de la tarjeta */
+.body-card {
+  padding: 30px;
+
+  flex: 1;
+}
+
+.title-card {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.text-card {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Pie de tarjeta */
+.footer-card {
+  background-color: #ffffffc9;
+  border-top: 1px solid #000000;
+  padding: 15px;
+}
+
+.card-footer .btn {
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+}
+
+/* Botones específicos */
+.btn-danger {
+  background-color: #dc3545;
+  border: none;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  border: none;
+  color: #212529;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+}
+
+/* Enlaces */
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Espaciado */
+.me-4 {
+  margin-right: 1.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 2rem;
+}
+
+.mt-auto {
+  margin-top: auto;
+}
+
+@media (max-width: 576px) {
+  /* Ajuste para pantallas de smartphones */
+  .cardAccount {
+    flex: 1 1 100%; /* Cada tarjeta ocupa el 100% del ancho */
+    max-width: 100%; /* Asegura que la tarjeta no se extienda más allá del contenedor */
+  }
+
+  .cards-container {
+    display: flex;
+    flex-direction: column; /* Coloca las tarjetas en una columna verticalmente */
+    gap: 1rem; /* Espacio entre las tarjetas */
+    align-items: center; /* Centra las tarjetas horizontalmente dentro del contenedor */
+  }
+}
