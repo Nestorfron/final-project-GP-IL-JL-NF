@@ -13,7 +13,14 @@ const getState = ({ getStore, getActions, setStore }) => {
     },
     actions: {
       //REGISTER USER//
-      register: async (email, password, is_brewer, country) => {
+      register: async (
+        email,
+        password,
+        username,
+        is_brewer,
+        country,
+        profile_picture
+      ) => {
         try {
           const response = await fetch(
             process.env.BACKEND_URL + "/api/signup",
@@ -22,7 +29,14 @@ const getState = ({ getStore, getActions, setStore }) => {
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ email, password, country, is_brewer }),
+              body: JSON.stringify({
+                email,
+                password,
+                username,
+                is_brewer,
+                country,
+                profile_picture,
+              }),
             }
           );
           if (!response.ok) {
