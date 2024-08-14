@@ -143,7 +143,7 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
         name: initialEvent.name || "",
         date: initialEvent.date || "",
         description: initialEvent.description || "",
-        result: initialEvent.result || "",
+        // result: initialEvent.result || "",
         brewery_id: initialEvent.brewery_id,
       });
     }
@@ -166,6 +166,7 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
               value={event.name}
               name="name"
               onChange={(e) => handleChange(e)}
+              required
             />
           </div>
           <div className="form form-grup mx-sm-4 mb-4">
@@ -178,6 +179,7 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
               value={event.date}
               name="date"
               onChange={(e) => handleChange(e)}
+              required
             />
           </div>
           <div className="mb-3 mx-sm-4 mb-4">
@@ -204,6 +206,7 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
               value={event.description}
               name="description"
               onChange={(e) => handleChange(e)}
+              required
             />
           </div>
           <select

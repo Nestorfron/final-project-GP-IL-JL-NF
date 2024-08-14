@@ -200,7 +200,7 @@ const MyAccount = () => {
               <img
                 src={event.picture_of_event_url}
                 className="card-img-top card-img"
-                alt={event.name}
+                alt={event.picture_of_event_url}
               />
               <div className="card-body body-card d-flex flex-column">
                 <h4 className="card-title title-card mb-3">{event.name}</h4>

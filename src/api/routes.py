@@ -75,12 +75,14 @@ def create_new_brewery():
     x_url = body.get("x_url", None)
     picture_of_brewery_url =  body.get("picture_of_brewery_url", None)
     logo_of_brewery_url = body.get("logo_of_brewery_url", None)
+    latitude = body.get("latitude",None)
+    longitude = body.get("longitude",None)
     if name is None or picture_of_brewery_url is None or logo_of_brewery_url is None:
         return jsonify({"error": "Debes llenar al menos el nombre"}), 400
     try:
         new_brewery = Brewery(user_id=user_data["id"], name = name, address=address, history=history, facebook_url = facebook_url, 
                               instagram_url = instagram_url, x_url = x_url, picture_of_brewery_url = picture_of_brewery_url, 
-                              logo_of_brewery_url = logo_of_brewery_url )
+                              logo_of_brewery_url = logo_of_brewery_url, latitude = latitude, longitude = longitude )
         db.session.add(new_brewery)
         db.session.commit()
         db.session.refresh(new_brewery)
@@ -146,6 +148,7 @@ def create_new_event():
         if not brewery:
             return jsonify({"error": "Debes elegir una cervecería de la lista"}), 404
         new_event = Event(
+            user_id=user_data["id"],
             brewery_id=brewery_id,
             name=name,
             description=description,
@@ -359,14 +362,14 @@ def edit_event():
          user_id = user_data.get("id")
         
          
-         event = Event.query.filter_by(id=event_id).first()
+         event = Event.query.filter_by(id=event_id, user_id=user_id).first()
          if event is None:
             return jsonify({'error': 'Event not found'}), 404
         
          event.name= body.get("name", event.name)
          event.date= body.get("bjcp_style", event.date)
          event.description= body.get("description", event.description)
-         event.picture_of_event_url= body.get("picture_of_beer_url", event.picture_of_event_url)
+         event.picture_of_event_url= body.get("picture_of_event_url", event.picture_of_event_url)
          
          db.session.commit()
          

@@ -9,6 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userBeers: [],
       breweryEvents: [],
       userStyles: [],
+      LatLng: [],
     },
     actions: {
       //REGISTER USER//
@@ -62,6 +63,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         localStorage.removeItem("token");
       },
 
+      setLatLng: (newLocation) => {
+        const store = getStore();
+        setStore({ LatLng: newLocation });
+        console.log(store.LatLng.lat, store.LatLng.lng);
+      },
       //ADD BREWERY
       add_brewery: async (
         name,
@@ -74,6 +80,9 @@ const getState = ({ getStore, getActions, setStore }) => {
         logo_of_brewery_url
       ) => {
         const jwt = localStorage.getItem("token");
+        const store = getStore();
+        const latitude = store.LatLng.lat;
+        const longitude = store.LatLng.lng;
         try {
           const response = await fetch(
             process.env.BACKEND_URL + "/api/create_new_brewery",
@@ -92,6 +101,8 @@ const getState = ({ getStore, getActions, setStore }) => {
                 picture_of_brewery_url,
                 x_url,
                 logo_of_brewery_url,
+                latitude,
+                longitude,
               }),
             }
           );
@@ -277,8 +288,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Editar eventos
       edit_event: async (
         id,
-        brewery_id,
         name,
+        brewery_id,
         date,
         description,
         picture_of_event_url
@@ -414,6 +425,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
+            console.log(data);
             setStore({ breweryEvents: data.events });
           }
         } catch (error) {

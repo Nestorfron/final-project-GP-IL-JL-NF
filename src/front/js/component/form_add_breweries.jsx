@@ -111,7 +111,7 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
         const result = await uploadFile(logo_of_brewery);
         if (result) {
           console.log(result);
-          console.log(logo_of_brewery);
+          console.log(logo_of_brewery.name);
         }
         const result1 = await uploadFile(picture_of_brewery);
         if (result1) {
@@ -119,7 +119,6 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
         }
 
         const response = await actions.add_brewery(
-          id,
           brewery.name,
           brewery.address,
           brewery.history,
