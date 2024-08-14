@@ -4,6 +4,7 @@ import { Context } from "../store/appContext";
 import { uploadFile } from "../../../firebase/config";
 import Swal from "sweetalert2";
 import "../../styles/form_adds.css";
+import Map from "../component/map.jsx";
 
 const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
   const { store, actions } = useContext(Context);
@@ -299,6 +300,12 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
             onChange={(e) => setLogo_of_brewery(e.target.files[0])}
             required
           />
+        </div>
+        <div className="py-5">
+          <label htmlFor="map" className="form-label fw-bold">
+            Agrega tu ubicación
+          </label>
+          <Map />
         </div>
 
         <div className="d-flex justify-content-center">
