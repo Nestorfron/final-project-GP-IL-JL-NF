@@ -459,7 +459,7 @@ def search_beers():
     return jsonify(beers), 200
 
 #endopoint para crear un review
-@api.route('/review', methods=['POST'])
+@api.route('/reviews', methods=['POST'])
 @jwt_required()
 def create_review():
     body = request.json
@@ -530,4 +530,23 @@ def delete_review(review_id):
 
     
     
+
+@api.route('/reviews/<int:beer_id>', methods=['GET'])
+
+def get_reviews_for_beer(beer_id):
+    try:
+        # Query reviews based on beer_id
+        reviews = Review.query.filter_by(beer_id=beer_id).all()
+        
+        # If no reviews found, return an empty list
+        if not reviews:
+            return jsonify({"reviews": []}), 200
+        
+        # Serialize the review data
+        serialized_reviews = [review.serialize() for review in reviews]
+
+        return jsonify({"reviews": serialized_reviews}), 200
+
+    except Exception as error:
+        return jsonify({"error": str(error)}), 500
 
