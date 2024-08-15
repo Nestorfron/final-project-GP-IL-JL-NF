@@ -550,3 +550,19 @@ def get_reviews_for_beer(beer_id):
     except Exception as error:
         return jsonify({"error": str(error)}), 500
 
+#Endpoint para obtener username y profile_picture por user_id
+@api.route('/users/', methods=['GET'])
+def get_all_users():
+    users = User.query.all()
+    if not users:
+        return jsonify({"error": "Users not found"}), 404
+
+    users_data = [
+        {
+            "id": user.id,
+            "username": user.username,
+            "profile_picture": user.profile_picture
+        } for user in users
+    ]
+
+    return jsonify(users_data), 200

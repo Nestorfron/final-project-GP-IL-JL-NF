@@ -12,6 +12,7 @@ export const ReviewModal = ({ show, handleClose, beer_id, submitReview }) => {
       console.log("Submitting review with beer_id:", beer_id);
       console.log(comment);
       console.log(rating);
+
       if (result) {
         console.log("Review submitted successfully:", result);
       } else {

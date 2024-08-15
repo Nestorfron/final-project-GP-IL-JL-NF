@@ -9,7 +9,7 @@ import emptyGlass from "../../img/empty.jpg";
 export const BeerDetails = () => {
   const { id } = useParams();
   const { store, actions } = useContext(Context);
-  const { beerDetails, breweries, reviews } = store;
+  const { beerDetails, breweries, reviews, users } = store;
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
@@ -17,10 +17,13 @@ export const BeerDetails = () => {
     actions.getBeerDetails(id);
     actions.getAllBreweries();
     actions.getBeerReviews(id);
-  }, [id]);
+    actions.getAllUsers();
+  }, []);
 
   console.log("Beer Details:", beerDetails);
   console.log("Reviews:", reviews);
+  console.log("User Profile Picture:", users.user_id);
+  console.log(beerDetails);
 
   if (!beerDetails || !breweries) {
     return <p>Loading...</p>;
@@ -38,9 +41,16 @@ export const BeerDetails = () => {
   const handleModalClose = () => setShowModal(false);
   const handleModalShow = () => setShowModal(true);
 
-  const submitReview = (beer_id, rating, comment) => {
-    actions.addReview(beer_id, rating, comment);
+  const submitReview = async (beer_id, rating, comment) => {
+    try {
+      await actions.addReview(beer_id, rating, comment);
+      actions.getBeerReviews(beer_id);
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    }
   };
+
+  const sortedReviews = reviews.slice().sort((a, b) => b.id - a.id);
 
   return (
     <div className="container-fluid beer-details-whole-body w-100 text-dark bg-white p-5">
@@ -93,42 +103,55 @@ export const BeerDetails = () => {
       {/* Reviews Section */}
       <div className="reviews-section mt-5">
         <h3>Reviews</h3>
-        {reviews && reviews.length > 0 ? (
-          reviews.map((review) => (
-            <div
-              key={review.id}
-              className="review-card d-flex align-items-start mb-4"
-            >
-              <img
-                src={review.user_picture}
-                alt="User"
-                className="user-picture me-3"
-                style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-              />
-              <div className="review-content">
-                <p className="user-name fw-bold">{review.username}</p>
-                <div className="rating mb-2">
-                  {Array.from({ length: review.rating }).map((_, index) => (
-                    <img
-                      key={index}
-                      src={fullGlass}
-                      alt="Full Glass"
-                      style={{ width: "20px", marginRight: "3px" }}
-                    />
-                  ))}
-                  {Array.from({ length: 5 - review.rating }).map((_, index) => (
-                    <img
-                      key={index}
-                      src={emptyGlass}
-                      alt="Empty Glass"
-                      style={{ width: "20px", marginRight: "3px" }}
-                    />
-                  ))}
+        {sortedReviews && sortedReviews.length > 0 ? (
+          sortedReviews.map((review) => {
+            const user = users.find((user) => user.id === review.user_id);
+            return (
+              <div
+                key={review.id}
+                className="review-card d-flex align-items-start mb-4"
+              >
+                {user && (
+                  <img
+                    src={user.profile_picture}
+                    alt={user.username}
+                    className="user-picture me-3"
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      borderRadius: "50%",
+                    }}
+                  />
+                )}
+                <div className="review-content">
+                  <p className="user-name fw-bold">
+                    {user ? user.username : "Loading..."}
+                  </p>
+                  <div className="rating mb-2">
+                    {Array.from({ length: review.rating }).map((_, index) => (
+                      <img
+                        key={index}
+                        src={fullGlass}
+                        alt="Full Glass"
+                        style={{ width: "20px", marginRight: "3px" }}
+                      />
+                    ))}
+                    {Array.from({ length: 5 - review.rating }).map(
+                      (_, index) => (
+                        <img
+                          key={index}
+                          src={emptyGlass}
+                          alt="Empty Glass"
+                          style={{ width: "20px", marginRight: "3px" }}
+                        />
+                      )
+                    )}
+                  </div>
+                  <p>{review.comment}</p>
                 </div>
-                <p>{review.comment}</p>
               </div>
-            </div>
-          ))
+            );
+          })
         ) : (
           <p>No reviews yet.</p>
         )}
