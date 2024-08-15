@@ -10,6 +10,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       breweryEvents: [],
       userStyles: [],
       LatLng: [],
+      searchResults: [],
+      loading: false,
     },
     actions: {
       //REGISTER USER//
@@ -557,6 +559,29 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({ beerDetails: data });
         } catch (error) {
           console.log(error);
+        }
+      },
+      searchBeers: async (query) => {
+        setStore({ loading: true }); // Inicia el estado de carga
+        try {
+          const response = await fetch(
+            `${
+              process.env.BACKEND_URL
+            }/api/search_beers?query=${encodeURIComponent(query)}`
+          );
+          if (response.ok) {
+            const data = await response.json();
+            setStore({ searchResults: data });
+          } else {
+            const errorData = await response.json();
+            console.error("Search error:", errorData.msg);
+            setStore({ searchResults: [] }); // Limpiar los resultados si la búsqueda falla
+          }
+        } catch (error) {
+          console.log("Error:", error);
+          setStore({ searchResults: [] }); // Limpiar los resultados en caso de error
+        } finally {
+          setStore({ loading: false }); // Termina el estado de carga
         }
       },
     },

@@ -1,40 +1,44 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import "../../styles/index.css";
+import "../../styles/Footerimg.css";
+import Footerimg from "../../img/Footer.png";
 
 export const Footer = () => {
   return (
-    <footer className="footer sticky-bottom container-fluid text-light p-3 mt-5">
+    <footer className="footer sticky-bottom container-fluid text-light p-3">
       <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-4">
+        <div className="row d-flex my-4 ">
+          <div className="col">
             <h5>Sobre Nosotros</h5>
             <p>
-              Somos una cervecería dedicada a la creación de cervezas
-              artesanales únicas. Nuestro objetivo es proporcionar experiencias
-              inolvidables a nuestros clientes.
+              Somos un grupo de desarrolladores apasionados por el desarrollo
+              web, y en esta ocasión, nos complace presentarles una plataforma
+              dedicada a los amantes de la cerveza artesanal. Explora nuestras
+              cervezas, descubre nuevos estilos y encuentra tu próxima favorita.
+              ¡Salud!
             </p>
           </div>
-
-          <div className="col-md-4 ms-auto">
+          <div className="col m-auto">
+            <Link to="/">
+              <img src={Footerimg} alt="Footer" className="footer-image" />
+            </Link>
+          </div>
+          <div className="col">
             <h5>Contacto</h5>
-            <p>
-              <i className="fa-solid fa-envelope mx-2"></i> info@cerveceria.com
+            <p className="d-flex justify-content-center pt-1 col-8">
+              <i className="fa-brands fa-instagram mx-2"></i> beerbookapp
             </p>
-            <p>
-              <i className="fa-solid fa-phone mx-2"></i> +34 123 456 789
-            </p>
-            <p>
-              <i className="fa-solid fa-location-dot mx-2"></i> Calle Falsa 123,
-              Madrid, España
+            <p className="d-flex justify-content-center pt-1 col-11">
+              <i className="fa-solid fa-envelope mx-2"></i>{" "}
+              cervezaartesanal082024@gmail.com
             </p>
           </div>
-        </div>
 
-        <div className="text-center">
-          <span className="span">
-            &copy; 2024 Cervecería Artesanal. Todos los derechos reservados.
-          </span>
+          <div className="text-center mt-4">
+            <span className="span">
+              &copy; 2024 Cervecería Artesanal. Todos los derechos reservados.
+            </span>
+          </div>
         </div>
       </div>
     </footer>
