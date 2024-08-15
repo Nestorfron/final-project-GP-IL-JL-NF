@@ -42,7 +42,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         "Venezuela",
       ],
       reviews: [],
-
     },
     actions: {
       //REGISTER USER//
@@ -489,7 +488,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       //DELETE BREWERY
-
       deleteBrewery: async (brewery_id) => {
         const jwt = localStorage.getItem("token");
         try {
@@ -518,7 +516,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       //DELETE BEER
-
       deleteBeer: async (beer_id) => {
         const jwt = localStorage.getItem("token");
         try {
@@ -546,7 +543,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       //DELETE EVENT
-
       deleteEvent: async (event_id) => {
         const jwt = localStorage.getItem("token");
         try {
@@ -614,6 +610,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({ searchResults: [] }); // Limpiar los resultados en caso de error
         } finally {
           setStore({ loading: false }); // Termina el estado de carga
+        }
+      },
 
       // ADD REVIEW //
       addReview: async (beer_id, rating, comment) => {
@@ -661,7 +659,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         } catch (error) {
           console.log(error);
-
         }
       },
     },
