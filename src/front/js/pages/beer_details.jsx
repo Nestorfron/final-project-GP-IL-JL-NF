@@ -1,18 +1,20 @@
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
+import { ReviewModal } from "../component/review_modal.jsx";
 import "../../styles/beerDetails.css";
-import React from "react";
 
 export const BeerDetails = () => {
   const { id } = useParams();
   const { store, actions } = useContext(Context);
-  const { beerDetails, breweries } = store;
+  const { beerDetails, breweries, reviews } = store;
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     actions.getBeerDetails(id);
     actions.getAllBreweries();
+    actions.getReviewsByBeer(id);
   }, [id]);
 
   if (!beerDetails || !breweries) {
@@ -26,6 +28,13 @@ export const BeerDetails = () => {
 
   const handleBreweryClick = (breweryId) => {
     navigate(`/brewery/${breweryId}`);
+  };
+
+  const handleModalClose = () => setShowModal(false);
+  const handleModalShow = () => setShowModal(true);
+
+  const submitReview = (beerId, rating, comment) => {
+    actions.createReview(beerId, rating, comment);
   };
 
   return (
@@ -63,8 +72,11 @@ export const BeerDetails = () => {
               <span>{beerDetails.volALC}%</span>
             </p>
           </div>
+          <button className="btn btn-primary mt-4" onClick={handleModalShow}>
+            Write a Review
+          </button>
         </div>
-        <div className=" container container-logo d-flex justify-content-center align-items-center ">
+        <div className="container container-logo d-flex justify-content-center align-items-center">
           <img
             className="beer-detail-picture m-4"
             src={beerDetails.picture_of_beer_url}
@@ -72,6 +84,58 @@ export const BeerDetails = () => {
           />
         </div>
       </div>
+
+      {/* Reviews Section */}
+      <div className="reviews-section mt-5">
+        <h3>Reviews</h3>
+        {reviews && reviews.length > 0 ? (
+          reviews.map((review) => (
+            <div
+              key={review.id}
+              className="review-card d-flex align-items-start mb-4"
+            >
+              <img
+                src={review.user_picture}
+                alt="User"
+                className="user-picture me-3"
+                style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+              />
+              <div className="review-content">
+                <p className="user-name fw-bold">{review.username}</p>
+                <div className="rating mb-2">
+                  {Array.from({ length: review.rating }).map((_, index) => (
+                    <img
+                      key={index}
+                      src="/path/to/full_glass.png"
+                      alt="Full Glass"
+                      style={{ width: "20px", marginRight: "3px" }}
+                    />
+                  ))}
+                  {Array.from({ length: 5 - review.rating }).map((_, index) => (
+                    <img
+                      key={index}
+                      src="/path/to/empty_glass.png"
+                      alt="Empty Glass"
+                      style={{ width: "20px", marginRight: "3px" }}
+                    />
+                  ))}
+                </div>
+                <p>{review.comment}</p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No reviews yet.</p>
+        )}
+      </div>
+
+      {/* Review Modal */}
+      <ReviewModal
+        show={showModal}
+        handleClose={handleModalClose}
+        beerId={id}
+        submitReview={submitReview}
+      />
     </div>
   );
 };
