@@ -329,10 +329,10 @@ def delete_event():
 def search_beers():
     query = request.args.get('query', '')
     if not query:
-        return jsonify([]), 404 #Agregar codigo de estado
+        return jsonify([]), 404 
 
     results = Beer.query.filter(Beer.name.ilike(f'%{query}%')).all()
-    #Agregar este chequeo
+   
     if results == []: 
         return jsonify({"msg": "No existen cervezas"}), 404 
 

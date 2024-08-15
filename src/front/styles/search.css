@@ -1,0 +1,27 @@
+/* Asegura que el formulario y el contenedor de resultados estén relacionados */
+.d-flex {
+  position: relative;
+}
+
+.search-results {
+  top: 98%; /* Posiciona el contenedor justo debajo del input */
+  left: 0;
+  width: 97%; /* Asegura que el ancho sea el mismo que el del input */
+  background-color: white; /* O el color que prefieras */
+  border: 1px solid #ccc; /* Bordes para que sea similar a un dropdown */
+  z-index: 1000; /* Asegura que el contenedor de resultados esté encima de otros elementos */
+}
+
+.search-results li {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.search-results li:hover {
+  background-color: #f0f0f0;
+}
+
+.search-results a {
+  text-decoration: none;
+  color: inherit;
+}

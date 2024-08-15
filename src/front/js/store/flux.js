@@ -11,6 +11,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userStyles: [],
       beerDetails: [],
       searchResults: [],
+      loading: false, // Nuevo estado de carga
     },
     actions: {
       //REGISTER USER//
@@ -29,7 +30,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           if (!response.ok) {
             return false;
           }
-          const data = response.json();
+          const data = await response.json();
           return data;
         } catch (error) {
           console.log(error);
@@ -114,7 +115,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            console.log(data.breweries);
             setStore({ breweries: data.breweries });
           }
         } catch (error) {
@@ -190,8 +190,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           const response = await fetch(process.env.BACKEND_URL + "/api/styles");
           const data = await response.json();
           if (response.ok) {
-            console.log(data);
-
             setStore({ styles: data.styles });
           }
         } catch (error) {
@@ -225,7 +223,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           const response = await fetch(process.env.BACKEND_URL + "/api/beers");
           const data = await response.json();
           if (response.ok) {
-            console.log(data);
             setStore({ beers: data });
           }
         } catch (error) {
@@ -295,8 +292,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           const response = await fetch(process.env.BACKEND_URL + "/api/events");
           const data = await response.json();
           if (response.ok) {
-            console.log(data);
-
             setStore({ events: data });
           }
         } catch (error) {
@@ -413,23 +408,28 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+
       searchBeers: async (query) => {
+        setStore({ loading: true }); // Inicia el estado de carga
         try {
           const response = await fetch(
             `${
               process.env.BACKEND_URL
             }/api/search_beers?query=${encodeURIComponent(query)}`
           );
-          console.log(response.status);
-          if (response.status == 200) {
+          if (response.ok) {
             const data = await response.json();
-            setStore({ searchResults: data }); 
+            setStore({ searchResults: data });
           } else {
-            const data = await response.json();
-            console.error(data.msg);
+            const errorData = await response.json();
+            console.error("Search error:", errorData.msg);
+            setStore({ searchResults: [] }); // Limpiar los resultados si la búsqueda falla
           }
         } catch (error) {
-          console.log(error);
+          console.log("Error:", error);
+          setStore({ searchResults: [] }); // Limpiar los resultados en caso de error
+        } finally {
+          setStore({ loading: false }); // Termina el estado de carga
         }
       },
     },
