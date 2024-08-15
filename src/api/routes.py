@@ -434,6 +434,30 @@ def get_beer_details(beer_id):
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
     
+
+@api.route('/search_beers', methods=['GET'])
+def search_beers():
+    query = request.args.get('query', '')
+    if not query:
+        return jsonify([]), 404 
+
+    results = Beer.query.filter(Beer.name.ilike(f'%{query}%')).all()
+   
+    if results == []: 
+        return jsonify({"msg": "No existen cervezas"}), 404 
+
+    beers = [{
+        "id": beer.id,
+        "name": beer.name,
+        "bjcp_style": beer.bjcp_style,
+        "IBUs": beer.IBUs,
+        "volALC": beer.volALC,
+        "description": beer.description,
+        "picture_of_beer_url": beer.picture_of_beer_url
+    } for beer in results]
+
+    return jsonify(beers), 200
+
 #endopoint para crear un review
 @api.route('/reviews', methods=['POST'])
 @jwt_required()
@@ -506,6 +530,7 @@ def delete_review(review_id):
 
     
     
+
 @api.route('/reviews/<int:beer_id>', methods=['GET'])
 
 def get_reviews_for_beer(beer_id):
@@ -524,3 +549,4 @@ def get_reviews_for_beer(beer_id):
 
     except Exception as error:
         return jsonify({"error": str(error)}), 500
+
