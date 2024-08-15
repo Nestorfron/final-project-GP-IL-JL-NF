@@ -1,8 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { uploadFile } from "../../../firebase/config";
 import "../../styles/form_adds.css";
+import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
 
 const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
@@ -147,6 +149,7 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
         brewery_id: initialEvent.brewery_id,
       });
     }
+    actions.getUserBreweries();
   }, [initialEvent]);
 
   return (
@@ -170,15 +173,16 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
             />
           </div>
           <div className="form form-grup mx-sm-4 mb-4">
-            <label htmlFor="exampleInputPassword1" className="form-label">
+            <label htmlFor="date" className="form-label">
               Fecha de tu evento
             </label>
-            <input
-              type="text"
+            <DatePicker
+              selected={event.date}
+              onChange={(date) => handleChange(date)}
+              dateFormat="dd/MM/yyyy"
               className="form-control"
-              value={event.date}
+              placeholderText="Elige una fecha"
               name="date"
-              onChange={(e) => handleChange(e)}
               required
             />
           </div>
@@ -210,7 +214,7 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
             />
           </div>
           <select
-            className="form-select ms-4 "
+            className="form-select me-sm-4 mb-4"
             aria-label="Default select example"
             value={event.brewery_id}
             name="brewery_id"

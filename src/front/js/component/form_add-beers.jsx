@@ -154,6 +154,7 @@ const Form_add_beer = ({ id, btnBeer, beer: initialBeer }) => {
         brewery_id: initialBeer.brewery_id,
       });
     }
+    actions.getUserBreweries();
   }, [initialBeer]);
 
   return (
