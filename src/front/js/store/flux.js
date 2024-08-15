@@ -576,7 +576,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           );
           if (!response.ok) {
-            console.error("Failed to submit review");
+            const errorText = await response.text();
+            console.error("Failed to submit review", errorText);
             return false;
           }
           const data = await response.json();
@@ -600,6 +601,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
+            console.log(data.reviews);
             setStore({ reviews: data.reviews });
           }
         } catch (error) {
