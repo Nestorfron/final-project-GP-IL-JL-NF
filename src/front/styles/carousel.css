@@ -1,7 +1,7 @@
 .carousel-container {
   width: 100%;
   overflow: hidden;
-  margin-top: 0px;
+  margin-top: 10px;
 }
 
 .carousel-item-wrapper {
@@ -42,4 +42,12 @@
 .slick-dots li button:before {
   font-size: 12px;
   color: white;
+}
+
+@media (max-width: 800px) {
+  .carousel-container {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 10px;
+  }
 }

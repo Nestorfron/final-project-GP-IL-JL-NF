@@ -124,6 +124,9 @@ footer .col {
 }
 
 @media (max-width: 800px) {
+  * {
+    font-size: 1.3rem !important;
+  }
   .beer-container {
     position: absolute;
     top: 0px;
@@ -135,6 +138,15 @@ footer .col {
     width: 4rem;
   }
   .estilos {
-    margin-top: 30px;
+    margin-top: 40px;
+  }
+  .navbar {
+    margin-top: 40 !important;
+    min-height: 80px;
+    margin-bottom: 0px;
+    background: rgba(245, 207, 70, 1);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-top: 40px;
+    z-index: 2;
   }
 }
