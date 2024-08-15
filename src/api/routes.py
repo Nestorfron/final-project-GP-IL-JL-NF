@@ -23,18 +23,23 @@ CORS(api)
 def handle_signup():
     body = request.json
     email = body.get("email", None)
+    username = body.get("username", None)
     password = body.get("password", None)
     country = body.get("country", None)
+    profile_picture = body.get("profile_picture", None)
     is_brewer= body.get("is_brewer", None)
     if not re.match(email_regex, email):
         return jsonify({"error": "El formato del email no es válido"}), 400
+    if User.query.filter_by(email = email).first() is not None:
+        return jsonify({"error": "email ya esta siendo utilizado"}), 400
+    if User.query.filter_by(username = username).first() is not None:
+        return jsonify({"error": "username ya esta siendo utilizado"}), 400
     if email is None or password is None or country is None or is_brewer is None:
         return jsonify({"error": "Todos los campos deben ser llenados"}), 400
     password_hash = generate_password_hash(password)
-    if User.query.filter_by(email = email).first() is not None:
-        return jsonify({"error": "email ya esta siendo utilizado"}), 400
+    
     try: 
-        new_user = User(email = email, password = password_hash, country = country, is_brewer = is_brewer)
+        new_user = User(email = email, username = username, password = password_hash, country = country, profile_picture = profile_picture, is_brewer = is_brewer)
         db.session.add(new_user)
         db.session.commit()
         return jsonify({"mensaje": "Usuario creado exitosamente"}), 201

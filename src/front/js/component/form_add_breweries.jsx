@@ -26,20 +26,6 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if (
-    //   brewery.name == "" ||
-    //   brewery.history == "" ||
-    //   brewery.facebook_url == "" ||
-    //   brewery.address == "" ||
-    //   brewery.instagram_url == "" ||
-    //   brewery.x_url == "" ||
-    //   logo_of_brewery == "" ||
-    //   picture_of_brewery == ""
-    // ) {
-    //   Swal.fire("Advertencia", "Todos los campos son requeridos", "info");
-    //   return;
-    // }
-
     if (id) {
       console.log("editando", id);
       Swal.fire({

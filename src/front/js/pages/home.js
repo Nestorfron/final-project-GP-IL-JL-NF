@@ -9,13 +9,6 @@ import Map from "../component/map.jsx";
 export const Home = () => {
   const { store, actions } = useContext(Context);
 
-  useEffect(() => {
-    actions.getAllBreweries();
-    actions.getAllBeers();
-    actions.getAllEvents();
-    actions.getStyles();
-  }, []);
-
   return (
     <div className="container-fluid d-flex flex-column">
       <div className="container-fluid m-0 p-0">

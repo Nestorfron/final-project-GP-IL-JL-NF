@@ -7,12 +7,16 @@ db = SQLAlchemy()
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    profile_picture= db.Column(db.String(250), nullable=False)
     password = db.Column(db.String(180), nullable=False)
     country = db.Column(db.String(120), nullable=False)
     is_brewer = db.Column(db.Boolean(), nullable=False)
-    brewery = db.relationship('Brewery', backref='user', lazy=True)
-    beers = db.relationship('Beer', backref='user', lazy=True)
-    events = db.relationship('Event', backref='user', lazy=True)
+
+    brewery = db.relationship('Brewery', backref='owner', lazy=True)
+    beers = db.relationship('Beer', backref='creator', lazy=True)
+    events = db.relationship('Event', backref='organizer', lazy=True)
+    reviews = db.relationship('Review', backref='reviewer', lazy=True)
 
 
     def __repr__(self):
@@ -23,7 +27,9 @@ class User(db.Model):
             "id": self.id,
             "email": self.email,
             "country": self.country,
-            "is_brewer": self.is_brewer
+            "is_brewer": self.is_brewer,
+            "username": self.username,
+            "profile_picture": self.profile_picture
             # do not serialize the password, its a security breach
         }
     
@@ -32,7 +38,7 @@ class Brewery(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     name = db.Column(db.String(120), unique=True, nullable=False)
     address = db.Column(db.String(120), nullable=True)
-    history = db.Column(db.String(500), nullable=True)
+    history = db.Column(db.Text, nullable=True)
     facebook_url = db.Column(db.String(120), nullable=True)
     instagram_url = db.Column(db.String(120), nullable=True)
     x_url = db.Column(db.String(120), nullable=True)
@@ -66,14 +72,19 @@ class Brewery(db.Model):
     
 class Beer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    brewery_id = db.Column(db.Integer, db.ForeignKey('brewery.id'), nullable=False)
+    
+
     name = db.Column(db.String(120), nullable=False)
     bjcp_style = db.Column(db.String(120), nullable=False)
     IBUs = db.Column(db.String(120), nullable=False)
     volALC = db.Column(db.String(120), nullable=False)
-    description = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.Text, nullable=False)
     picture_of_beer_url = db.Column(db.String(250), nullable=True) 
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    brewery_id = db.Column(db.Integer, db.ForeignKey('brewery.id'), nullable=False)
+
+    reviews = db.relationship('Review', backref='beer', lazy=True)
 
 
     def __repr__(self):
@@ -92,6 +103,12 @@ class Beer(db.Model):
             "picture_of_beer_url": self.picture_of_beer_url
             
         }
+    def average_rating(self):
+        reviews = Review.query.filter_by(beer_id=self.id).all()
+        if reviews:
+            total_rating = sum(review.rating for review in reviews)
+            return total_rating / len(reviews)
+        return 0
     
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -118,6 +135,28 @@ class Event(db.Model):
         }
 
 
+class Review(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    
+    rating = db.Column(db.Integer, nullable=False)
+    comment = db.Column(db.Text, nullable=False)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    beer_id = db.Column(db.Integer, db.ForeignKey('beer.id'), nullable=False)
+
+
+
+    def __repr__(self):
+        return f'<Review {self.id}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "beer_id": self.beer_id,
+            "rating": self.rating,
+            "comment": self.comment,
+        }
 
 
     
