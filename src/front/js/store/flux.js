@@ -10,6 +10,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       breweryEvents: [],
       userStyles: [],
       LatLng: [],
+
+      searchResults: [],
+      loading: false,
+
       countries: [
         "Antigua y Barbuda",
         "Argentina",
@@ -38,6 +42,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         "Venezuela",
       ],
       reviews: [],
+
     },
     actions: {
       //REGISTER USER//
@@ -587,6 +592,29 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+
+      searchBeers: async (query) => {
+        setStore({ loading: true }); // Inicia el estado de carga
+        try {
+          const response = await fetch(
+            `${
+              process.env.BACKEND_URL
+            }/api/search_beers?query=${encodeURIComponent(query)}`
+          );
+          if (response.ok) {
+            const data = await response.json();
+            setStore({ searchResults: data });
+          } else {
+            const errorData = await response.json();
+            console.error("Search error:", errorData.msg);
+            setStore({ searchResults: [] }); // Limpiar los resultados si la búsqueda falla
+          }
+        } catch (error) {
+          console.log("Error:", error);
+          setStore({ searchResults: [] }); // Limpiar los resultados en caso de error
+        } finally {
+          setStore({ loading: false }); // Termina el estado de carga
+
       // ADD REVIEW //
       addReview: async (beer_id, rating, comment) => {
         const jwt = localStorage.getItem("token");
@@ -631,6 +659,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         } catch (error) {
           console.log(error);
+
         }
       },
     },

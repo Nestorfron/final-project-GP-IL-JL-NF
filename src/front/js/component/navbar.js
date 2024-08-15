@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-
+import "../../styles/search.css";
 import "../../styles/index.css";
 import BEER from "../../img/BEER.jpeg";
 
@@ -14,6 +14,9 @@ export const Navbar = () => {
     actions.logout();
     navigate("/");
   }
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showResults, setShowResults] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const jwt = localStorage.getItem("token");
@@ -22,6 +25,41 @@ export const Navbar = () => {
       return;
     }
   }, []);
+  useEffect(() => {
+    if (searchQuery) {
+      if (store.searchResults && store.searchResults.length === 0 && !loading) {
+        setShowResults(true); // Mostrar "No se encontraron resultados"
+      } else {
+        setShowResults(true); // Mostrar resultados si hay
+      }
+    } else {
+      setShowResults(false); // Ocultar resultados si no hay consulta
+    }
+  }, [store.searchResults, searchQuery, loading]);
+
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    if (query) {
+      setLoading(true); // Establecer carga en true antes de buscar
+      actions.searchBeers(query).finally(() => {
+        setLoading(false); // Restablecer carga después de buscar
+      });
+    } else {
+      setShowResults(false);
+    }
+  };
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery) {
+      setLoading(true); // Establecer carga en true antes de buscar
+      actions.searchBeers(searchQuery).finally(() => {
+        setLoading(false); // Restablecer carga después de buscar
+      });
+      setShowResults(true); // Mostrar resultados después de enviar
+    }
+  };
 
   return (
     <nav className="container-nav navbar navbar-expand-lg">
@@ -107,13 +145,37 @@ export const Navbar = () => {
             </li>
           </ul>
           <hr />
-          <form className="d-flex" role="search">
+          <form
+            className="d-flex position-relative"
+            role="search"
+            onSubmit={handleSearchSubmit}
+          >
             <input
               className="form-control me-2"
-              type="search"
+              type="text"
               placeholder="Search"
-              aria-label="Search"
+              value={searchQuery}
+              onChange={handleSearchChange}
             />
+            {showResults && (
+              <ul className="search-results list-group position-absolute">
+                {loading ? (
+                  <li className="list-group-item">Cargando...</li> // Mensaje de carga
+                ) : store.searchResults?.length > 0 ? (
+                  store.searchResults.map((beer) => (
+                    <li key={beer.id} className="list-group-item">
+                      <Link to={`/beer/${beer.id}`} className="dropdown-item">
+                        {beer.name}
+                      </Link>
+                    </li>
+                  ))
+                ) : (
+                  <li className="list-group-item">
+                    No se encontraron resultados
+                  </li>
+                )}
+              </ul>
+            )}
           </form>
           <hr />
           <div className="signin-button">
