@@ -102,9 +102,13 @@ const Register = () => {
                   onChange={(e) => setCountry(e.target.value)}
                 >
                   <option selected>Select</option>
-                  <option value="1">Uno</option>
-                  <option value="2">Dos</option>
-                  <option value="3">Tres</option>
+                  {store.countries.map((country, index) => {
+                    return (
+                      <option key={index} value={country}>
+                        {country}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
               <div className="mx-sm-4 mb-4">

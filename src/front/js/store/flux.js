@@ -10,8 +10,39 @@ const getState = ({ getStore, getActions, setStore }) => {
       breweryEvents: [],
       userStyles: [],
       LatLng: [],
+
       searchResults: [],
       loading: false,
+
+      countries: [
+        "Antigua y Barbuda",
+        "Argentina",
+        "Bahamas",
+        "Barbados",
+        "Bolivia",
+        "Brasil",
+        "Canadá",
+        "Chile",
+        "Colombia",
+        "Costa Rica",
+        "Cuba",
+        "Dominica",
+        "Ecuador",
+        "Estados Unidos",
+        "Granada",
+        "Guyana",
+        "Jamaica",
+        "México",
+        "Panamá",
+        "Perú",
+        "República Dominicana",
+        "Surinam",
+        "Trinidad y Tobago",
+        "Uruguay",
+        "Venezuela",
+      ],
+      reviews: [],
+
     },
     actions: {
       //REGISTER USER//
@@ -561,6 +592,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+
       searchBeers: async (query) => {
         setStore({ loading: true }); // Inicia el estado de carga
         try {
@@ -582,6 +614,52 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({ searchResults: [] }); // Limpiar los resultados en caso de error
         } finally {
           setStore({ loading: false }); // Termina el estado de carga
+
+      // ADD REVIEW //
+      addReview: async (beer_id, rating, comment) => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/reviews",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+              body: JSON.stringify({ beer_id, rating, comment }),
+            }
+          );
+          if (!response.ok) {
+            console.error("Failed to submit review");
+            return false;
+          }
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      // GET BEER REVIEWS //
+      getBeerReviews: async (beer_id) => {
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + `/api/reviews/${beer_id}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setStore({ reviews: data.reviews });
+          }
+        } catch (error) {
+          console.log(error);
+
         }
       },
     },
