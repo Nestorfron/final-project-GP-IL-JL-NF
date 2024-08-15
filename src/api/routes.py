@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Brewery, Beer, Event
+from api.models import db, User, Brewery, Beer, Event, Review
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -433,4 +433,76 @@ def get_beer_details(beer_id):
         return jsonify(beer.serialize()), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
+    
+#endopoint para crear un review
+@api.route('/review', methods=['POST'])
+@jwt_required()
+def create_review():
+    body = request.json
+    user_data = get_jwt_identity()
+
+    rating = body.get("rating", None)
+    comment = body.get("comment", None)
+    beer_id = body.get("beer_id", None)  
+
+    # Validate input
+    if beer_id is None:
+        return jsonify({"error": "Debes especificar un beer_id"}), 400
+
+    if rating is None or not (1 <= rating <= 5):
+        return jsonify({"error": "Debes dar un rating válido entre 1 y 5 jarritos"}), 400
+
+    if comment is None or comment.strip() == "":
+        return jsonify({"error": "Debes llenar el campo de  comentar"}), 400
+
+    try:
+        # Check if the beer exists
+        beer = Beer.query.get(beer_id)
+        if not beer:
+            return jsonify({"error": "Cerveza no encontrada"}), 404
+
+        new_review = Review(
+            user_id=user_data["id"], 
+            beer_id=beer_id, 
+            rating=rating, 
+            comment=comment
+        )
+        db.session.add(new_review)
+        db.session.commit()
+
+        return jsonify({"new_review": new_review.serialize()}), 201
+
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"error": str(error)}), 500
+
+
+#endopoint para eliminar un review
+@api.route('/review/<int:review_id>', methods=['DELETE'])
+@jwt_required()
+def delete_review(review_id):
+    user_data = get_jwt_identity()
+
+    try:
+       
+        review = Review.query.get(review_id)
+        
+        if not review:
+            return jsonify({"error": "Reseña no encontrada"}), 404
+        
+       
+        if review.user_id != user_data["id"]:
+            return jsonify({"error": "No estás autorizado para eliminar esta reseña"}), 403
+
+       
+        db.session.delete(review)
+        db.session.commit()
+
+        return jsonify({"message": "Reseña eliminada correctamente"}), 200
+
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"error": f'{error}'}), 500
+
+    
     

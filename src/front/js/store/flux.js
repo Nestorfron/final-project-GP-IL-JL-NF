@@ -10,6 +10,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       breweryEvents: [],
       userStyles: [],
       LatLng: [],
+      reviews: [],
     },
     actions: {
       //REGISTER USER//
@@ -555,6 +556,52 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await response.json();
           setStore({ beerDetails: data });
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      // ADD REVIEW //
+      addReview: async (beer_id, rating, comment) => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/reviews",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+              body: JSON.stringify({ beer_id, rating, comment }),
+            }
+          );
+          if (!response.ok) {
+            console.error("Failed to submit review");
+            return false;
+          }
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      // GET BEER REVIEWS //
+      getBeerReviews: async (beer_id) => {
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + `/api/reviews/${beer_id}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setStore({ reviews: data.reviews });
+          }
         } catch (error) {
           console.log(error);
         }
