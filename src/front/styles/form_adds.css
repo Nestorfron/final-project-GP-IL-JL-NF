@@ -6,6 +6,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   max-width: 800px; /* Max width for form container */
   margin: auto; /* Center the form */
+  margin-bottom: 8rem;
 }
 
 /* Heading */

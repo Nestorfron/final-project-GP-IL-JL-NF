@@ -89,6 +89,15 @@ const MyAccount = () => {
     });
   };
 
+  function formatDate(isoString) {
+    const date = new Date(isoString);
+    const day = date.getUTCDate().toString().padStart(2, "0");
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+    const year = date.getUTCFullYear();
+
+    return `${day}/${month}/${year}`;
+  }
+
   useEffect(() => {
     const jwt = localStorage.getItem("token");
     if (!jwt) {
@@ -103,7 +112,7 @@ const MyAccount = () => {
   return (
     <div className="container-fluid">
       {/* Sección de Cervecerías */}
-      <h1 className="text-center text-primary mb-4">Mis Cervecerías</h1>
+      <h1 className="text-center m-4">Mis Cervecerías</h1>
       <div className="overflow-auto d-flex flex-nowrap">
         {store.userBreweries.length > 0 ? (
           store.userBreweries.map((brewery) => (
@@ -142,7 +151,7 @@ const MyAccount = () => {
       </div>
 
       {/* Sección de Cervezas */}
-      <h1 className="text-center text-primary mb-4 mt-5">Mis Cervezas</h1>
+      <h1 className="text-center mb-4 mt-5">Mis Cervezas</h1>
       <div className="overflow-auto d-flex flex-nowrap">
         {store.userBeers.length > 0 ? (
           store.userBeers.map((beer) => (
@@ -189,7 +198,7 @@ const MyAccount = () => {
       </div>
 
       {/* Sección de Eventos */}
-      <h1 className="text-center text-primary mb-4">Mis Eventos</h1>
+      <h1 className="text-center mb-4">Mis Eventos</h1>
       <div className="overflow-auto d-flex flex-nowrap">
         {store.breweryEvents.length > 0 ? (
           store.breweryEvents.map((event) => (
@@ -204,6 +213,10 @@ const MyAccount = () => {
               />
               <div className="card-body body-card d-flex flex-column">
                 <h4 className="card-title title-card mb-3">{event.name}</h4>
+                <h4 className="card-title title-card mb-3">
+                  {formatDate(event.date)}
+                </h4>
+
                 <div className="container-fluid d-flex mt-auto justify-content-between footer-card">
                   <button
                     onClick={() => eventDelete(event.id)}

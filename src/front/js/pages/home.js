@@ -11,19 +11,15 @@ export const Home = () => {
 
   return (
     <div className="container-fluid d-flex flex-column">
-      <div className="container-fluid m-0 p-0">
+      <div className="container-fluid m-0 p-0 shadow">
         <Carousel />
       </div>
-      <div className="container-fluid d-flex justify-content-center mt-3">
+      <div className="container-fluid d-flex justify-content-center mt-3 shadow">
         <BeerCards />
       </div>
-      <div className="container-fluid justify-content-center mt-3">
-        <label
-          htmlFor="logo_of_brewery"
-          className="form-label fw-bold text-white fs-3"
-        >
-          CERVECERÍAS CERCA:
-        </label>
+      <div className="container-fluid justify-content-center mt-3 shadow">
+        <h6 className="map-title fw-bold my-2 mb-4">CERVECERÍAS CERCA:</h6>
+
         <Map />
       </div>
     </div>

@@ -113,7 +113,11 @@ const Map = () => {
                     ? selectedMarker.description
                     : selectedMarker.name}
                 </h4>
-                <p>{selectedMarker.address ? selectedMarker.address : ""}</p>
+                <hr />
+                <p>
+                  Direcicón:{" "}
+                  {selectedMarker.address ? selectedMarker.address : ""}
+                </p>
               </div>
             </InfoWindow>
           )}

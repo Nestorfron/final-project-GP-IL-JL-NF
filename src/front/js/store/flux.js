@@ -175,7 +175,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
-
+      //EDIT BREWERIES//
       edit_breweries: async (
         id,
         name,
@@ -237,6 +237,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
+            console.log(data);
+
             setStore({ userBreweries: data.breweries });
           }
         } catch (error) {

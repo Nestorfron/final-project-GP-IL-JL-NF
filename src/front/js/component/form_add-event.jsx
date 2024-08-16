@@ -11,10 +11,6 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [picture_of_event, setPicture_of_event] = useState(null);
-  //   const [name, setName] = useState("");
-  //   const [description, setdescription] = useState("");
-  //   const [date, setdate] = useState("");
-  //   const [brewery_id, setBrewery_id] = useState("");
   const [event, setEvent] = useState({
     name: "",
     brewery_id: "",
@@ -23,15 +19,48 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
   });
   const [loading, setLoading] = useState(false);
 
+  // Función para manejar el cambio de inputs de texto
   function handleChange(e) {
     setEvent({ ...event, [e.target.name]: e.target.value });
   }
 
+  // Función para manejar el cambio de la fecha
+  const handleDateChange = (date) => {
+    setEvent({ ...event, date: date });
+    console.log(date);
+  };
+
+  // Manejo del archivo de imagen
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    const validExtensions = ["image/jpeg", "image/jpg", "image/png"];
+
+    if (file && !validExtensions.includes(file.type)) {
+      Swal.fire({
+        icon: "error",
+        title: "Formato de archivo no válido",
+        text: "Por favor, sube un archivo en formato JPG, JPEG o PNG.",
+      });
+      setPicture_of_event(null);
+    } else {
+      setPicture_of_event(file);
+    }
+  };
+
+  // Manejo del envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!picture_of_event) {
+      Swal.fire({
+        icon: "error",
+        title: "Archivo no válido",
+        text: "Por favor, sube una imagen válida en formato JPG, JPEG o PNG.",
+      });
+      return;
+    }
+
     if (id) {
-      console.log("editando", id);
       Swal.fire({
         title: "Cargando...",
         text: "Por favor, espere mientras se edita el Evento.",
@@ -43,9 +72,6 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
       });
       try {
         const result = await uploadFile(picture_of_event);
-        if (result) {
-          console.log(result);
-        }
         const response = await actions.edit_event(
           id,
           event.name,
@@ -66,20 +92,18 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
           Swal.fire({
             icon: "error",
             title: "Error",
-            text: "Hubo un problema al editar el Evento. No se pudo",
+            text: "Hubo un problema al editar el Evento.",
           });
         }
       } catch (error) {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: `Hubo un problema al editar el Evento.: ${error.message}`,
+          text: `Hubo un problema al editar el Evento: ${error.message}`,
         });
       }
     } else {
-      console.log("creando");
       setLoading(true);
-
       Swal.fire({
         title: "Cargando...",
         text: "Por favor, espere mientras se crea el Evento.",
@@ -91,9 +115,6 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
       });
       try {
         const result = await uploadFile(picture_of_event);
-        if (result) {
-          console.log(result);
-        }
         const response = await actions.add_event(
           event.name,
           event.brewery_id,
@@ -145,7 +166,6 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
         name: initialEvent.name || "",
         date: initialEvent.date || "",
         description: initialEvent.description || "",
-        // result: initialEvent.result || "",
         brewery_id: initialEvent.brewery_id,
       });
     }
@@ -153,7 +173,7 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
   }, [initialEvent]);
 
   return (
-    <form className="container mt-4 form-container" onSubmit={handleSubmit}>
+    <form className="container mt-5 form-container" onSubmit={handleSubmit}>
       <h2 className="mb-4">{id ? "" : "Añadir Evento"}</h2>
       <div className="row">
         <div className="col-md-6 mb-3">
@@ -168,7 +188,7 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
               aria-describedby="emailHelp"
               value={event.name}
               name="name"
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
               required
             />
           </div>
@@ -178,7 +198,7 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
             </label>
             <DatePicker
               selected={event.date}
-              onChange={(date) => handleChange(date)}
+              onChange={handleDateChange}
               dateFormat="dd/MM/yyyy"
               className="form-control"
               placeholderText="Elige una fecha"
@@ -188,13 +208,14 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
           </div>
           <div className="mb-3 mx-sm-4 mb-4">
             <label htmlFor="formFile" className="form-label">
-              Sube una imagen de tu evento
+              Sube una imagen de tu evento (JPG, JPEG, PNG)
             </label>
             <input
               type="file"
               className="form-control"
               id="inputGroupFile03"
-              onChange={(e) => setPicture_of_event(e.target.files[0])}
+              onChange={handleFileChange}
+              required
             />
           </div>
         </div>
@@ -209,7 +230,7 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
               rows="6"
               value={event.description}
               name="description"
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
               required
             />
           </div>
@@ -218,7 +239,8 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
             aria-label="Default select example"
             value={event.brewery_id}
             name="brewery_id"
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
+            required
           >
             <option value="" selected>
               Selecciona una cervecería
