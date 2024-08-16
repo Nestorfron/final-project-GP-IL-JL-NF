@@ -8,6 +8,7 @@ import BEER from "../../img/BEER.jpeg";
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
   const jwt = localStorage.getItem("token");
+  const user = store.me;
   const navigate = useNavigate();
 
   function logout() {
@@ -193,7 +194,7 @@ export const Navbar = () => {
                 <Link
                   to="/add_brewery"
                   className={`${
-                    !jwt
+                    !jwt || !user.is_brewer
                       ? "dropdown-item text-dark d-none"
                       : "dropdown-item text-dark"
                   }`}
@@ -205,7 +206,7 @@ export const Navbar = () => {
                 <Link
                   to="/add_beer"
                   className={`${
-                    !jwt
+                    !jwt || !user.is_brewer
                       ? "dropdown-item text-dark d-none"
                       : "dropdown-item text-dark"
                   }`}
@@ -217,7 +218,7 @@ export const Navbar = () => {
                 <Link
                   to="/add_event"
                   className={`${
-                    !jwt
+                    !jwt || !user.is_brewer
                       ? "dropdown-item text-dark d-none"
                       : "dropdown-item text-dark"
                   }`}
