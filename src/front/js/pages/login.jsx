@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/login.css";
 import { useNavigate, Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import BEER from "../../img/BEER.jpeg";
 
 const Login = () => {
   const { actions } = useContext(Context);
@@ -13,7 +15,22 @@ const Login = () => {
     e.preventDefault();
     const isLoggedIn = await actions.login(email, password);
     if (!isLoggedIn) {
-      alert("error al iniciar sesión");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Autenticación fallida",
+        text: "El nombre de usuario o la contraseña que has introducido son incorrectos. Por favor, verifica tus credenciales e intenta de nuevo.",
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+        timerProgressBar: true,
+        customClass: {
+          container: "custom-swal-container",
+          popup: "custom-swal-popup",
+          title: "custom-swal-title",
+          content: "custom-swal-content",
+          confirmButton: "custom-swal-confirm-button",
+        },
+      });
     }
     if (isLoggedIn) {
       navigate("/");
@@ -21,50 +38,51 @@ const Login = () => {
   };
 
   return (
-    <div className="container mt-5 home-login">
-      <div className="row justify-content-center pt-5 mt-5 mr-1">
-        <div className="formulario-login col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
-          <img
-            className="avatar"
-            src="https://www.alestilojalisco.com.mx/storage/articulos/salud-llega-la-ruta-de-la-cerveza-20220503171022.jpeg"
-            alt="logo empresa"
-          />
-          <form onSubmit={handleSubmitLogin}>
-            <div className="form form-grup mt-5 mb-5">
-              <div className="card-body">
-                <div className="form-grup mx-sm-4 mb-3 mt-1">
-                  <h1>Login</h1>
-                  <input
-                    className="email form-control form-control-lg"
-                    placeholder="Email"
-                    value={email}
-                    type="text"
-                    aria-label=".form-control-lg example"
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="form-grup mx-sm-4 mb-3 mt-1">
-                  <input
-                    type="password"
-                    className="pass form-control form-control-lg"
-                    id="inputPassword"
-                    value={password}
-                    placeholder="Password"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <div className="form-grup mx-sm-4 d-flex justify-content-center">
-                  <button className="entrar" type="submit">
-                    <i className="fa-solid fa-right-to-bracket me-2"></i>
-                    Ingresar
-                  </button>
-                </div>
-                <div className="registro form-grup mt-4 d-flex justify-content-center">
-                  ¿No tienes Cuenta? <Link to={"/register"}> Registrate </Link>
+    <div className="container mt-2 home-login">
+      <div className="row justify-content-center pt-5">
+        <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
+          <div className="formulario-login p-4">
+            <form onSubmit={handleSubmitLogin}>
+              <div className="form form-grup">
+                <div className="card-body">
+                  <h1 className="text-center mb-4">Login</h1>
+                  <div className="form-grup mb-3">
+                    <input
+                      id="email"
+                      className="email form-control form-control-lg"
+                      placeholder="Email"
+                      type="email"
+                      autoComplete="email"
+                      autofocus
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-grup mb-4">
+                    <input
+                      type="password"
+                      className="pass form-control form-control-lg"
+                      id="inputPassword"
+                      value={password}
+                      placeholder="Password"
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-grup d-flex justify-content-center mb-4">
+                    <button className="entrar" type="submit">
+                      Ingresar
+                      <i className="fa-solid fa-right-to-bracket ms-2"></i>
+                    </button>
+                  </div>
+                  <div className="registro text-center">
+                    ¿No tienes Cuenta? <Link to={"/register"}>Regístrate</Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>
