@@ -1,6 +1,7 @@
 /* Estilo para el contenedor del formulario de login */
 .formulario-login {
   margin-top: 5px;
+  margin-bottom: 20px;
   margin-block-end: 5px;
   background: rgba(255, 255, 255, 0.9);
   -webkit-backdrop-filter: blur(20px);

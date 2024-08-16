@@ -62,8 +62,14 @@ def handle_signin():
         return jsonify({"error": "Usuario no encontrado"}), 404    
     if not check_password_hash(user.password, password):
         return jsonify({"error": "Se ha producido un error al iniciar sesión, intente nuevamente"}), 400   
-    user_token = create_access_token({"id": user.id, "email": user.email})
+    user_token = create_access_token({"id": user.id, "email": user.email, "is_brewer": user.is_brewer})
     return jsonify({"token": user_token}), 200
+
+@api.route('/me', methods=['GET'])
+@jwt_required()
+def get_user_data():
+    user_data = get_jwt_identity()
+    return jsonify(user_data), 200
 
 #Endpoint de POST de Nueva Cerveceria  (requiere token)
 

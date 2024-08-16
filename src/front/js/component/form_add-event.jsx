@@ -80,6 +80,7 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
           event.description,
           result
         );
+        actions.getAllEvents();
         if (response) {
           Swal.fire({
             position: "center",
@@ -130,6 +131,7 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
             showConfirmButton: false,
             timer: 1500,
           });
+          actions.getAllEvents();
           setEvent({
             name: "",
             brewery_id: "",

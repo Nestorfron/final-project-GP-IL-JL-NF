@@ -1,6 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
+      me: [],
       styles: [],
       beers: [],
       events: [],
@@ -11,10 +12,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       userStyles: [],
       LatLng: [],
       users: [],
-
       searchResults: [],
       loading: false,
-
       countries: [
         "Antigua y Barbuda",
         "Argentina",
@@ -101,7 +100,25 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await response.json();
           localStorage.setItem("token", data.token);
+          actions.getMe();
           return true;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      getMe: async () => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(process.env.BACKEND_URL + "/api/me", {
+            method: "GET",
+            headers: {
+              authorization: `Bearer ${jwt}`,
+            },
+          });
+          const data = await response.json();
+          if (response.ok) {
+            setStore({ me: data });
+          }
         } catch (error) {
           console.log(error);
         }
