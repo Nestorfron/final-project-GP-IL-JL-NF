@@ -100,15 +100,11 @@ class Beer(db.Model):
             "IBUs": self.IBUs,
             "volALC": self.volALC,
             "description": self.description,
-            "picture_of_beer_url": self.picture_of_beer_url
+            "picture_of_beer_url": self.picture_of_beer_url,
+      
             
         }
-    def average_rating(self):
-        reviews = Review.query.filter_by(beer_id=self.id).all()
-        if reviews:
-            total_rating = sum(review.rating for review in reviews)
-            return total_rating / len(reviews)
-        return 0
+   
     
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
