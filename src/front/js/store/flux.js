@@ -10,6 +10,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       breweryEvents: [],
       userStyles: [],
       LatLng: [],
+      users: [],
 
       searchResults: [],
       loading: false,
@@ -586,6 +587,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await response.json();
           setStore({ beerDetails: data });
+          console.log(data);
         } catch (error) {
           console.log(error);
         }
@@ -661,6 +663,17 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         } catch (error) {
           console.log(error);
+        }
+      },
+      getAllUsers: async () => {
+        try {
+          const response = await fetch(process.env.BACKEND_URL + "/api/users");
+          const data = await response.json();
+          if (response.ok) {
+            setStore({ users: data });
+          }
+        } catch (error) {
+          console.error("Fetch error:", error);
         }
       },
     },
