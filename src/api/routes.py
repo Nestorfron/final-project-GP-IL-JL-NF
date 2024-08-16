@@ -566,3 +566,14 @@ def get_all_users():
     ]
 
     return jsonify(users_data), 200
+
+#Endpoint para obtener todos los reviews
+
+@api.route('/reviews', methods=['GET'])
+def get_all_reviews():
+    try:
+        reviews = Review.query.all()
+        serialized_reviews = [review.serialize() for review in reviews]
+        return jsonify({"reviews": serialized_reviews}), 200
+    except Exception as error:
+        return jsonify({"error": str(error)}), 500

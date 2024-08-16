@@ -43,6 +43,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         "Venezuela",
       ],
       reviews: [],
+      averageRatings: [],
     },
     actions: {
       //REGISTER USER//
@@ -674,6 +675,45 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         } catch (error) {
           console.error("Fetch error:", error);
+        }
+      },
+      getAverageRatings: async () => {
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + `/api/reviews`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            // Calculate average ratings
+            const reviews = data.reviews;
+            const beerRatings = reviews.reduce((acc, review) => {
+              if (!acc[review.beer_id]) {
+                acc[review.beer_id] = { total: 0, count: 0 };
+              }
+              acc[review.beer_id].total += review.rating;
+              acc[review.beer_id].count += 1;
+              return acc;
+            }, {});
+
+            const averageRatings = Object.keys(beerRatings).reduce(
+              (acc, beerId) => {
+                const { total, count } = beerRatings[beerId];
+                acc[beerId] = (total / count).toFixed(1);
+                return acc;
+              },
+              {}
+            );
+
+            setStore({ averageRatings });
+          }
+        } catch (error) {
+          console.log(error);
         }
       },
     },

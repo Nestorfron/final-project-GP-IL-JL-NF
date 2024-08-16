@@ -1,85 +1,56 @@
 /* General Styles */
 .beer-detail-picture {
-  width: 400px;
+  max-width: 350px;
   height: auto;
   border-radius: 5%;
 }
-.container-logo {
-  border-radius: 1%;
-  max-width: 715px;
-}
 
 .brewery-beer-details-picture {
-  max-width: 350px;
+  max-width: 300px;
   height: auto;
 }
 
-.beer-details-body {
-  display: flex;
-  flex-direction: column; /* Stack children vertically */
-  align-items: center; /* Center children horizontally */
-
-  margin: 0 auto; /* Center the body on the page */
-}
-
-.beer-text {
-  flex: 1; /* Take up available space */
-  margin-bottom: 20px; /* Space between text and image */
-}
-
-.beer-details-name,
-.BJCP-style,
-.beer-details-description,
-.beer-details-IBUs,
-.beer-details-ABV {
-  border-bottom: solid gray;
-  max-width: 100%;
-  font-size: large;
-}
-
-/* Specific Text Styling */
-.beer-details-name {
-  font-size: 30px;
-}
-
-.beer-details-description {
-  font-size: larger;
-}
-
-.BJCP-style,
-.beer-details-IBUs,
-.beer-details-ABV {
-  display: flex;
-  justify-content: space-between; /* Align text to both ends */
-  width: 100%;
-  text-align: right;
-}
-
-.BJCP-style span:first-child,
-.beer-details-IBUs span:first-child,
-.beer-details-ABV span:first-child {
-  text-align: left; /* Label aligned to the left */
-}
-
-.BJCP-style span:last-child,
-.beer-details-IBUs span:last-child,
-.beer-details-ABV span:last-child {
-  text-align: right; /* Value aligned to the right */
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .beer-details-body {
-    width: 100%; /* Full width on smaller screens */
-    padding: 0 15px; /* Add padding for small screens */
-  }
-
-  .beer-details-wrapper {
-    flex-direction: column;
-  }
-
+/* Responsive Styles */
+@media (max-width: 992px) {
+  /* Medium devices (tablets) */
   .beer-detail-picture {
-    margin-top: 20px;
-    max-width: 100%;
+    max-width: 300px;
   }
+}
+
+@media (max-width: 768px) {
+  /* Small devices (phones) */
+  .beer-detail-picture {
+    max-width: 250px;
+  }
+}
+
+@media (max-width: 576px) {
+  /* Extra small devices (phones) */
+  .beer-detail-picture {
+    max-width: 200px;
+  }
+}
+
+.beer-details-BJCP-style,
+.beer-details-ABV,
+.beer-details-IBUs,
+.beer-details-rating {
+  border-bottom: 1px solid black;
+}
+
+.btn-primary {
+  background-color: #002647;
+}
+
+.review-card {
+  border-bottom: 1px solid gray;
+}
+
+.beer-details-user-picture {
+  max-width: 80px;
+  height: auto;
+
+  border-radius: 50%;
+  padding: 0;
 }

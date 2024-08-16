@@ -47,7 +47,8 @@
 
 .beer-style,
 .beer-IBUs,
-.beer-abv {
+.beer-abv,
+.beer-rating {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   margin: 8px;
   color: white;
