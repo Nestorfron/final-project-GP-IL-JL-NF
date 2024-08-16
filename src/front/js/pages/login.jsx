@@ -11,34 +11,56 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const showLoadingAlert = () => {
+    Swal.fire({
+      title: "Iniciando sesión...",
+      text: "Por favor, espera mientras se procesa tu solicitud.",
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading(); // Muestra el indicador de carga
+      },
+      customClass: {
+        container: "custom-container",
+        title: "custom-title",
+        content: "custom-content",
+      },
+    });
+  };
+
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
-    const isLoggedIn = await actions.login(email, password);
-    if (!isLoggedIn) {
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Autenticación fallida",
-        text: "El nombre de usuario o la contraseña que has introducido son incorrectos. Por favor, verifica tus credenciales e intenta de nuevo.",
-        showConfirmButton: true,
-        confirmButtonText: "Aceptar",
-        timerProgressBar: true,
-        customClass: {
-          container: "custom-swal-container",
-          popup: "custom-swal-popup",
-          title: "custom-swal-title",
-          content: "custom-swal-content",
-          confirmButton: "custom-swal-confirm-button",
-        },
-      });
-    }
-    if (isLoggedIn) {
-      navigate("/");
-    }
+    showLoadingAlert();
+
+    setTimeout(async () => {
+      const isLoggedIn = await actions.login(email, password);
+      Swal.close();
+
+      if (!isLoggedIn) {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Autenticación fallida",
+          text: "El nombre de usuario o la contraseña que has introducido son incorrectos. Por favor, verifica tus credenciales e intenta de nuevo.",
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
+          timerProgressBar: true,
+          customClass: {
+            container: "custom-swal-container",
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            content: "custom-swal-content",
+            confirmButton: "custom-swal-confirm-button",
+          },
+        });
+      } else {
+        navigate("/");
+      }
+    }, 3000);
   };
 
   return (
-    <div className="container mt-2 home-login">
+    <div className="container  home-login">
       <div className="row justify-content-center pt-5">
         <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
           <div className="formulario-login p-4">

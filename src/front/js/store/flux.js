@@ -10,6 +10,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       breweryEvents: [],
       userStyles: [],
       LatLng: [],
+      users: [],
 
       searchResults: [],
       loading: false,
@@ -42,6 +43,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         "Venezuela",
       ],
       reviews: [],
+      averageRatings: [],
     },
     actions: {
       //REGISTER USER//
@@ -586,6 +588,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await response.json();
           setStore({ beerDetails: data });
+          console.log(data);
         } catch (error) {
           console.log(error);
         }
@@ -658,6 +661,56 @@ const getState = ({ getStore, getActions, setStore }) => {
           if (response.ok) {
             console.log(data.reviews);
             setStore({ reviews: data.reviews });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      getAllUsers: async () => {
+        try {
+          const response = await fetch(process.env.BACKEND_URL + "/api/users");
+          const data = await response.json();
+          if (response.ok) {
+            setStore({ users: data });
+          }
+        } catch (error) {
+          console.error("Fetch error:", error);
+        }
+      },
+      getAverageRatings: async () => {
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + `/api/reviews`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            // Calculate average ratings
+            const reviews = data.reviews;
+            const beerRatings = reviews.reduce((acc, review) => {
+              if (!acc[review.beer_id]) {
+                acc[review.beer_id] = { total: 0, count: 0 };
+              }
+              acc[review.beer_id].total += review.rating;
+              acc[review.beer_id].count += 1;
+              return acc;
+            }, {});
+
+            const averageRatings = Object.keys(beerRatings).reduce(
+              (acc, beerId) => {
+                const { total, count } = beerRatings[beerId];
+                acc[beerId] = (total / count).toFixed(1);
+                return acc;
+              },
+              {}
+            );
+
+            setStore({ averageRatings });
           }
         } catch (error) {
           console.log(error);

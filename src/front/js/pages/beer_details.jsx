@@ -9,7 +9,7 @@ import emptyGlass from "../../img/empty.jpg";
 export const BeerDetails = () => {
   const { id } = useParams();
   const { store, actions } = useContext(Context);
-  const { beerDetails, breweries, reviews } = store;
+  const { beerDetails, breweries, reviews, users } = store;
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
@@ -17,10 +17,22 @@ export const BeerDetails = () => {
     actions.getBeerDetails(id);
     actions.getAllBreweries();
     actions.getBeerReviews(id);
+    actions.getAllUsers();
   }, [id]);
+
+  // Function to calculate average rating
+  const calculateAverageRating = (reviews) => {
+    if (!reviews.length) return 5;
+    const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return (totalRating / reviews.length).toFixed(1);
+  };
+
+  const averageRating = calculateAverageRating(reviews);
 
   console.log("Beer Details:", beerDetails);
   console.log("Reviews:", reviews);
+  console.log("User Profile Picture:", users.user_id);
+  console.log(beerDetails);
 
   if (!beerDetails || !breweries) {
     return <p>Loading...</p>;
@@ -38,109 +50,135 @@ export const BeerDetails = () => {
   const handleModalClose = () => setShowModal(false);
   const handleModalShow = () => setShowModal(true);
 
-  const submitReview = (beer_id, rating, comment) => {
-    actions.addReview(beer_id, rating, comment);
+  const submitReview = async (beer_id, rating, comment) => {
+    try {
+      await actions.addReview(beer_id, rating, comment);
+      actions.getBeerReviews(beer_id);
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    }
   };
 
+  const sortedReviews = reviews.slice().sort((a, b) => b.id - a.id);
+
   return (
-    <div className="container-fluid beer-details-whole-body w-100 text-dark bg-white p-5">
-      <div className="logo-header d-flex justify-content-center row mb-5">
-        <img
-          className="brewery-beer-details-picture col-12"
-          src={findBreweryLogo(beerDetails.brewery_id, breweries)}
-          onClick={() => handleBreweryClick(beerDetails.brewery_id)}
-          style={{ cursor: "pointer" }}
-          alt="Brewery Logo"
-        />
-      </div>
-      <div className="container-fluid beer-details-body d-flex justify-content-center align-items-center">
-        <div className="beer-text">
-          <div className="beer-details-header">
-            <h2 className="beer-details-name fw-bold ms-2">
-              {beerDetails.name}
-            </h2>
-            <p className="beer-details-description ms-2">
+    <div className="container my-5">
+      <div className="card p-4">
+        <div className="card-header text-center">
+          <img
+            className="brewery-beer-details-picture col-12"
+            src={findBreweryLogo(beerDetails.brewery_id, breweries)}
+            onClick={() => handleBreweryClick(beerDetails.brewery_id)}
+            style={{ cursor: "pointer" }}
+            alt="Brewery Logo"
+          />
+        </div>
+        <div className="container card-body d-flex align-items-center justify-content-center row">
+          <div className="beer-text col-6">
+            <h2 className="beer-details-name fw-bold ">{beerDetails.name}</h2>
+
+            <p className="beer-details-description ">
               {beerDetails.description}
             </p>
-            <p className="BJCP-style ms-2 mt-4">
-              <span>Estilo:</span>
-              <span>{beerDetails.bjcp_style}</span>
-            </p>
+
+            <div>
+              <p className="beer-details-BJCP-style d-flex justify-content-between">
+                <span>Estilo:</span>
+                <span>{beerDetails.bjcp_style}</span>
+              </p>
+
+              <p className="beer-details-IBUs d-flex justify-content-between">
+                <span>IBU's:</span>
+                <span>{beerDetails.IBUs}</span>
+              </p>
+              <p className="beer-details-ABV d-flex justify-content-between">
+                <span>ABV:</span>
+                <span>{beerDetails.volALC}%</span>
+              </p>
+
+              <p className="beer-details-rating  d-flex justify-content-between">
+                <span>Rating:</span>
+                <span>{averageRating} / 5</span>
+              </p>
+            </div>
           </div>
-          <div className="ms-2 mt-3">
-            <p className="beer-details-IBUs">
-              <span>IBU's:</span>
-              <span>{beerDetails.IBUs}</span>
-            </p>
-            <p className="beer-details-ABV">
-              <span>ABV:</span>
-              <span>{beerDetails.volALC}%</span>
-            </p>
+          <div className="container-fluid container-logo d-flex justify-content-center align-items-center  col-6">
+            <img
+              className="beer-detail-picture m-4"
+              src={beerDetails.picture_of_beer_url}
+              alt="Beer"
+            />
           </div>
-          <button className="btn btn-primary mt-4" onClick={handleModalShow}>
+        </div>
+        <div className="card-footer d-flex justify-content-center align-items-center">
+          <button className="btn btn-primary m-2" onClick={handleModalShow}>
             Write a Review
           </button>
         </div>
-        <div className="container container-logo d-flex justify-content-center align-items-center">
-          <img
-            className="beer-detail-picture m-4"
-            src={beerDetails.picture_of_beer_url}
-            alt="Beer"
-          />
-        </div>
-      </div>
 
-      {/* Reviews Section */}
-      <div className="reviews-section mt-5">
-        <h3>Reviews</h3>
-        {reviews && reviews.length > 0 ? (
-          reviews.map((review) => (
-            <div
-              key={review.id}
-              className="review-card d-flex align-items-start mb-4"
-            >
-              <img
-                src={review.user_picture}
-                alt="User"
-                className="user-picture me-3"
-                style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-              />
-              <div className="review-content">
-                <p className="user-name fw-bold">{review.username}</p>
-                <div className="rating mb-2">
-                  {Array.from({ length: review.rating }).map((_, index) => (
-                    <img
-                      key={index}
-                      src={fullGlass}
-                      alt="Full Glass"
-                      style={{ width: "20px", marginRight: "3px" }}
-                    />
-                  ))}
-                  {Array.from({ length: 5 - review.rating }).map((_, index) => (
-                    <img
-                      key={index}
-                      src={emptyGlass}
-                      alt="Empty Glass"
-                      style={{ width: "20px", marginRight: "3px" }}
-                    />
-                  ))}
+        {/* Reviews Section */}
+        <div className="reviews-section mt-5">
+          <h3>Reviews</h3>
+          {sortedReviews && sortedReviews.length > 0 ? (
+            sortedReviews.map((review) => {
+              const user = users.find((user) => user.id === review.user_id);
+              return (
+                <div key={review.id} className="review-card d-flex row m-2">
+                  <div className="container d-flex align-items-center justify-content-center col-2 ">
+                    {user && (
+                      <img
+                        src={user.profile_picture}
+                        alt={user.username}
+                        className="beer-details-user-picture "
+                      />
+                    )}
+                  </div>
+                  <div className=" containter review-content col-10 bg-light my-2">
+                    <div className=" container d-flex justify-content-between ">
+                      <p className="username fw-bold">
+                        <span>{user ? user.username : "Loading..."}</span>
+                      </p>
+                      <div className="rating mb-2">
+                        {Array.from({ length: review.rating }).map(
+                          (_, index) => (
+                            <img
+                              key={index}
+                              src={fullGlass}
+                              alt="Full Glass"
+                              style={{ width: "20px", marginRight: "3px" }}
+                            />
+                          )
+                        )}
+                        {Array.from({ length: 5 - review.rating }).map(
+                          (_, index) => (
+                            <img
+                              key={index}
+                              src={emptyGlass}
+                              alt="Empty Glass"
+                              style={{ width: "20px", marginRight: "3px" }}
+                            />
+                          )
+                        )}
+                      </div>
+                    </div>
+                    <p className="container ">{review.comment}</p>
+                  </div>
                 </div>
-                <p>{review.comment}</p>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p>No reviews yet.</p>
-        )}
-      </div>
+              );
+            })
+          ) : (
+            <p>No reviews yet.</p>
+          )}
+        </div>
 
-      {/* Review Modal */}
-      <ReviewModal
-        show={showModal}
-        handleClose={handleModalClose}
-        beer_id={id}
-        submitReview={submitReview}
-      />
+        {/* Review Modal */}
+        <ReviewModal
+          show={showModal}
+          handleClose={handleModalClose}
+          beer_id={id}
+          submitReview={submitReview}
+        />
+      </div>
     </div>
   );
 };
