@@ -1,25 +1,7 @@
-body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-}
-body::login {
-  content: "";
-  position: fixed;
-  top: 20;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url(https://www.alestilojalisco.com.mx/storage/articulos/salud-llega-la-ruta-de-la-cerveza-20220503171022.jpeg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
+/* Estilo para el contenedor del formulario de login */
 .formulario-login {
-  margin-top: 80px;
+  margin-top: 5px;
+  margin-block-end: 5px;
   background: rgba(255, 255, 255, 0.9);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(5px);
@@ -29,6 +11,8 @@ body::login {
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
   color: rgb(0, 0, 0);
 }
+
+/* Estilo para el título del formulario de login */
 .formulario-login form h1 {
   font-family: "Courier New", Courier, monospace;
   font-weight: bold;
@@ -40,30 +24,42 @@ body::login {
   border-bottom: 2px solid;
   color: #333;
 }
+
+/* Estilo para los grupos de formulario */
 .form-grup {
-  margin-bottom: 1.5rem; /* Espacio inferior entre los grupos de formulario */
+  margin-bottom: 1.5rem;
 }
+
+/* Estilo para los controles grandes del formulario */
 .form-control-lg {
-  border: 1px solid #ced4da; /* Borde gris claro */
-  border-radius: 8px; /* Bordes redondeados */
-  padding: 10px 15px; /* Espacio interno */
-  font-size: 1rem; /* Tamaño de fuente */
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075); /* Sombra interior sutil */
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
   font-family: Arial, sans-serif;
 }
+
+/* Estilo para el foco en los controles grandes del formulario */
 .form-control-lg:focus {
-  border-color: #80bdff; /* Color del borde en foco */
-  outline: none; /* Quitar el borde predeterminado en foco */
-  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25); /* Sombra azul en foco */
+  border-color: #80bdff;
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
 }
+
+/* Estilo para los enlaces en la sección de registro */
 .registro a {
-  color: #007bff; /* Color del enlace */
-  text-decoration: none; /* Quitar subrayado */
-  font-weight: bold; /* Fuente en negrita */
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
 }
+
+/* Estilo para el hover en los enlaces de registro */
 .registro a:hover {
-  text-decoration: underline; /* Subrayado en hover */
+  text-decoration: underline;
 }
+
+/* Estilo para el avatar del usuario */
 .avatar {
   width: 150px;
   height: 150px;
@@ -74,13 +70,17 @@ body::login {
   left: calc(43% - 45px);
 }
 
+/* Estilo para la sección de usuario */
 .usuario {
   margin-top: 15%;
 }
+
+/* Estilo para el campo de contraseña */
 .pass {
   margin-top: 40px;
 }
 
+/* Estilo para la sección de registro y etiquetas */
 .registro {
   color: #3e2723;
 }
@@ -90,59 +90,73 @@ label {
 strong {
   color: #3e2723;
 }
+
+/* Estilo para el botón de ingresar */
 .entrar {
   color: #fff !important;
   font-size: 15px;
   font-weight: 500;
   padding: 0.5em 1.2em;
-  background: #318aac; /* Color de fondo inicial */
-  border: 2px solid #318aac; /* Color del borde */
-  border-radius: 8px; /* Bordes redondeados */
-  transition: all 0.3s ease; /* Transición suave */
-  position: relative; /* Necesario para el efecto de sombra */
-  width: 150px; /* Ancho del botón */
-  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  background: #318aac;
+  border: 2px solid #318aac;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  width: 150px;
+  cursor: pointer;
 }
 
-/* Efecto al pasar el cursor sobre el botón */
+/* Efecto al pasar el cursor sobre el botón de ingresar */
 .entrar:hover {
-  background: rgba(0, 0, 0, 0); /* Fondo transparente */
-  color: #318aac !important; /* Color del texto en hover */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 6px 15px rgba(0, 0, 0, 0.15); /* Sombra para el efecto de elevación */
-  transform: translateY(-3px); /* Eleva ligeramente el botón en hover */
+  background: rgba(0, 0, 0, 0);
+  color: #318aac !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 6px 15px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
 }
 
-/* Efecto al hacer clic en el botón */
+/* Efecto al hacer clic en el botón de ingresar */
 .entrar:active {
-  transform: scale(0.95) translateY(1px); /* Reduce ligeramente el tamaño y mueve el botón hacia abajo */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra más sutil al hacer clic */
+  transform: scale(0.95) translateY(1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Fondo de cristal blanco */
+/* Estilo para el contenedor de la alerta personalizada */
 .custom-swal-container {
-  backdrop-filter: blur(10px); /* Aplica un desenfoque al fondo */
+  backdrop-filter: blur(10px);
 }
 
+/* Estilo para el popup de la alerta personalizada */
 .custom-swal-popup {
-  background: rgba(255, 255, 255, 0.9); /* Fondo blanco con opacidad */
-  color: #000; /* Color del texto en negro */
-  border-radius: 10px; /* Bordes redondeados para un look moderno */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  background: rgba(255, 255, 255, 0.9);
+  color: #000;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Estilo para el título de la alerta personalizada */
 .custom-swal-title {
   font-size: 1.5rem;
   font-weight: bold;
 }
 
+/* Estilo para el contenido de la alerta personalizada */
 .custom-swal-content {
   font-size: 1rem;
 }
 
+/* Estilo para el botón de confirmación de la alerta personalizada */
 .custom-swal-confirm-button {
-  background-color: #007bff; /* Color de fondo del botón */
-  border-color: #007bff; /* Color del borde del botón */
+  background: #318aac;
+  color: #fff;
+  border: 2px solid #318aac;
+  border-radius: 20px;
+  padding: 0.5em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
+
+/* Estilo para los ajustes de diseño en pantallas pequeñas */
 @media (max-width: 576px) {
   .formulario-login {
     padding: 15px;
