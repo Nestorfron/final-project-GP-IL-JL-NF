@@ -17,31 +17,52 @@ body::login {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
 .formulario-login {
   margin-top: 80px;
-  background: rgba(255, 191, 0, 0.65);
-  -webkit-backdrop-filter: blur(5px);
+  background: rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(5px);
-  border: 1.5px solid rgba(254, 254, 254, 0.978);
-  padding: 15px;
-  border-radius: 5px;
-  box-shadow: 0 0 30px rgba(254, 254, 254, 0.978);
-  color: white;
-  height: auto;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+  color: rgb(0, 0, 0);
 }
 .formulario-login form h1 {
   font-family: "Courier New", Courier, monospace;
   font-weight: bold;
   margin-top: 200px 0 20px;
-  font-size: 35px;
+  font-size: 2rem;
   text-align: center;
   margin-bottom: 20px;
   letter-spacing: 1px;
   border-bottom: 2px solid;
-  color: #3e2723;
+  color: #333;
 }
-.registro {
-  color: #3e2723 !important;
+.form-grup {
+  margin-bottom: 1.5rem; /* Espacio inferior entre los grupos de formulario */
+}
+.form-control-lg {
+  border: 1px solid #ced4da; /* Borde gris claro */
+  border-radius: 8px; /* Bordes redondeados */
+  padding: 10px 15px; /* Espacio interno */
+  font-size: 1rem; /* Tamaño de fuente */
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075); /* Sombra interior sutil */
+  font-family: Arial, sans-serif;
+}
+.form-control-lg:focus {
+  border-color: #80bdff; /* Color del borde en foco */
+  outline: none; /* Quitar el borde predeterminado en foco */
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25); /* Sombra azul en foco */
+}
+.registro a {
+  color: #007bff; /* Color del enlace */
+  text-decoration: none; /* Quitar subrayado */
+  font-weight: bold; /* Fuente en negrita */
+}
+.registro a:hover {
+  text-decoration: underline; /* Subrayado en hover */
 }
 .avatar {
   width: 150px;
@@ -74,19 +95,56 @@ strong {
   font-size: 15px;
   font-weight: 500;
   padding: 0.5em 1.2em;
-  background: #318aac;
-  border: 2px solid;
-  border-color: #318aac;
-  transition: all 0.3s ease;
-  position: relative;
-  width: 150px;
+  background: #318aac; /* Color de fondo inicial */
+  border: 2px solid #318aac; /* Color del borde */
+  border-radius: 8px; /* Bordes redondeados */
+  transition: all 0.3s ease; /* Transición suave */
+  position: relative; /* Necesario para el efecto de sombra */
+  width: 150px; /* Ancho del botón */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
 }
+
+/* Efecto al pasar el cursor sobre el botón */
 .entrar:hover {
-  background: rgba(0, 0, 0, 0);
-  color: #318aac !important;
+  background: rgba(0, 0, 0, 0); /* Fondo transparente */
+  color: #318aac !important; /* Color del texto en hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 6px 15px rgba(0, 0, 0, 0.15); /* Sombra para el efecto de elevación */
+  transform: translateY(-3px); /* Eleva ligeramente el botón en hover */
 }
+
+/* Efecto al hacer clic en el botón */
 .entrar:active {
-  transform: scale(
-    0.95
-  ); /* Reduce ligeramente el tamaño del botón cuando se hace clic */
+  transform: scale(0.95) translateY(1px); /* Reduce ligeramente el tamaño y mueve el botón hacia abajo */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra más sutil al hacer clic */
+}
+
+/* Fondo de cristal blanco */
+.custom-swal-container {
+  backdrop-filter: blur(10px); /* Aplica un desenfoque al fondo */
+}
+
+.custom-swal-popup {
+  background: rgba(255, 255, 255, 0.9); /* Fondo blanco con opacidad */
+  color: #000; /* Color del texto en negro */
+  border-radius: 10px; /* Bordes redondeados para un look moderno */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+.custom-swal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.custom-swal-content {
+  font-size: 1rem;
+}
+
+.custom-swal-confirm-button {
+  background-color: #007bff; /* Color de fondo del botón */
+  border-color: #007bff; /* Color del borde del botón */
+}
+@media (max-width: 576px) {
+  .formulario-login {
+    padding: 15px;
+  }
 }
