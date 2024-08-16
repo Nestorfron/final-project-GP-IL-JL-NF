@@ -434,8 +434,32 @@ def get_beer_details(beer_id):
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
     
+
+@api.route('/search_beers', methods=['GET'])
+def search_beers():
+    query = request.args.get('query', '')
+    if not query:
+        return jsonify([]), 404 
+
+    results = Beer.query.filter(Beer.name.ilike(f'%{query}%')).all()
+   
+    if results == []: 
+        return jsonify({"msg": "No existen cervezas"}), 404 
+
+    beers = [{
+        "id": beer.id,
+        "name": beer.name,
+        "bjcp_style": beer.bjcp_style,
+        "IBUs": beer.IBUs,
+        "volALC": beer.volALC,
+        "description": beer.description,
+        "picture_of_beer_url": beer.picture_of_beer_url
+    } for beer in results]
+
+    return jsonify(beers), 200
+
 #endopoint para crear un review
-@api.route('/review', methods=['POST'])
+@api.route('/reviews', methods=['POST'])
 @jwt_required()
 def create_review():
     body = request.json
@@ -506,3 +530,23 @@ def delete_review(review_id):
 
     
     
+
+@api.route('/reviews/<int:beer_id>', methods=['GET'])
+
+def get_reviews_for_beer(beer_id):
+    try:
+        # Query reviews based on beer_id
+        reviews = Review.query.filter_by(beer_id=beer_id).all()
+        
+        # If no reviews found, return an empty list
+        if not reviews:
+            return jsonify({"reviews": []}), 200
+        
+        # Serialize the review data
+        serialized_reviews = [review.serialize() for review in reviews]
+
+        return jsonify({"reviews": serialized_reviews}), 200
+
+    except Exception as error:
+        return jsonify({"error": str(error)}), 500
+

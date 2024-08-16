@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { ReviewModal } from "../component/review_modal.jsx";
 import "../../styles/beerDetails.css";
+import fullGlass from "../../img/fullglass.jpg";
+import emptyGlass from "../../img/empty.jpg";
 
 export const BeerDetails = () => {
   const { id } = useParams();
@@ -14,8 +16,11 @@ export const BeerDetails = () => {
   useEffect(() => {
     actions.getBeerDetails(id);
     actions.getAllBreweries();
-    actions.getReviewsByBeer(id);
+    actions.getBeerReviews(id);
   }, [id]);
+
+  console.log("Beer Details:", beerDetails);
+  console.log("Reviews:", reviews);
 
   if (!beerDetails || !breweries) {
     return <p>Loading...</p>;
@@ -33,8 +38,8 @@ export const BeerDetails = () => {
   const handleModalClose = () => setShowModal(false);
   const handleModalShow = () => setShowModal(true);
 
-  const submitReview = (beerId, rating, comment) => {
-    actions.createReview(beerId, rating, comment);
+  const submitReview = (beer_id, rating, comment) => {
+    actions.addReview(beer_id, rating, comment);
   };
 
   return (
@@ -106,7 +111,7 @@ export const BeerDetails = () => {
                   {Array.from({ length: review.rating }).map((_, index) => (
                     <img
                       key={index}
-                      src="/path/to/full_glass.png"
+                      src={fullGlass}
                       alt="Full Glass"
                       style={{ width: "20px", marginRight: "3px" }}
                     />
@@ -114,7 +119,7 @@ export const BeerDetails = () => {
                   {Array.from({ length: 5 - review.rating }).map((_, index) => (
                     <img
                       key={index}
-                      src="/path/to/empty_glass.png"
+                      src={emptyGlass}
                       alt="Empty Glass"
                       style={{ width: "20px", marginRight: "3px" }}
                     />
@@ -133,7 +138,7 @@ export const BeerDetails = () => {
       <ReviewModal
         show={showModal}
         handleClose={handleModalClose}
-        beerId={id}
+        beer_id={id}
         submitReview={submitReview}
       />
     </div>

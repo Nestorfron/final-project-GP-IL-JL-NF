@@ -24,105 +24,91 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
   function handleChange(e) {
     setBrewery({ ...brewery, [e.target.name]: e.target.value });
   }
+
+  // Validación de tipo de archivo para el logo
+  const handleLogoChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type === "image/png") {
+      setLogo_of_brewery(file);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Archivo inválido",
+        text: "Por favor, sube un archivo PNG.",
+      });
+      e.target.value = ""; // Resetea el input
+    }
+  };
+
+  // Validación de tipo de archivo para la foto de portada
+  const handlePictureChange = (e) => {
+    const file = e.target.files[0];
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    if (file && allowedTypes.includes(file.type)) {
+      setPicture_of_brewery(file);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Archivo inválido",
+        text: "Por favor, sube un archivo JPG, JPEG o PNG.",
+      });
+      e.target.value = ""; // Resetea el input
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (id) {
-      console.log("editando", id);
-      Swal.fire({
-        title: "Cargando...",
-        text: "Por favor, espere mientras se edita la cervecería.",
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
-      });
-      try {
-        const result = await uploadFile(logo_of_brewery);
-        if (result) {
-          console.log(logo_of_brewery.name);
-        }
-        const result1 = await uploadFile(picture_of_brewery);
-        if (result1) {
-          console.log(picture_of_brewery.name);
-        }
-        const response = await actions.edit_breweries(
-          id,
-          brewery.name,
-          brewery.address,
-          brewery.history,
-          brewery.facebook_url,
-          brewery.instagram_url,
-          result1,
-          brewery.x_url,
-          result
-        );
-        if (response) {
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Cervecería Editada",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Hubo un problema al editar la cervecería.",
-          });
-        }
-      } catch (error) {
+    setLoading(true);
+
+    Swal.fire({
+      title: "Cargando...",
+      text: `Por favor, espere mientras se ${
+        id ? "edita" : "crea"
+      } la cervecería.`,
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    try {
+      const logoUrl = await uploadFile(logo_of_brewery);
+      const pictureUrl = await uploadFile(picture_of_brewery);
+
+      const response = id
+        ? await actions.edit_breweries(
+            id,
+            brewery.name,
+            brewery.address,
+            brewery.history,
+            brewery.facebook_url,
+            brewery.instagram_url,
+            pictureUrl,
+            brewery.x_url,
+            logoUrl
+          )
+        : await actions.add_brewery(
+            brewery.name,
+            brewery.address,
+            brewery.history,
+            brewery.facebook_url,
+            brewery.instagram_url,
+            logoUrl,
+            brewery.x_url,
+            pictureUrl
+          );
+
+      if (response) {
         Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: `Hubo un problema al editar la cervecería: ${error.message}`,
+          position: "center",
+          icon: "success",
+          title: `Cervecería ${id ? "editada" : "creada"} correctamente`,
+          showConfirmButton: false,
+          timer: 1500,
         });
-      }
-    } else {
-      console.log("creando");
 
-      setLoading(true);
-
-      Swal.fire({
-        title: "Cargando...",
-        text: "Por favor, espere mientras se crea la cervecería.",
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
-      });
-
-      try {
-        const result = await uploadFile(logo_of_brewery);
-        if (result) {
-          console.log(result);
-          console.log(logo_of_brewery.name);
-        }
-        const result1 = await uploadFile(picture_of_brewery);
-        if (result1) {
-          console.log(picture_of_brewery.name);
-        }
-
-        const response = await actions.add_brewery(
-          brewery.name,
-          brewery.address,
-          brewery.history,
-          brewery.facebook_url,
-          brewery.instagram_url,
-          result,
-          brewery.x_url,
-          result1
-        );
-        if (response) {
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Cervecería creada correctamente",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+        if (!id) {
           setBrewery({
             name: "",
             address: "",
@@ -130,24 +116,21 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
             facebook_url: "",
             instagram_url: "",
             x_url: "",
-            result1: null,
-            result: null,
           });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Hubo un problema al crear la cervecería.",
-          });
+          setLogo_of_brewery(null);
+          setPicture_of_brewery(null);
         }
-      } catch (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-        });
-      } finally {
-        setLoading(false);
+      } else {
+        throw new Error("Hubo un problema al procesar la solicitud.");
       }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `Hubo un problema: ${error.message}`,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -166,16 +149,17 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
         instagram_url: initialBrewery.instagram_url || "",
         x_url: initialBrewery.x_url || "",
       });
-      // Optionally set the logo and picture if they are passed
-      setLogo_of_brewery(initialBrewery.logo_of_brewery.name || null);
+      setLogo_of_brewery(initialBrewery.logo_of_brewery || null);
       setPicture_of_brewery(initialBrewery.picture_of_brewery || null);
     }
   }, [initialBrewery]);
 
   return (
     <>
-      <form className="container mt-4 form-container" onSubmit={handleSubmit}>
-        <h2 className="mb-4">{id ? "" : "Añadir Cervecería"}</h2>
+      <form className="container mt-5 form-container" onSubmit={handleSubmit}>
+        <h2 className="mb-4">
+          {id ? "Editar Cervecería" : "Añadir Cervecería"}
+        </h2>
         <div className="row">
           <div className="col-md-6 mb-3">
             <label htmlFor="name" className="form-label fw-bold">
@@ -187,7 +171,7 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
               className="form-control"
               id="name"
               value={brewery.name}
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
               required
             />
           </div>
@@ -201,7 +185,7 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
               className="form-control"
               id="address"
               value={brewery.address}
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
               required
             />
           </div>
@@ -209,7 +193,7 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
         <div className="row">
           <div className="col-md-6 mb-3">
             <label htmlFor="facebook_url" className="form-label fw-bold">
-              Link FaceBook
+              Link Facebook
             </label>
             <input
               type="text"
@@ -217,7 +201,7 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
               className="form-control"
               id="facebook_url"
               value={brewery.facebook_url}
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
             />
           </div>
           <div className="col-md-6 mb-3">
@@ -230,7 +214,7 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
               className="form-control"
               id="instagram_url"
               value={brewery.instagram_url}
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
             />
           </div>
           <div className="col-md-6 mb-3">
@@ -243,34 +227,34 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
               className="form-control"
               id="x_url"
               value={brewery.x_url}
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
             />
           </div>
-          <div className="mb-3">
-            <label htmlFor="history" className="form-label fw-bold">
-              Descripción *
-            </label>
-            <textarea
-              name="history"
-              className="form-control"
-              id="history"
-              rows="5"
-              value={brewery.history}
-              onChange={(e) => handleChange(e)}
-              required
-            />
-          </div>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="history" className="form-label fw-bold">
+            Descripción *
+          </label>
+          <textarea
+            name="history"
+            className="form-control"
+            id="history"
+            rows="5"
+            value={brewery.history}
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <div className="mb-3">
           <label htmlFor="picture_of_brewery" className="form-label fw-bold">
-            Foto Portada
+            Foto Portada (JPG, JPEG, PNG) *
           </label>
           <input
             type="file"
             className="form-control"
             id="picture_of_brewery"
-            onChange={(e) => setPicture_of_brewery(e.target.files[0])}
+            onChange={handlePictureChange}
             required
           />
         </div>
@@ -283,10 +267,11 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
             type="file"
             className="form-control"
             id="logo_of_brewery"
-            onChange={(e) => setLogo_of_brewery(e.target.files[0])}
+            onChange={handleLogoChange}
             required
           />
         </div>
+
         <div className="py-5">
           <label htmlFor="map" className="form-label fw-bold">
             Agrega tu ubicación
@@ -295,7 +280,7 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
         </div>
 
         <div className="d-flex justify-content-center">
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary" disabled={loading}>
             {btnBrewery}
           </button>
         </div>

@@ -10,6 +10,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       breweryEvents: [],
       userStyles: [],
       LatLng: [],
+
+      searchResults: [],
+      loading: false,
+
       countries: [
         "Antigua y Barbuda",
         "Argentina",
@@ -171,7 +175,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
-
+      //EDIT BREWERIES//
       edit_breweries: async (
         id,
         name,
@@ -233,6 +237,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
+            console.log(data);
+
             setStore({ userBreweries: data.breweries });
           }
         } catch (error) {
@@ -484,7 +490,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       //DELETE BREWERY
-
       deleteBrewery: async (brewery_id) => {
         const jwt = localStorage.getItem("token");
         try {
@@ -513,7 +518,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       //DELETE BEER
-
       deleteBeer: async (beer_id) => {
         const jwt = localStorage.getItem("token");
         try {
@@ -541,7 +545,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       //DELETE EVENT
-
       deleteEvent: async (event_id) => {
         const jwt = localStorage.getItem("token");
         try {
@@ -587,6 +590,31 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+
+      searchBeers: async (query) => {
+        setStore({ loading: true }); // Inicia el estado de carga
+        try {
+          const response = await fetch(
+            `${
+              process.env.BACKEND_URL
+            }/api/search_beers?query=${encodeURIComponent(query)}`
+          );
+          if (response.ok) {
+            const data = await response.json();
+            setStore({ searchResults: data });
+          } else {
+            const errorData = await response.json();
+            console.error("Search error:", errorData.msg);
+            setStore({ searchResults: [] }); // Limpiar los resultados si la búsqueda falla
+          }
+        } catch (error) {
+          console.log("Error:", error);
+          setStore({ searchResults: [] }); // Limpiar los resultados en caso de error
+        } finally {
+          setStore({ loading: false }); // Termina el estado de carga
+        }
+      },
+
       // ADD REVIEW //
       addReview: async (beer_id, rating, comment) => {
         const jwt = localStorage.getItem("token");
@@ -603,7 +631,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           );
           if (!response.ok) {
-            console.error("Failed to submit review");
+            const errorText = await response.text();
+            console.error("Failed to submit review", errorText);
             return false;
           }
           const data = await response.json();
@@ -627,6 +656,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
+            console.log(data.reviews);
             setStore({ reviews: data.reviews });
           }
         } catch (error) {
