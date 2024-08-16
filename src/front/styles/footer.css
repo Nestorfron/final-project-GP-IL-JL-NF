@@ -1,0 +1,11 @@
+.footer-image {
+  width: 15rem;
+  height: auto;
+}
+
+@media (max-width: 800px) {
+  .section-footer {
+    width: 50rem;
+    padding: 4px;
+  }
+}

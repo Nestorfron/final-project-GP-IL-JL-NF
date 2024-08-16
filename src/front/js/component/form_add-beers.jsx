@@ -157,8 +157,22 @@ const Form_add_beer = ({ id, btnBeer, beer: initialBeer }) => {
     actions.getUserBreweries();
   }, [initialBeer]);
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    if (file && allowedTypes.includes(file.type)) {
+      setPicture_of_beer(file);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Formato no permitido",
+        text: "Solo se permiten archivos JPG, JPEG o PNG.",
+      });
+    }
+  };
+
   return (
-    <form className="container mt-4 form-container" onSubmit={handleSubmit}>
+    <form className="container mt-5 form-container" onSubmit={handleSubmit}>
       <h2 className="mb-4">{id ? "" : "Añadir Cerveza"}</h2>
       <div className="row">
         <div className="col-md-6 mb-3">
@@ -263,13 +277,13 @@ const Form_add_beer = ({ id, btnBeer, beer: initialBeer }) => {
           </select>
           <div className=" mx-4 mt-3">
             <label htmlFor="formFile" className="form-label">
-              IMÁGEN
+              IMÁGEN (JPG, JPEG, PNG)
             </label>
             <input
               type="file"
               className="form-control"
               id="inputGroupFile03"
-              onChange={(e) => setPicture_of_beer(e.target.files[0])}
+              onChange={handleFileChange}
               required
             />
           </div>

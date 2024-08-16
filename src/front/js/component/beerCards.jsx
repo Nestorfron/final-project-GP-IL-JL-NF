@@ -34,7 +34,7 @@ export const BeerCards = () => {
           latestBeers.map((beer) => (
             <div
               key={beer.id}
-              className=" beer-card col-12 col-sm-6 col-md-4 col-lg-3 mx-2 mb-3"
+              className="beer-card col-12 col-sm-6 col-md-4 col-lg-3 mx-2 mb-3 shadow-lg"
             >
               <div className="d-flex justify-content-center">
                 <img

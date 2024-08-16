@@ -1,40 +1,37 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../../styles/Footerimg.css";
+import "../../styles/footer.css";
 import Footerimg from "../../img/Footer.png";
 
 export const Footer = () => {
   return (
-    <footer className="footer sticky-bottom container-fluid text-light p-3">
+    <footer className="footer sticky-bottom container-fluid text-light p-3 mt-2">
       <div className="container-fluid">
-        <div className="row d-flex my-4 ">
-          <div className="col">
+        <div className="row">
+          <div className="section-footer col">
             <h5>Sobre Nosotros</h5>
-            <p>
+            <small>
               Somos un grupo de desarrolladores apasionados por el desarrollo
-              web, y en esta ocasión, nos complace presentarles una plataforma
-              dedicada a los amantes de la cerveza artesanal. Explora nuestras
-              cervezas, descubre nuevos estilos y encuentra tu próxima favorita.
-              ¡Salud!
-            </p>
+              web, y nos complace presentarles una plataforma dedicada a los
+              amantes de la cerveza artesanal. ¡Salud!
+            </small>
           </div>
-          <div className="col m-auto">
+          <div className="section-footer col">
             <Link to="/">
               <img src={Footerimg} alt="Footer" className="footer-image" />
             </Link>
           </div>
-          <div className="col">
+          <div className="section-footer col">
             <h5>Contacto</h5>
-            <p className="d-flex justify-content-center pt-1 col-8">
+            <small className="justify-content-center">
               <i className="fa-brands fa-instagram mx-2"></i> beerbookapp
-            </p>
-            <p className="d-flex justify-content-center pt-1 col-11">
+            </small>
+            <small className="justify-content-center">
               <i className="fa-solid fa-envelope mx-2"></i>{" "}
               cervezaartesanal082024@gmail.com
-            </p>
+            </small>
           </div>
-
-          <div className="text-center mt-4">
+          <div className="text-center">
             <span className="span">
               &copy; 2024 Cervecería Artesanal. Todos los derechos reservados.
             </span>
