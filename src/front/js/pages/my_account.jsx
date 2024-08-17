@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { jwtDecode } from "jwt-decode";
 import Edit_breweries from "../component/edit_breweries.jsx";
 import Edit_beers from "../component/edit_beer.jsx";
 import Swal from "sweetalert2";
@@ -10,6 +11,18 @@ import Edit_event from "../component/edit_event.jsx";
 const MyAccount = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
+
+  const getTokenInfo = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    try {
+      const decodedToken = jwtDecode(token);
+      return decodedToken.sub.is_brewer;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  };
 
   const breweryDelete = (brewery) => {
     Swal.fire({
@@ -31,6 +44,7 @@ const MyAccount = () => {
           timer: 1500,
         });
         navigate("/my_account");
+        actions.getUserBreweries();
       } else {
         return;
       }
@@ -104,17 +118,33 @@ const MyAccount = () => {
       navigate("/login");
       return;
     }
-    actions.getUserBreweries();
-    actions.getUserBeers();
-    actions.getUserEvents();
+    getTokenInfo();
+    if (getTokenInfo()) {
+      actions.getUserBreweries();
+      actions.getUserBeers();
+      actions.getUserEvents();
+    }
+
     return;
   }, []);
 
   return (
     <div className="container-fluid">
       {/* Sección de Cervecerías */}
-      <h1 className="text-center m-4">Mis Cervecerías</h1>
-      <div className="overflow-auto d-flex flex-nowrap">
+      <h1
+        className={`${
+          !getTokenInfo() ? "text-center m-4 d-none" : "text-center m-4"
+        }`}
+      >
+        Mis Cervecerías
+      </h1>
+      <div
+        className={`${
+          !getTokenInfo()
+            ? "overflow-auto d-flex flex-nowrap d-none"
+            : "overflow-auto d-flex flex-nowrap"
+        }`}
+      >
         {store.userBreweries.length > 0 ? (
           store.userBreweries.map((brewery) => (
             <div class="cards-container" key={brewery.id}>
@@ -150,8 +180,20 @@ const MyAccount = () => {
           </h6>
         )}
       </div>
-      <h1 className="text-center m-4">Mis Cervezas</h1>
-      <div className="overflow-auto d-flex flex-nowrap">
+      <h1
+        className={`${
+          !getTokenInfo() ? "text-center m-4 d-none" : "text-center m-4"
+        }`}
+      >
+        Mis Cervezas
+      </h1>
+      <div
+        className={`${
+          !getTokenInfo()
+            ? "overflow-auto d-flex flex-nowrap d-none"
+            : "overflow-auto d-flex flex-nowrap"
+        }`}
+      >
         {store.userBeers.length > 0 ? (
           store.userBeers.map((beer) => (
             <div
@@ -197,8 +239,20 @@ const MyAccount = () => {
       </div>
 
       {/* Sección de Eventos */}
-      <h1 className="text-center m-4">Mis Eventos</h1>
-      <div className="overflow-auto d-flex flex-nowrap">
+      <h1
+        className={`${
+          !getTokenInfo() ? "text-center m-4 d-none" : "text-center m-4"
+        }`}
+      >
+        Mis Eventos
+      </h1>
+      <div
+        className={`${
+          !getTokenInfo()
+            ? "overflow-auto d-flex flex-nowrap d-none"
+            : "overflow-auto d-flex flex-nowrap"
+        }`}
+      >
         {store.breweryEvents.length > 0 ? (
           store.breweryEvents.map((event) => (
             <div
