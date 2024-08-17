@@ -10,6 +10,7 @@ import Edit_event from "../component/edit_event.jsx";
 const MyAccount = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
+  const user = store.me;
 
   const breweryDelete = (brewery) => {
     Swal.fire({
@@ -104,16 +105,31 @@ const MyAccount = () => {
       navigate("/login");
       return;
     }
-    actions.getUserBreweries();
-    actions.getUserBeers();
-    actions.getUserEvents();
+    if (user.is_brewer) {
+      actions.getUserBreweries();
+      actions.getUserBeers();
+      actions.getUserEvents();
+      return;
+    }
   }, []);
 
   return (
     <div className="container-fluid">
       {/* Sección de Cervecerías */}
-      <h1 className="text-center m-4">Mis Cervecerías</h1>
-      <div className="overflow-auto d-flex flex-nowrap">
+      <h1
+        className={`${
+          !user.is_brewer ? "text-center m-4 d-none" : "text-center m-4"
+        }`}
+      >
+        Mis Cervecerías
+      </h1>
+      <div
+        className={`${
+          !user.is_brewer
+            ? "overflow-auto d-flex flex-nowrap d-none"
+            : "overflow-auto d-flex flex-nowrap"
+        }`}
+      >
         {store.userBreweries.length > 0 ? (
           store.userBreweries.map((brewery) => (
             <div class="cards-container" key={brewery.id}>
@@ -149,10 +165,20 @@ const MyAccount = () => {
           </h6>
         )}
       </div>
-
-      {/* Sección de Cervezas */}
-      <h1 className="text-center mb-4 mt-5">Mis Cervezas</h1>
-      <div className="overflow-auto d-flex flex-nowrap">
+      <h1
+        className={`${
+          !user.is_brewer ? "text-center m-4 d-none" : "text-center m-4"
+        }`}
+      >
+        Mis Cervezas
+      </h1>
+      <div
+        className={`${
+          !user.is_brewer
+            ? "overflow-auto d-flex flex-nowrap d-none"
+            : "overflow-auto d-flex flex-nowrap"
+        }`}
+      >
         {store.userBeers.length > 0 ? (
           store.userBeers.map((beer) => (
             <div
@@ -198,8 +224,20 @@ const MyAccount = () => {
       </div>
 
       {/* Sección de Eventos */}
-      <h1 className="text-center mb-4">Mis Eventos</h1>
-      <div className="overflow-auto d-flex flex-nowrap">
+      <h1
+        className={`${
+          !user.is_brewer ? "text-center m-4 d-none" : "text-center m-4"
+        }`}
+      >
+        Mis Eventos
+      </h1>
+      <div
+        className={`${
+          !user.is_brewer
+            ? "overflow-auto d-flex flex-nowrap d-none"
+            : "overflow-auto d-flex flex-nowrap"
+        }`}
+      >
         {store.breweryEvents.length > 0 ? (
           store.breweryEvents.map((event) => (
             <div
