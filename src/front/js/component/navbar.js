@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { jwtDecode } from "jwt-decode";
 import "../../styles/search.css";
 import "../../styles/index.css";
 import BEER from "../../img/BEER.jpeg";
@@ -8,7 +9,6 @@ import BEER from "../../img/BEER.jpeg";
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
   const jwt = localStorage.getItem("token");
-  const user = store.me;
   const navigate = useNavigate();
 
   function logout() {
@@ -19,12 +19,25 @@ export const Navbar = () => {
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const getTokenInfo = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    try {
+      const decodedToken = jwtDecode(token);
+      return decodedToken.sub.is_brewer;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  };
+
   useEffect(() => {
     const jwt = localStorage.getItem("token");
-    if (!jwt) {
+    if (!getTokenInfo()) {
       navigate("/");
       return;
     }
+    getTokenInfo();
   }, []);
   useEffect(() => {
     if (searchQuery) {
@@ -194,7 +207,7 @@ export const Navbar = () => {
                 <Link
                   to="/add_brewery"
                   className={`${
-                    !jwt || !user.is_brewer
+                    !getTokenInfo()
                       ? "dropdown-item text-dark d-none"
                       : "dropdown-item text-dark"
                   }`}
@@ -206,7 +219,7 @@ export const Navbar = () => {
                 <Link
                   to="/add_beer"
                   className={`${
-                    !jwt || !user.is_brewer
+                    !getTokenInfo()
                       ? "dropdown-item text-dark d-none"
                       : "dropdown-item text-dark"
                   }`}
@@ -218,7 +231,7 @@ export const Navbar = () => {
                 <Link
                   to="/add_event"
                   className={`${
-                    !jwt || !user.is_brewer
+                    !getTokenInfo()
                       ? "dropdown-item text-dark d-none"
                       : "dropdown-item text-dark"
                   }`}
