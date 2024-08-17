@@ -107,7 +107,7 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
           showConfirmButton: false,
           timer: 1500,
         });
-        actions.getAllBrreweries();
+        actions.getAllBreweries();
         if (!id) {
           setBrewery({
             name: "",
