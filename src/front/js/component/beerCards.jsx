@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/beerCards.css";
 import HazyIPA from "../../img/hazyipa.jpeg";
-import fullGlass from "../../img/fullglass.png";
-import emptyGlass from "../../img/empty.png";
+import fullGlass from "../../img/fullglass.jpg";
+import emptyGlass from "../../img/empty.jpg";
 
 export const BeerCards = () => {
   const { store, actions } = useContext(Context);
