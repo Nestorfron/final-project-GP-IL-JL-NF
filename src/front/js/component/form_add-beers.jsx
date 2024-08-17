@@ -111,7 +111,6 @@ const Form_add_beer = ({ id, btnBeer, beer: initialBeer }) => {
             showConfirmButton: false,
             timer: 1500,
           });
-          actions.getAllBeers();
           setBeer({
             name: "",
             brewery_id: "",
@@ -121,6 +120,7 @@ const Form_add_beer = ({ id, btnBeer, beer: initialBeer }) => {
             description: "",
             result: "",
           });
+          actions.getAllBeers();
         } else {
           Swal.fire({
             icon: "error",
