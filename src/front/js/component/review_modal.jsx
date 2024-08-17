@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import fullGlass from "../../img/fullglass.jpg";
-import emptyGlass from "../../img/empty.jpg";
+import fullGlass from "../../img/fullglass.png";
+import emptyGlass from "../../img/empty.png";
 
 export const ReviewModal = ({ show, handleClose, beer_id, submitReview }) => {
   const [rating, setRating] = useState(0);
