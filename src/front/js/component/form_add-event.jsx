@@ -88,7 +88,6 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
             showConfirmButton: false,
             timer: 1500,
           });
-          actions.getAllEvents();
         } else {
           Swal.fire({
             icon: "error",
@@ -138,7 +137,6 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
             description: "",
             result: "",
           });
-          acitons.getAllEvents();
         } else {
           Swal.fire({
             icon: "error",

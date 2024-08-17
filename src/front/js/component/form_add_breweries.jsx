@@ -119,7 +119,6 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
           setLogo_of_brewery(null);
           setPicture_of_brewery(null);
         }
-        actions.getAllBreweries();
       } else {
         throw new Error("Hubo un problema al procesar la solicitud.");
       }
