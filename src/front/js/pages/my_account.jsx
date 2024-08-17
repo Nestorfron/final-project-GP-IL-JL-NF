@@ -165,8 +165,6 @@ const MyAccount = () => {
           </h6>
         )}
       </div>
-
-      {/* Sección de Cervezas */}
       <h1
         className={`${
           !user.is_brewer ? "text-center m-4 d-none" : "text-center m-4"
