@@ -1,33 +1,16 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-import useTokenExpiration from "../../../hooks/useTokenExpiration.jsx";
 import Edit_breweries from "../component/edit_breweries.jsx";
 import Edit_beers from "../component/edit_beer.jsx";
-import Edit_event from "../component/edit_event.jsx";
-import "../../styles/my_account.css";
 import Swal from "sweetalert2";
+import "../../styles/my_account.css";
+import Edit_event from "../component/edit_event.jsx";
 
 const MyAccount = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const user = store.me;
-
-  // Usa el hook personalizado para verificar la expiración del token
-  useTokenExpiration();
-
-  useEffect(() => {
-    const jwt = localStorage.getItem("token");
-    if (!jwt) {
-      navigate("/login");
-      return;
-    }
-    if (user.is_brewer) {
-      actions.getUserBreweries();
-      actions.getUserBeers();
-      actions.getUserEvents();
-    }
-  }, [user, navigate, actions]);
 
   const breweryDelete = (brewery) => {
     Swal.fire({
@@ -49,6 +32,8 @@ const MyAccount = () => {
           timer: 1500,
         });
         navigate("/my_account");
+      } else {
+        return;
       }
     });
   };
@@ -56,7 +41,7 @@ const MyAccount = () => {
   const beerDelete = (beer) => {
     Swal.fire({
       title: "Advertencia",
-      text: "¿Desea eliminar la Cerveza?",
+      text: "¿Desea eliminar la Cervecería?",
       position: "center",
       icon: "error",
       showDenyButton: true,
@@ -73,6 +58,8 @@ const MyAccount = () => {
           timer: 1500,
         });
         navigate("/my_account");
+      } else {
+        return;
       }
     });
   };
@@ -92,23 +79,39 @@ const MyAccount = () => {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: "Evento eliminado correctamente",
+          title: "Evento eliminada correctamente",
           showConfirmButton: false,
           timer: 1500,
         });
         navigate("/my_account");
+      } else {
+        return;
       }
     });
   };
 
-  const formatDate = (isoString) => {
+  function formatDate(isoString) {
     const date = new Date(isoString);
     const day = date.getUTCDate().toString().padStart(2, "0");
     const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
     const year = date.getUTCFullYear();
 
     return `${day}/${month}/${year}`;
-  };
+  }
+
+  useEffect(() => {
+    const jwt = localStorage.getItem("token");
+    if (!jwt) {
+      navigate("/login");
+      return;
+    }
+    if (user.is_brewer) {
+      actions.getUserBreweries();
+      actions.getUserBeers();
+      actions.getUserEvents();
+      return;
+    }
+  }, []);
 
   return (
     <div className="container-fluid">
@@ -129,7 +132,7 @@ const MyAccount = () => {
       >
         {store.userBreweries.length > 0 ? (
           store.userBreweries.map((brewery) => (
-            <div className="cards-container" key={brewery.id}>
+            <div class="cards-container" key={brewery.id}>
               <div className="card cardAccount border-light shadow-lg me-4">
                 <img
                   src={brewery.logo_of_brewery}
@@ -162,7 +165,6 @@ const MyAccount = () => {
           </h6>
         )}
       </div>
-
       <h1
         className={`${
           !user.is_brewer ? "text-center m-4 d-none" : "text-center m-4"
@@ -189,7 +191,7 @@ const MyAccount = () => {
                 alt={beer.name}
               />
               <div className="card-body body-card d-flex flex-column">
-                <h2 className="card-title mb-3">{beer.name}</h2>
+                <h2 className="card-title  mb-3">{beer.name}</h2>
                 <p className="card-text mb-2">
                   <strong>Estilo BJCP:</strong> {beer.bjcp_style}
                 </p>
@@ -209,7 +211,7 @@ const MyAccount = () => {
                   >
                     <i className="fas fa-trash-alt me-1"></i>
                   </button>
-                  <Edit_beers beer={beer} />
+                  <Edit_beers beer={beer}></Edit_beers>
                 </div>
               </div>
             </div>
@@ -252,6 +254,7 @@ const MyAccount = () => {
                 <h4 className="card-title title-card mb-3">
                   {formatDate(event.date)}
                 </h4>
+
                 <div className="container-fluid d-flex mt-auto justify-content-between footer-card">
                   <button
                     onClick={() => eventDelete(event.id)}
@@ -259,7 +262,7 @@ const MyAccount = () => {
                   >
                     <i className="fas fa-trash-alt me-1"></i>
                   </button>
-                  <Edit_event event={event} />
+                  <Edit_event event={event}></Edit_event>
                 </div>
               </div>
             </div>
