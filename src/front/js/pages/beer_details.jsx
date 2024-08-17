@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { ReviewModal } from "../component/review_modal.jsx";
 import "../../styles/beerDetails.css";
-import fullGlass from "../../img/fullglass.jpg";
-import emptyGlass from "../../img/empty.jpg";
+import fullGlass from "../../img/fullglass.png";
+import emptyGlass from "../../img/empty.png";
 
 export const BeerDetails = () => {
   const { id } = useParams();
