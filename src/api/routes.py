@@ -441,29 +441,6 @@ def get_beer_details(beer_id):
         return jsonify({"error": f"{error}"}), 500
     
 
-@api.route('/search_beers', methods=['GET'])
-def search_beers():
-    query = request.args.get('query', '')
-    if not query:
-        return jsonify([]), 404 
-
-    results = Beer.query.filter(Beer.name.ilike(f'%{query}%')).all()
-   
-    if results == []: 
-        return jsonify({"msg": "No existen cervezas"}), 404 
-
-    beers = [{
-        "id": beer.id,
-        "name": beer.name,
-        "bjcp_style": beer.bjcp_style,
-        "IBUs": beer.IBUs,
-        "volALC": beer.volALC,
-        "description": beer.description,
-        "picture_of_beer_url": beer.picture_of_beer_url
-    } for beer in results]
-
-    return jsonify(beers), 200
-
 #endopoint para crear un review
 @api.route('/reviews', methods=['POST'])
 @jwt_required()
@@ -583,3 +560,44 @@ def get_all_reviews():
         return jsonify({"reviews": serialized_reviews}), 200
     except Exception as error:
         return jsonify({"error": str(error)}), 500
+
+@api.route('/search', methods=['GET'])
+def search():
+    query = request.args.get('query', '')
+
+    if not query:
+        return jsonify({"error": "No search query provided"}), 400
+
+    try:
+        # Buscar cervezas
+        beer_results = Beer.query.filter(Beer.name.ilike(f'%{query}%')).all()
+        beers = [{
+            "id": beer.id,
+            "name": beer.name,
+            "bjcp_style": beer.bjcp_style,
+            "IBUs": beer.IBUs,
+            "volALC": beer.volALC,
+            "description": beer.description,
+            "picture_of_beer_url": beer.picture_of_beer_url
+        } for beer in beer_results]
+
+        # Buscar cervecerías
+        brewery_results = Brewery.query.filter(Brewery.name.ilike(f'%{query}%')).all()
+        breweries = [{
+            "id": brewery.id,
+            "name": brewery.name,
+            "address": brewery.address,
+            "history": brewery.history,
+            "facebook_url": brewery.facebook_url,
+            "instagram_url": brewery.instagram_url,
+            "x_url": brewery.x_url,
+            "picture_of_brewery_url": brewery.picture_of_brewery_url,
+            "logo_of_brewery": brewery.logo_of_brewery_url,
+            "lat": brewery.latitude,
+            "lng": brewery.longitude
+        } for brewery in brewery_results]
+
+        return jsonify({"beers": beers, "breweries": breweries}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
