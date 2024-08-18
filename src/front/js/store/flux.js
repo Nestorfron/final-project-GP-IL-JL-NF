@@ -12,7 +12,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userStyles: [],
       LatLng: [],
       users: [],
-      searchResults: [],
+      search: [],
       loading: false,
       countries: [
         "Antigua y Barbuda",
@@ -611,27 +611,24 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      searchBeers: async (query) => {
-        setStore({ loading: true }); // Inicia el estado de carga
+      search: async (query) => {
         try {
           const response = await fetch(
-            `${
-              process.env.BACKEND_URL
-            }/api/search_beers?query=${encodeURIComponent(query)}`
+            `${process.env.BACKEND_URL}/api/search?query=${query}`
           );
           if (response.ok) {
             const data = await response.json();
-            setStore({ searchResults: data });
+            setStore({
+              searchResults: {
+                beers: data.beers || [],
+                breweries: data.breweries || [],
+              },
+            });
           } else {
-            const errorData = await response.json();
-            console.error("Search error:", errorData.msg);
-            setStore({ searchResults: [] }); // Limpiar los resultados si la búsqueda falla
+            console.error("Error fetching search results");
           }
         } catch (error) {
-          console.log("Error:", error);
-          setStore({ searchResults: [] }); // Limpiar los resultados en caso de error
-        } finally {
-          setStore({ loading: false }); // Termina el estado de carga
+          console.error("Error in search action:", error);
         }
       },
 
