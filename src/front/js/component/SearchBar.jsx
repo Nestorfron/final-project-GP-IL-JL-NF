@@ -43,7 +43,7 @@ const SearchBar = () => {
       <input
         className="form-control me-2"
         type="text"
-        placeholder="Buscar cervezas"
+        placeholder="Buscar"
         value={searchQuery}
         onChange={handleSearchChange}
       />
@@ -56,11 +56,11 @@ const SearchBar = () => {
               {store.searchResults.beers &&
                 store.searchResults.beers.length > 0 && (
                   <>
-                    <h4>Cerveza</h4>
+                    <h5 className="text-black text-center">Cervezas</h5>
                     {store.searchResults.beers.map((beer) => (
                       <li key={beer.id} className="list-group-item">
                         <Link to={`/beer/${beer.id}`} className="dropdown-item">
-                          {beer.name}
+                        <i className="fa-solid fa-arrow-up-right-from-square"></i> {beer.name} 
                         </Link>
                       </li>
                     ))}
@@ -69,14 +69,14 @@ const SearchBar = () => {
               {store.searchResults.breweries &&
                 store.searchResults.breweries.length > 0 && (
                   <>
-                    <h4>Cervecerías</h4>
+                    <h5 className="text-black text-center">Cervecerías</h5>
                     {store.searchResults.breweries.map((brewery) => (
                       <li key={brewery.id} className="list-group-item">
                         <Link
                           to={`/brewery/${brewery.id}`}
                           className="dropdown-item"
                         >
-                          {brewery.name}
+                         <i className="fa-solid fa-arrow-up-right-from-square"></i> {brewery.name} 
                         </Link>
                       </li>
                     ))}
