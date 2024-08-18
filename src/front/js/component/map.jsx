@@ -11,12 +11,13 @@ import { useLocation } from "react-router-dom";
 // Define libraries as a constant to avoid re-creating the array on each render
 const LIBRARIES = ["places"];
 
-const Map = () => {
+const Map = (props) => {
   const { store, actions } = useContext(Context);
   const location = useLocation();
   const [center, setCenter] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [newMarkerPosition, setNewMarkerPosition] = useState(null);
+  const [visualLocation, setVistualLocation] = useState(null);
   const [myPosition, setMyPosition] = useState(null);
   const [isAdding, setIsAdding] = useState(true);
 
@@ -28,13 +29,20 @@ const Map = () => {
 
   // Check if the current page is the Add Brewery page
   const checkAddBreweryPage = useCallback(() => {
-    setIsAdding(location.pathname === "/add_brewery");
+    if (location.pathname === "/add_brewery") {
+      setIsAdding(true);
+    } else if (props.id) {
+      setIsAdding(true);
+    } else {
+      setIsAdding(false);
+    }
   }, [location.pathname]);
 
   // Add new markers to the map
   const addMarkers = useCallback(
     (newLocation) => {
       actions.setLatLng(newLocation);
+      setVistualLocation(newLocation);
     },
     [actions]
   );
@@ -87,59 +95,75 @@ const Map = () => {
   }, [newMarkerPosition, addMarkers]);
 
   return (
-    <LoadScript googleMapsApiKey={process.env.MAP_KEY} libraries={LIBRARIES}>
-      {center && (
-        <GoogleMap
-          mapContainerStyle={{ width: "100%", height: "400px" }}
-          center={center}
-          zoom={12}
-          onClick={onMapClick}
-        >
-          {store.breweries.map((brewery) => (
-            <Marker
-              key={brewery.id}
-              position={{ lat: brewery.lat, lng: brewery.lng }}
-              onClick={() => onMarkerClick(brewery)}
-            />
-          ))}
-          {selectedMarker && (
-            <InfoWindow
-              position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
-              onCloseClick={() => setSelectedMarker(null)}
-            >
-              <div>
-                <h4>
-                  {selectedMarker.description
-                    ? selectedMarker.description
-                    : selectedMarker.name}
-                </h4>
-                <hr />
-                <p>
-                  Direcicón:{" "}
-                  {selectedMarker.address ? selectedMarker.address : ""}
-                </p>
-              </div>
-            </InfoWindow>
-          )}
-          {newMarkerPosition && (
-            <InfoWindow
-              position={newMarkerPosition}
-              onCloseClick={() => setNewMarkerPosition(null)}
-            >
-              <div>
-                <button onClick={addMarker}>Agregar</button>
-              </div>
-            </InfoWindow>
-          )}
-          {myPosition && (
-            <Marker
-              position={{ lat: myPosition.lat, lng: myPosition.lng }}
-              onClick={() => onMarkerClick(myPosition)}
-            />
-          )}
-        </GoogleMap>
+    <div>
+      {isAdding && (
+        <div className="mb-2">
+          <input
+            className="me-2"
+            type="text"
+            placeholder={`${
+              visualLocation ? "lat:" + visualLocation.lat : "lat :...."
+            }`}
+          />
+          <input
+            type="text"
+            placeholder={`${
+              visualLocation ? "lng:" + visualLocation.lng : "lng : ...."
+            }`}
+          />
+        </div>
       )}
-    </LoadScript>
+      <LoadScript googleMapsApiKey={process.env.MAP_KEY} libraries={LIBRARIES}>
+        {center && (
+          <GoogleMap
+            mapContainerStyle={{ width: "100%", height: "400px" }}
+            center={center}
+            zoom={12}
+            onClick={onMapClick}
+          >
+            {store.breweries.map((brewery) => (
+              <Marker
+                key={brewery.id}
+                position={{ lat: brewery.lat, lng: brewery.lng }}
+                onClick={() => onMarkerClick(brewery)}
+              />
+            ))}
+            {selectedMarker && (
+              <InfoWindow
+                position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
+                onCloseClick={() => setSelectedMarker(null)}
+              >
+                <div>
+                  <h4>
+                    {selectedMarker.description
+                      ? selectedMarker.description
+                      : selectedMarker.name}
+                  </h4>
+                  <hr />
+                  <p> {selectedMarker.address ? selectedMarker.address : ""}</p>
+                </div>
+              </InfoWindow>
+            )}
+            {newMarkerPosition && (
+              <InfoWindow
+                position={newMarkerPosition}
+                onCloseClick={() => setNewMarkerPosition(null)}
+              >
+                <div>
+                  <button onClick={addMarker}>Agregar</button>
+                </div>
+              </InfoWindow>
+            )}
+            {myPosition && (
+              <Marker
+                position={{ lat: myPosition.lat, lng: myPosition.lng }}
+                onClick={() => onMarkerClick(myPosition)}
+              />
+            )}
+          </GoogleMap>
+        )}
+      </LoadScript>
+    </div>
   );
 };
 
