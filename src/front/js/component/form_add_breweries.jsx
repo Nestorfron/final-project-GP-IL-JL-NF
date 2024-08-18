@@ -275,9 +275,9 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
 
         <div className="py-5">
           <label htmlFor="map" className="form-label fw-bold">
-            Agrega tu ubicación
+            Agrega tu ubicación (click en el mapa)
           </label>
-          <Map />
+          <Map id={id} />
         </div>
 
         <div className="d-flex justify-content-center">
