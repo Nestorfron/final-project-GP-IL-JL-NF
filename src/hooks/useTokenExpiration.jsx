@@ -15,9 +15,9 @@ const useTokenExpiration = () => {
         const decodedToken = jwtDecode(jwt);
         const currentTime = Date.now() / 1000; // Tiempo actual en segundos
 
-        // Tiempo de expiración ajustado a 10 minutos (600 segundos)
+        // Tiempo de expiración
         const expirationTime = decodedToken.exp || 0;
-        const adjustedExpirationTime = expirationTime - 600;
+        const adjustedExpirationTime = expirationTime;
 
         if (currentTime > adjustedExpirationTime) {
           localStorage.removeItem("token"); // Elimina el token vencido

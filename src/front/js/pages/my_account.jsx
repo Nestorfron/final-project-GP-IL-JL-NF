@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { jwtDecode } from "jwt-decode";
+import useTokenExpiration from "../../../hooks/useTokenExpiration.jsx";
 import Edit_breweries from "../component/edit_breweries.jsx";
 import Edit_beers from "../component/edit_beer.jsx";
 import Swal from "sweetalert2";
@@ -11,6 +12,8 @@ import Edit_event from "../component/edit_event.jsx";
 const MyAccount = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
+
+  useTokenExpiration();
 
   const getTokenInfo = () => {
     const token = localStorage.getItem("token");

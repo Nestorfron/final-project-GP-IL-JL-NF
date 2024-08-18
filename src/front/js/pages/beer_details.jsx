@@ -3,10 +3,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { ReviewModal } from "../component/review_modal.jsx";
 import "../../styles/beerDetails.css";
-import fullGlass from "../../img/fullglass.jpg";
-import emptyGlass from "../../img/empty.jpg";
+import fullGlass from "../../img/fullglass.png";
+import emptyGlass from "../../img/empty.png";
 
 export const BeerDetails = () => {
+  const jwt = localStorage.getItem("token");
   const { id } = useParams();
   const { store, actions } = useContext(Context);
   const { beerDetails, breweries, reviews, users } = store;
@@ -111,7 +112,12 @@ export const BeerDetails = () => {
           </div>
         </div>
         <div className="card-footer d-flex justify-content-center align-items-center">
-          <button className="btn btn-primary m-2" onClick={handleModalShow}>
+          <button
+            className={`${
+              !jwt ? "btn btn-primary m-2 d-none" : "btn btn-primary m-2"
+            }`}
+            onClick={handleModalShow}
+          >
             Write a Review
           </button>
         </div>
