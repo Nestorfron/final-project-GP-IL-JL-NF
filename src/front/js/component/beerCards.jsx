@@ -59,7 +59,7 @@ export const BeerCards = () => {
                     className="beer-picture"
                   />
                 </div>
-                <div>
+                <div className="beer-card-text">
                   <h4 className="beer-name">{beer.name}</h4>
                   <h5 className="beer-brewery">
                     {findBreweryName(beer.brewery_id, breweries)}
