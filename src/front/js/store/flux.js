@@ -8,7 +8,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       breweries: [],
       userBreweries: [],
       userBeers: [],
-      breweryEvents: [],
+      userEvents: [],
       userStyles: [],
       LatLng: [],
       users: [],
@@ -106,6 +106,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+      //GET ME//
       getMe: async () => {
         const jwt = localStorage.getItem("token");
         try {
@@ -305,7 +306,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      // Editar cervezas
+      // EDIT BEERS //
       edit_beer: async (
         id,
         name,
@@ -351,7 +352,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      // Editar eventos
+      // EDIT EVENTS //
       edit_event: async (
         id,
         name,
@@ -473,12 +474,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
-      //GET BREWERY EVENTS//
+      //GET USER EVENTS//
       getUserEvents: async () => {
         const jwt = localStorage.getItem("token");
         try {
           const response = await fetch(
-            process.env.BACKEND_URL + "/api/brewery/events",
+            process.env.BACKEND_URL + "/api/user/events",
             {
               method: "GET",
               headers: {
@@ -488,8 +489,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            console.log(data);
-            setStore({ breweryEvents: data.events });
+            setStore({ userEvents: data.events });
           }
         } catch (error) {
           console.log(error);
