@@ -127,7 +127,6 @@ const MyAccount = () => {
       actions.getUserBeers();
       actions.getUserEvents();
     }
-
     return;
   }, []);
 
