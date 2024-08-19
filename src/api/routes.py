@@ -239,6 +239,22 @@ def get_user_beers():
         return jsonify({"beers": beer_list}), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
+
+#Endpoint para obtener todos los eventos del usuario logueado
+
+@api.route('/user/events', methods=['GET'])
+@jwt_required()
+def get_user_events():
+    try:
+        current_user = get_jwt_identity()
+        user_id = current_user.get("id")
+        user = User.query.get(user_id)
+        if user is None:
+            return  jsonify({'error': 'user not found'}),404
+        event_list = [event.serialize() for event in user.events]
+        return jsonify({"events": event_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
     
 #endpoint para obtener todas las cervezas
     
@@ -268,7 +284,7 @@ def get_events():
 
 @api.route('/brewery/events', methods=['GET'])
 @jwt_required()
-def get_user_events():
+def get_brewery_events():
     try:
         current_user = get_jwt_identity()
         user_id = current_user.get("id")

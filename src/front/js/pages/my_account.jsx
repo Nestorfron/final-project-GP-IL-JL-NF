@@ -255,8 +255,8 @@ const MyAccount = () => {
             : "overflow-auto d-flex flex-nowrap"
         }`}
       >
-        {store.breweryEvents.length > 0 ? (
-          store.breweryEvents.map((event) => (
+        {store.userEvents.length > 0 ? (
+          store.userEvents.map((event) => (
             <div
               className="card cardAccount border-light shadow-lg me-4"
               key={event.id}
