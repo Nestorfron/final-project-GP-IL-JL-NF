@@ -98,7 +98,6 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
             brewery.x_url,
             pictureUrl
           );
-
       if (response) {
         Swal.fire({
           position: "center",
@@ -107,7 +106,6 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
           showConfirmButton: false,
           timer: 1500,
         });
-        actions.getUserBreweries();
 
         if (!id) {
           setBrewery({
@@ -121,6 +119,7 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
           setLogo_of_brewery(null);
           setPicture_of_brewery(null);
         }
+        actions.getUserBreweries();
       } else {
         throw new Error("Hubo un problema al procesar la solicitud.");
       }
