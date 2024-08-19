@@ -37,6 +37,15 @@ export const BreweryDetails = () => {
     return <p className="text-center text-muted">Nada por aquí...</p>;
   }
 
+  function formatDate(isoString) {
+    const date = new Date(isoString);
+    const day = date.getUTCDate().toString().padStart(2, "0");
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+    const year = date.getUTCFullYear();
+
+    return `${day}/${month}/${year}`;
+  }
+
   return (
     <div className="brewery-details-container bg-white">
       <div className="brewery-jumbotron">
@@ -85,7 +94,7 @@ export const BreweryDetails = () => {
                     </p>
                     <p className="event-date d-flex justify-content-between">
                       <span className="fw-bold">Fecha:</span>
-                      <span> {event.date}</span>
+                      <span> {formatDate(event.date)}</span>
                     </p>
                   </div>
                 </div>
