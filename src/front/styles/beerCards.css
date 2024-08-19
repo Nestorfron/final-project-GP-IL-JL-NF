@@ -16,6 +16,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .beer-card:hover {
@@ -74,4 +75,8 @@
 .add-to-basket:hover {
   background-color: #e65c00;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.beer-card-text {
+  margin-top: auto;
 }
