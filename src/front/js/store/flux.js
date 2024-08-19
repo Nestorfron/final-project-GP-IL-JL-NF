@@ -41,6 +41,172 @@ const getState = ({ getStore, getActions, setStore }) => {
         "Uruguay",
         "Venezuela",
       ],
+      bjcp_styles: [
+        "Alternative Fermentables Beer",
+        "Alternative Grain Beer",
+        "Alternative Sugar Beer",
+        "Amber Bitter European Beer",
+        "Amber Kellerbier",
+        "Amber Malty European Lager",
+        "Amber and Brown American Beer",
+        "American Amber Ale",
+        "American Barleywine",
+        "American Brown Ale",
+        "American IPA",
+        "American Lager",
+        "American Light Lager",
+        "American Pale Ale",
+        "American Porter",
+        "American Porter and Stout",
+        "American Stout",
+        "American Strong Ale",
+        "American Wheat Beer",
+        "American Wild Ale",
+        "Australian Sparkling Ale",
+        "Autumn Seasonal Beer",
+        "Baltic Porter",
+        "Belgian Ale",
+        "Belgian Blond Ale",
+        "Belgian Dark Strong Ale",
+        "Belgian Dubbel",
+        "Belgian Golden Strong Ale",
+        "Belgian IPA",
+        "Belgian Pale Ale",
+        "Belgian Single",
+        "Belgian Tripel",
+        "Berliner Weisse",
+        "Best Bitter",
+        "Biere de Garde",
+        "Black IPA",
+        "Blonde Ale",
+        "Brett Beer",
+        "British Bitter",
+        "British Golden Ale",
+        "British Strong Ale",
+        "Brown IPA",
+        "British Brown Ale",
+        "Brut IPA",
+        "California Common",
+        "Cider with Herbs/Spices",
+        "Cider with Other Fruit",
+        "Classic Style Smoked Beer",
+        "Clone Beer",
+        "Commercial Specialty Beer",
+        "Cream Ale",
+        "Cyser",
+        "Dark British Beer",
+        "Dark European Lager",
+        "Dark Mild",
+        "Doppelbock",
+        "Double IPA",
+        "Dry Mead",
+        "Dunkles Bock",
+        "Dunkles Weissbier",
+        "Eisbock",
+        "English Barleywine",
+        "English Cider",
+        "English IPA",
+        "English Porter",
+        "Experimental Beer",
+        "Experimental Mead",
+        "Festbier",
+        "Flanders Red Ale",
+        "Foreign Extra Stout",
+        "French Cider",
+        "Fruit Beer",
+        "Fruit Lambic",
+        "Fruit and Spice Beer",
+        "Fruit and Spice Mead",
+        "Gose",
+        "Gose (Historical Beer)",
+        "Grape Ale",
+        "Gueuze",
+        "Hazy IPA",
+        "Helles Bock",
+        "Historical Beer",
+        "Historical Mead",
+        "Ice Cider",
+        "Imperial Stout",
+        "International Amber Lager",
+        "International Dark Lager",
+        "International Lager",
+        "International Pale Lager",
+        "Irish Beer",
+        "Irish Extra Stout",
+        "Irish Red Ale",
+        "Irish Stout",
+        "Kellerbier",
+        "Kentucky Common",
+        "Kölsch",
+        "Lambic",
+        "Lichtenhainer",
+        "London Brown Ale",
+        "Märzen",
+        "Melomel",
+        "Mixed-Fermentation Sour Beer",
+        "Mixed-Style Beer",
+        "Munich Dunkel",
+        "Munich Helles",
+        "New England Cider",
+        "New World Cider",
+        "New World Perry",
+        "Oatmeal Stout",
+        "Old Ale",
+        "Ordinary Bitter",
+        "Oud Bruin",
+        "Pale Bitter European Beer",
+        "Pale Kellerbier",
+        "Pale Malty European Lager",
+        "Pale American Ale",
+        "Pale Commonwealth Beer",
+        "Piwo Grodziskie",
+        "Pre-Prohibition Lager",
+        "Pre-Prohibition Porter",
+        "Rauchbier",
+        "Red IPA",
+        "Roggenbier",
+        "Rye IPA",
+        "Sahti",
+        "Saison",
+        "Schwarzbier",
+        "Scottish Ale",
+        "Scottish Export",
+        "Scottish Heavy",
+        "Scottish Light",
+        "Semi-Sweet Mead",
+        "Session IPA",
+        "Specialty Beer",
+        "Specialty Fruit Beer",
+        "Specialty IPA",
+        "Specialty Smoked Beer",
+        "Specialty Spice Beer",
+        "Specialty Wood-Aged Beer",
+        "Specialty Cider and Perry",
+        "Spice, Herb, or Vegetable Beer",
+        "Stone Fruit Mead",
+        "Straight Sour Beer",
+        "Strong American Ale",
+        "Strong Belgian Ale",
+        "Strong Bitter",
+        "Strong British Ale",
+        "Strong European Beer",
+        "Sweet Mead",
+        "Sweet Stout",
+        "Traditional Mead",
+        "Traditional Perry",
+        "Trappist Ale",
+        "Trappist Single",
+        "Tropical Stout",
+        "Vienna Lager",
+        "Weizenbock",
+        "Weissbier",
+        "Wheatwine",
+        "White IPA",
+        "Wild Specialty Beer",
+        "Witbier",
+        "Winter Seasonal Beer",
+        "Wood-Aged Beer",
+      ],
       reviews: [],
       averageRatings: [],
     },
@@ -207,7 +373,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         x_url,
         logo_of_brewery_url
       ) => {
-        const action = getActions();
+        const actions = getActions();
         const jwt = localStorage.getItem("token");
 
         try {
@@ -234,7 +400,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            action.getAllBreweries();
+            actions.getUserBreweries();
             return true;
           }
         } catch (error) {
@@ -317,7 +483,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         description,
         picture_of_beer_url
       ) => {
-        const action = getActions();
+        const actions = getActions();
         const jwt = localStorage.getItem("token");
 
         try {
@@ -343,7 +509,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            action.getAllBeers();
+            actions.getUserBeers();
             return true;
           }
         } catch (error) {
@@ -361,7 +527,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         description,
         picture_of_event_url
       ) => {
-        const action = getActions();
+        const actions = getActions();
         const jwt = localStorage.getItem("token");
 
         try {
@@ -385,7 +551,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            action.getAllEvents();
+            actions.getUserEvents();
             return true;
           }
         } catch (error) {
@@ -510,6 +676,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       //DELETE BREWERY
       deleteBrewery: async (brewery_id) => {
+        const actions = getActions();
         const jwt = localStorage.getItem("token");
         try {
           const response = await fetch(
@@ -529,7 +696,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
           const data = await response.json();
-          console.log(data);
+          actions.getUserBreweries();
           return data;
         } catch (error) {
           console.log(error);
@@ -538,6 +705,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       //DELETE BEER
       deleteBeer: async (beer_id) => {
+        const actions = getActions();
         const jwt = localStorage.getItem("token");
         try {
           const response = await fetch(
@@ -557,6 +725,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
           const data = await response.json();
+          actions.getUserBeers();
           return data;
         } catch (error) {
           console.log(error);
@@ -565,6 +734,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       //DELETE EVENT
       deleteEvent: async (event_id) => {
+        const actions = getActions();
         const jwt = localStorage.getItem("token");
         try {
           const response = await fetch(
@@ -584,6 +754,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
           const data = await response.json();
+          actions.getUserEvents();
           return data;
         } catch (error) {
           console.log(error);

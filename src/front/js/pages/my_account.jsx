@@ -46,8 +46,6 @@ const MyAccount = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/my_account");
-        actions.getUserBreweries();
       } else {
         return;
       }
@@ -73,7 +71,6 @@ const MyAccount = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/my_account");
       } else {
         return;
       }
@@ -99,7 +96,6 @@ const MyAccount = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/my_account");
       } else {
         return;
       }
