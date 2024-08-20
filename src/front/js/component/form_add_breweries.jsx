@@ -94,9 +94,9 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
             brewery.history,
             brewery.facebook_url,
             brewery.instagram_url,
-            logoUrl,
+            pictureUrl,
             brewery.x_url,
-            pictureUrl
+            logoUrl
           );
       if (response) {
         Swal.fire({
@@ -106,6 +106,8 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
           showConfirmButton: false,
           timer: 1500,
         });
+
+        actions.getAllBreweries();
 
         if (!id) {
           setBrewery({

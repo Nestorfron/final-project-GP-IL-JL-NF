@@ -12,6 +12,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       userStyles: [],
       LatLng: [],
       users: [],
+      meLogin: [],
+      searchResults: [],
       search: [],
       loading: false,
       countries: [
@@ -283,6 +285,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
           });
           const data = await response.json();
+          console.log(data);
           if (response.ok) {
             setStore({ me: data });
           }
@@ -518,7 +521,52 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      // EDIT EVENTS //
+
+      // Editar usuario
+      edit_user: async (
+        id,
+        email,
+        username,
+        password,
+        country,
+        profile_picture,
+        is_brewer
+      ) => {
+        const action = getActions();
+        const jwt = localStorage.getItem("token");
+
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/edit_user",
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                id,
+                email,
+                username,
+                password,
+                country,
+                profile_picture,
+                is_brewer,
+              }),
+              headers: {
+                "Content-type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            action.getMe();
+            return true;
+          }
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      },
+
+      // Editar eventos
       edit_event: async (
         id,
         name,
@@ -760,6 +808,32 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+      //DELETE USER
+      deleteUser: async (user_id) => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/delete_user",
+            {
+              method: "DELETE",
+              headers: {
+                "Content-type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+              body: JSON.stringify({
+                user_id,
+              }),
+            }
+          );
+          if (!response.ok) {
+            return false;
+          }
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
       getBeerDetails: async (beer_id) => {
         try {
           const response = await fetch(
@@ -851,12 +925,15 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+
       getAllUsers: async () => {
         try {
           const response = await fetch(process.env.BACKEND_URL + "/api/users");
           const data = await response.json();
+          console.log(data);
           if (response.ok) {
             setStore({ users: data });
+            console.log(data);
           }
         } catch (error) {
           console.error("Fetch error:", error);

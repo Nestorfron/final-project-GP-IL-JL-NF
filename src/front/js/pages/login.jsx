@@ -14,11 +14,10 @@ const Login = () => {
   const showLoadingAlert = () => {
     Swal.fire({
       title: "Iniciando sesión...",
-      text: "Por favor, espera mientras se procesa tu solicitud.",
       allowOutsideClick: false,
       showConfirmButton: false,
       didOpen: () => {
-        Swal.showLoading(); // Muestra el indicador de carga
+        Swal.showLoading();
       },
       customClass: {
         container: "custom-container",
@@ -56,7 +55,7 @@ const Login = () => {
       } else {
         navigate("/");
       }
-    }, 3000);
+    }, 2000);
   };
 
   return (
