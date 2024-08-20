@@ -30,7 +30,6 @@ const MyAccount = () => {
     }
   };
 
-
   const breweryDelete = (brewery) => {
     Swal.fire({
       title: "Advertencia",
@@ -162,20 +161,8 @@ const MyAccount = () => {
   return (
     <div className="container-fluid">
       {/* Sección de Usuario */}
-      <h1
-        className={`${
-          !user.is_brewer ? "text-center m-4 d-none" : "text-center m-4"
-        }`}
-      >
-        Usuario
-      </h1>
-      <div
-        className={`${
-          !user.is_brewer
-            ? "overflow-auto d-flex flex-nowrap d-none"
-            : "overflow-auto d-flex flex-nowrap"
-        }`}
-      >
+      <h1 className="text-center m-4">Usuario</h1>
+      <div className="overflow-auto d-flex flex-nowrap">
         <div className="cards-container" key={user.id}>
           <div className="card cardAccount border-light shadow-lg me-4">
             <img

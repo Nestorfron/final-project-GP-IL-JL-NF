@@ -158,7 +158,7 @@ export const Navbar = () => {
                       : "dropdown-item text-dark"
                   }`}
                 >
-                  Agregar producto
+                  Agregar Cerveza
                 </Link>
               </li>
               <li>
