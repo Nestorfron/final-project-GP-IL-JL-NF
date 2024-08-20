@@ -83,10 +83,9 @@ def edit_user():
         user = User.query.get(user_id)
         if user is None:
             return jsonify({"error": "User not found"}), 404
-        
         user.email = body.get("email", user.email)
         user.username = body.get("username", user.username)
-        user.password = body.get("password", user.password)
+        user.password = body.get("password", generate_password_hash(user.password))
         user.country = body.get("country", user.country)
         user.profile_picture = body.get("profile_picture", user.profile_picture)
         user.is_brewer = body.get("is_brewer", user.is_brewer)
