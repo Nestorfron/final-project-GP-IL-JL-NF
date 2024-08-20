@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { jwtDecode } from "jwt-decode";
+import useTokenExpiration from "../../../hooks/useTokenExpiration.jsx";
 import Edit_breweries from "../component/edit_breweries.jsx";
 import Edit_beers from "../component/edit_beer.jsx";
 import Swal from "sweetalert2";
@@ -11,7 +13,24 @@ import Edit_user from "../component/edit_user.jsx";
 const MyAccount = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
+
   const user = store.me;
+
+  useTokenExpiration();
+
+  const getTokenInfo = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    try {
+      const decodedToken = jwtDecode(token);
+      return decodedToken.sub.is_brewer;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  };
+
+
   const breweryDelete = (brewery) => {
     Swal.fire({
       title: "Advertencia",
@@ -31,7 +50,6 @@ const MyAccount = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/my_account");
       } else {
         return;
       }
@@ -41,7 +59,7 @@ const MyAccount = () => {
   const beerDelete = (beer) => {
     Swal.fire({
       title: "Advertencia",
-      text: "¿Desea eliminar la Cervecería?",
+      text: "¿Desea eliminar la Cerveza?",
       position: "center",
       icon: "error",
       showDenyButton: true,
@@ -57,7 +75,6 @@ const MyAccount = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/my_account");
       } else {
         return;
       }
@@ -79,11 +96,10 @@ const MyAccount = () => {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: "Evento eliminada correctamente",
+          title: "Evento eliminado correctamente",
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/my_account");
       } else {
         return;
       }
@@ -132,13 +148,15 @@ const MyAccount = () => {
       navigate("/login");
       return;
     }
-    if (user.is_brewer) {
+    getTokenInfo();
+    if (getTokenInfo()) {
       actions.getUserBreweries();
       actions.getUserBeers();
       actions.getUserEvents();
-      return;
     }
+
     actions.getMe();
+    return;
   }, []);
 
   return (
@@ -187,14 +205,14 @@ const MyAccount = () => {
       {/* Sección de Cervecerías */}
       <h1
         className={`${
-          !user.is_brewer ? "text-center m-4 d-none" : "text-center m-4"
+          !getTokenInfo() ? "text-center m-4 d-none" : "text-center m-4"
         }`}
       >
         Mis Cervecerías
       </h1>
       <div
         className={`${
-          !user.is_brewer
+          !getTokenInfo()
             ? "overflow-auto d-flex flex-nowrap d-none"
             : "overflow-auto d-flex flex-nowrap"
         }`}
@@ -236,51 +254,50 @@ const MyAccount = () => {
       </div>
       <h1
         className={`${
-          !user.is_brewer ? "text-center m-4 d-none" : "text-center m-4"
+          !getTokenInfo() ? "text-center m-4 d-none" : "text-center m-4"
         }`}
       >
         Mis Cervezas
       </h1>
       <div
         className={`${
-          !user.is_brewer
+          !getTokenInfo()
             ? "overflow-auto d-flex flex-nowrap d-none"
             : "overflow-auto d-flex flex-nowrap"
         }`}
       >
         {store.userBeers.length > 0 ? (
           store.userBeers.map((beer) => (
-            <div
-              className="card cardAccount border-light shadow-lg me-4"
-              key={beer.id}
-            >
-              <img
-                src={beer.picture_of_beer_url}
-                className="card-img-top card-img"
-                alt={beer.name}
-              />
-              <div className="card-body body-card d-flex flex-column">
-                <h2 className="card-title  mb-3">{beer.name}</h2>
-                <p className="card-text mb-2">
-                  <strong>Estilo BJCP:</strong> {beer.bjcp_style}
-                </p>
-                <p className="card-text mb-2">
-                  <strong>IBUs:</strong> {beer.IBUs}
-                </p>
-                <p className="card-text mb-2">
-                  <strong>VolALC:</strong> {beer.volALC}
-                </p>
-                <p className="card-text mb-3">
-                  <strong>Descripción:</strong> {beer.description}
-                </p>
-                <div className="container-fluid d-flex mt-auto justify-content-between footer-card">
-                  <button
-                    onClick={() => beerDelete(beer.id)}
-                    className="btn btn-danger mt-auto"
-                  >
-                    <i className="fas fa-trash-alt me-1"></i>
-                  </button>
-                  <Edit_beers beer={beer}></Edit_beers>
+            <div className="cards-container" key={beer.id}>
+              <div className=" card cardAccount border-light shadow-lg me-4">
+                <img
+                  src={beer.picture_of_beer_url}
+                  className="card-img-top card-img"
+                  alt={beer.name}
+                />
+                <div className="card-body body-card d-flex flex-column">
+                  <h2 className="card-title  mb-3">{beer.name}</h2>
+                  <p className="card-text mb-2">
+                    <strong>Estilo BJCP:</strong> {beer.bjcp_style}
+                  </p>
+                  <p className="card-text mb-2">
+                    <strong>IBUs:</strong> {beer.IBUs}
+                  </p>
+                  <p className="card-text mb-2">
+                    <strong>VolALC:</strong> {beer.volALC}
+                  </p>
+                  <p className="card-text mb-3">
+                    <strong>Descripción:</strong> {beer.description}
+                  </p>
+                  <div className="container-fluid d-flex mt-auto justify-content-between footer-card">
+                    <button
+                      onClick={() => beerDelete(beer.id)}
+                      className="btn btn-danger mt-auto"
+                    >
+                      <i className="fas fa-trash-alt me-1"></i>
+                    </button>
+                    <Edit_beers beer={beer}></Edit_beers>
+                  </div>
                 </div>
               </div>
             </div>
@@ -295,43 +312,42 @@ const MyAccount = () => {
       {/* Sección de Eventos */}
       <h1
         className={`${
-          !user.is_brewer ? "text-center m-4 d-none" : "text-center m-4"
+          !getTokenInfo() ? "text-center m-4 d-none" : "text-center m-4"
         }`}
       >
         Mis Eventos
       </h1>
       <div
         className={`${
-          !user.is_brewer
+          !getTokenInfo()
             ? "overflow-auto d-flex flex-nowrap d-none"
             : "overflow-auto d-flex flex-nowrap"
         }`}
       >
-        {store.breweryEvents.length > 0 ? (
-          store.breweryEvents.map((event) => (
-            <div
-              className="card cardAccount border-light shadow-lg me-4"
-              key={event.id}
-            >
-              <img
-                src={event.picture_of_event_url}
-                className="card-img-top card-img"
-                alt={event.picture_of_event_url}
-              />
-              <div className="card-body body-card d-flex flex-column">
-                <h4 className="card-title title-card mb-3">{event.name}</h4>
-                <h4 className="card-title title-card mb-3">
-                  {formatDate(event.date)}
-                </h4>
+        {store.userEvents.length > 0 ? (
+          store.userEvents.map((event) => (
+            <div className="cards-container" key={event.id}>
+              <div className="card cardAccount border-light shadow-lg me-4">
+                <img
+                  src={event.picture_of_event_url}
+                  className="card-img-top card-img"
+                  alt={event.picture_of_event_url}
+                />
+                <div className="card-body body-card d-flex flex-column">
+                  <h4 className="card-title title-card mb-3">{event.name}</h4>
+                  <h4 className="card-title title-card mb-3">
+                    {formatDate(event.date)}
+                  </h4>
 
-                <div className="container-fluid d-flex mt-auto justify-content-between footer-card">
-                  <button
-                    onClick={() => eventDelete(event.id)}
-                    className="btn btn-danger text-dark mt-auto"
-                  >
-                    <i className="fas fa-trash-alt me-1"></i>
-                  </button>
-                  <Edit_event event={event}></Edit_event>
+                  <div className="container-fluid d-flex mt-auto justify-content-between footer-card">
+                    <button
+                      onClick={() => eventDelete(event.id)}
+                      className="btn btn-danger text-dark mt-auto"
+                    >
+                      <i className="fas fa-trash-alt me-1"></i>
+                    </button>
+                    <Edit_event event={event}></Edit_event>
+                  </div>
                 </div>
               </div>
             </div>

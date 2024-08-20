@@ -98,7 +98,6 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
             brewery.x_url,
             logoUrl
           );
-
       if (response) {
         Swal.fire({
           position: "center",
@@ -107,7 +106,9 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
           showConfirmButton: false,
           timer: 1500,
         });
+
         actions.getAllBreweries();
+
         if (!id) {
           setBrewery({
             name: "",
@@ -120,6 +121,7 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
           setLogo_of_brewery(null);
           setPicture_of_brewery(null);
         }
+        actions.getUserBreweries();
       } else {
         throw new Error("Hubo un problema al procesar la solicitud.");
       }
@@ -274,9 +276,9 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
 
         <div className="py-5">
           <label htmlFor="map" className="form-label fw-bold">
-            Agrega tu ubicación
+            Agrega tu ubicación (click en el mapa)
           </label>
-          <Map />
+          <Map id={id} />
         </div>
 
         <div className="d-flex justify-content-center">

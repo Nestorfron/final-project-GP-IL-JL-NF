@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import fullGlass from "../../img/fullglass.jpg";
-import emptyGlass from "../../img/empty.jpg";
+import fullGlass from "../../img/fullglass.png";
+import emptyGlass from "../../img/empty.png";
+import "../../styles/reviewModal.css";
 
 export const ReviewModal = ({ show, handleClose, beer_id, submitReview }) => {
   const [rating, setRating] = useState(0);
@@ -29,14 +30,17 @@ export const ReviewModal = ({ show, handleClose, beer_id, submitReview }) => {
   }
 
   return (
-    <div className="modal show d-block" tabIndex="-1" role="dialog">
+    <div
+      className="modal show d-block review-modal"
+      tabIndex="-1"
+      role="dialog"
+    >
       <div className="modal-dialog" role="document">
         <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">Write a Review</h5>
-            <button type="button" className="close" onClick={handleClose}>
-              <span aria-hidden="true">&times;</span>
-            </button>
+          <div className="modal-header d-flex justify-content-center bg-light ">
+            <h5 className=" review-modal-title fw-bold m-0 text-dark ">
+              Escribe una review
+            </h5>
           </div>
           <div className="modal-body">
             <div className="rating mb-3">
@@ -67,20 +71,20 @@ export const ReviewModal = ({ show, handleClose, beer_id, submitReview }) => {
               />
             </div>
           </div>
-          <div className="modal-footer">
+          <div className="modal-footer d-flex justify-content-center ">
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn review-modal-button"
               onClick={handleClose}
             >
-              Close
+              Cerrar
             </button>
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn review-modal-button"
               onClick={handleSubmit}
             >
-              Submit Review
+              Enviar Review
             </button>
           </div>
         </div>

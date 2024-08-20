@@ -22,6 +22,7 @@ const Form_add_beer = ({ id, btnBeer, beer: initialBeer }) => {
 
   function handleChange(e) {
     setBeer({ ...beer, [e.target.name]: e.target.value });
+    console.log(beer);
   }
 
   const handleSubmit = async (e) => {
@@ -61,7 +62,6 @@ const Form_add_beer = ({ id, btnBeer, beer: initialBeer }) => {
             showConfirmButton: false,
             timer: 1500,
           });
-          actions.getAllBeers();
         } else {
           Swal.fire({
             icon: "error",
@@ -111,7 +111,6 @@ const Form_add_beer = ({ id, btnBeer, beer: initialBeer }) => {
             showConfirmButton: false,
             timer: 1500,
           });
-          actions.getAllBeers();
           setBeer({
             name: "",
             brewery_id: "",
@@ -200,14 +199,21 @@ const Form_add_beer = ({ id, btnBeer, beer: initialBeer }) => {
             >
               ESTILO BJCP
             </label>
-            <input
-              type="text"
-              className="form-control"
-              value={beer.bjcp_style}
-              name="bjcp_style"
+            <select
+              className="form-select"
+              aria-label="Default select example"
               onChange={(e) => handleChange(e)}
+              name="bjcp_style"
+              value={beer.bjcp_style}
               required
-            />
+            >
+              <option value="" selected>
+                Selecciona una estilo
+              </option>
+              {store.bjcp_styles.map((style, index) => {
+                return <option key={style + index}>{style}</option>;
+              })}
+            </select>
           </div>
           <div className="form form-grup mx-sm-4 mb-4">
             <label

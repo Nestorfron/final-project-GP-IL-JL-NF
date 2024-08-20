@@ -1,70 +1,48 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { jwtDecode } from "jwt-decode";
 import "../../styles/search.css";
 import "../../styles/index.css";
-import BEER from "../../img/BEER.jpeg";
+import BEER from "../../img/BEER.png";
+import SearchBar from "../component/SearchBar.jsx";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
   const jwt = localStorage.getItem("token");
-  const user = store.me;
   const navigate = useNavigate();
 
   function logout() {
     actions.logout();
     navigate("/");
   }
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showResults, setShowResults] = useState(false);
-  const [loading, setLoading] = useState(false);
+
+  const getTokenInfo = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    try {
+      const decodedToken = jwtDecode(token);
+      return decodedToken.sub.is_brewer;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  };
 
   useEffect(() => {
     const jwt = localStorage.getItem("token");
-    if (!jwt) {
+    if (!getTokenInfo()) {
       navigate("/");
       return;
     }
+    getTokenInfo();
   }, []);
-  useEffect(() => {
-    if (searchQuery) {
-      if (store.searchResults && store.searchResults.length === 0 && !loading) {
-        setShowResults(true); // Mostrar "No se encontraron resultados"
-      } else {
-        setShowResults(true); // Mostrar resultados si hay
-      }
-    } else {
-      setShowResults(false); // Ocultar resultados si no hay consulta
-    }
-  }, [store.searchResults, searchQuery, loading]);
 
-  const handleSearchChange = (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-
-    if (query) {
-      setLoading(true); // Establecer carga en true antes de buscar
-      actions.searchBeers(query).finally(() => {
-        setLoading(false); // Restablecer carga después de buscar
-      });
-    } else {
-      setShowResults(false);
-    }
-  };
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (searchQuery) {
-      setLoading(true); // Establecer carga en true antes de buscar
-      actions.searchBeers(searchQuery).finally(() => {
-        setLoading(false); // Restablecer carga después de buscar
-      });
-      setShowResults(true); // Mostrar resultados después de enviar
-    }
-  };
+  const uniqueStyles = [...new Set(store.beers.map((beer) => beer.bjcp_style))];
 
   return (
     <nav className="container-nav navbar navbar-expand-lg">
-      <div className="beer-container">
+      <div className="beer-container mt-1">
         <Link to="/">
           <img src={BEER} alt="BEER" className="beer-image" />
         </Link>
@@ -97,15 +75,14 @@ export const Navbar = () => {
                 Estilos
               </a>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                {store.beers.length > 0 ? (
-                  store.beers.map((beer) => (
-                    <li key={beer.id}>
+                {uniqueStyles.length > 0 ? (
+                  uniqueStyles.map((style, index) => (
+                    <li key={index}>
                       <Link
                         className="dropdown-item"
-                        to={`/styles/${encodeURIComponent(beer.bjcp_style)}`}
-                        type="submit"
+                        to={`/styles/${encodeURIComponent(style)}`}
                       >
-                        {beer.bjcp_style}
+                        {style}
                       </Link>
                     </li>
                   ))
@@ -127,7 +104,7 @@ export const Navbar = () => {
               >
                 Cervecerías
               </a>
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+              <ul className="dropdown-menu" aria-labelledby="navbarDropdown2">
                 {store.breweries.length > 0 ? (
                   store.breweries.map((brewery) => (
                     <li key={brewery.id}>
@@ -146,43 +123,13 @@ export const Navbar = () => {
             </li>
           </ul>
           <hr />
-          <form
-            className="d-flex position-relative"
-            role="search"
-            onSubmit={handleSearchSubmit}
-          >
-            <input
-              className="form-control me-2"
-              type="text"
-              placeholder="Search"
-              value={searchQuery}
-              onChange={handleSearchChange}
-            />
-            {showResults && (
-              <ul className="search-results list-group position-absolute">
-                {loading ? (
-                  <li className="list-group-item">Cargando...</li> // Mensaje de carga
-                ) : store.searchResults?.length > 0 ? (
-                  store.searchResults.map((beer) => (
-                    <li key={beer.id} className="list-group-item">
-                      <Link to={`/beer/${beer.id}`} className="dropdown-item">
-                        {beer.name}
-                      </Link>
-                    </li>
-                  ))
-                ) : (
-                  <li className="list-group-item">
-                    No se encontraron resultados
-                  </li>
-                )}
-              </ul>
-            )}
-          </form>
+          {/* Aquí agregamos el SearchBar */}
+          <SearchBar />
           <hr />
           <div className="signin-button">
             <button
               type="button"
-              className="btn btn-warning "
+              className="btn btn-warning"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
@@ -194,7 +141,7 @@ export const Navbar = () => {
                 <Link
                   to="/add_brewery"
                   className={`${
-                    !jwt || !user.is_brewer
+                    !getTokenInfo()
                       ? "dropdown-item text-dark d-none"
                       : "dropdown-item text-dark"
                   }`}
@@ -206,7 +153,7 @@ export const Navbar = () => {
                 <Link
                   to="/add_beer"
                   className={`${
-                    !jwt || !user.is_brewer
+                    !getTokenInfo()
                       ? "dropdown-item text-dark d-none"
                       : "dropdown-item text-dark"
                   }`}
@@ -218,7 +165,7 @@ export const Navbar = () => {
                 <Link
                   to="/add_event"
                   className={`${
-                    !jwt || !user.is_brewer
+                    !getTokenInfo()
                       ? "dropdown-item text-dark d-none"
                       : "dropdown-item text-dark"
                   }`}

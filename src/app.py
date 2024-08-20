@@ -36,7 +36,8 @@ MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
 
 # add the admin
-setup_admin(app)
+if os.environ.get("PRODUCTION") == False:
+    setup_admin(app)
 
 JWTManager(app)
 

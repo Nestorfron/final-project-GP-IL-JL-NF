@@ -286,6 +286,22 @@ def get_user_beers():
         return jsonify({"beers": beer_list}), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
+
+#Endpoint para obtener todos los eventos del usuario logueado
+
+@api.route('/user/events', methods=['GET'])
+@jwt_required()
+def get_user_events():
+    try:
+        current_user = get_jwt_identity()
+        user_id = current_user.get("id")
+        user = User.query.get(user_id)
+        if user is None:
+            return  jsonify({'error': 'user not found'}),404
+        event_list = [event.serialize() for event in user.events]
+        return jsonify({"events": event_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
     
 #endpoint para obtener todas las cervezas
     
@@ -315,7 +331,7 @@ def get_events():
 
 @api.route('/brewery/events', methods=['GET'])
 @jwt_required()
-def get_user_events():
+def get_brewery_events():
     try:
         current_user = get_jwt_identity()
         user_id = current_user.get("id")
@@ -488,29 +504,6 @@ def get_beer_details(beer_id):
         return jsonify({"error": f"{error}"}), 500
     
 
-@api.route('/search_beers', methods=['GET'])
-def search_beers():
-    query = request.args.get('query', '')
-    if not query:
-        return jsonify([]), 404 
-
-    results = Beer.query.filter(Beer.name.ilike(f'%{query}%')).all()
-   
-    if results == []: 
-        return jsonify({"msg": "No existen cervezas"}), 404 
-
-    beers = [{
-        "id": beer.id,
-        "name": beer.name,
-        "bjcp_style": beer.bjcp_style,
-        "IBUs": beer.IBUs,
-        "volALC": beer.volALC,
-        "description": beer.description,
-        "picture_of_beer_url": beer.picture_of_beer_url
-    } for beer in results]
-
-    return jsonify(beers), 200
-
 #endopoint para crear un review
 @api.route('/reviews', methods=['POST'])
 @jwt_required()
@@ -613,3 +606,44 @@ def get_all_reviews():
         return jsonify({"reviews": serialized_reviews}), 200
     except Exception as error:
         return jsonify({"error": str(error)}), 500
+
+@api.route('/search', methods=['GET'])
+def search():
+    query = request.args.get('query', '')
+
+    if not query:
+        return jsonify({"error": "No search query provided"}), 400
+
+    try:
+        # Buscar cervezas
+        beer_results = Beer.query.filter(Beer.name.ilike(f'%{query}%')).all()
+        beers = [{
+            "id": beer.id,
+            "name": beer.name,
+            "bjcp_style": beer.bjcp_style,
+            "IBUs": beer.IBUs,
+            "volALC": beer.volALC,
+            "description": beer.description,
+            "picture_of_beer_url": beer.picture_of_beer_url
+        } for beer in beer_results]
+
+        # Buscar cervecerías
+        brewery_results = Brewery.query.filter(Brewery.name.ilike(f'%{query}%')).all()
+        breweries = [{
+            "id": brewery.id,
+            "name": brewery.name,
+            "address": brewery.address,
+            "history": brewery.history,
+            "facebook_url": brewery.facebook_url,
+            "instagram_url": brewery.instagram_url,
+            "x_url": brewery.x_url,
+            "picture_of_brewery_url": brewery.picture_of_brewery_url,
+            "logo_of_brewery": brewery.logo_of_brewery_url,
+            "lat": brewery.latitude,
+            "lng": brewery.longitude
+        } for brewery in brewery_results]
+
+        return jsonify({"beers": beers, "breweries": breweries}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
