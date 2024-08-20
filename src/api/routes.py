@@ -7,7 +7,6 @@ from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
-
 import re 
 email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 
@@ -62,14 +61,62 @@ def handle_signin():
         return jsonify({"error": "Usuario no encontrado"}), 404    
     if not check_password_hash(user.password, password):
         return jsonify({"error": "Se ha producido un error al iniciar sesión, intente nuevamente"}), 400   
-    user_token = create_access_token({"id": user.id, "email": user.email, "is_brewer": user.is_brewer})
+    user_token = create_access_token({"id": user.id, "username": user.username, "country": user.country, "email": user.email, "profile_picture": user.profile_picture, "is_brewer": user.is_brewer})
     return jsonify({"token": user_token}), 200
 
+#Endpoint obtener usuario logueado
 @api.route('/me', methods=['GET'])
 @jwt_required()
 def get_user_data():
     user_data = get_jwt_identity()
     return jsonify(user_data), 200
+
+#Endpoint editar usuario logueado
+@api.route('/edit_user', methods=['PUT'])
+@jwt_required()
+def edit_user():
+    try:
+        body = request.json
+        get_user_data = get_jwt_identity()
+        user_id = get_user_data.get("id")
+        
+        user = User.query.get(user_id)
+        if user is None:
+            return jsonify({"error": "User not found"}), 404
+        
+        user.email = body.get("email", user.email)
+        user.username = body.get("username", user.username)
+        user.password = body.get("password", user.password)
+        user.country = body.get("country", user.country)
+        user.profile_picture = body.get("profile_picture", user.profile_picture)
+        user.is_brewer = body.get("is_brewer", user.is_brewer)
+        
+        db.session.commit()
+        
+        return jsonify({"message": "User updated successfully"}), 200
+    
+    except Exception as error:
+        return jsonify({"error": str(error)}), 500
+
+#Endpoint para obtener username y profile_picture por user_id
+@api.route('/users/', methods=['GET'])
+def get_all_users():
+    users = User.query.all()
+    if not users:
+        return jsonify({"error": "Users not found"}), 404
+
+    users_data = [
+        {
+            "id": user.id,
+            "email": user.email,
+            "username": user.username,
+            "country": user.country,
+            "profile_picture": user.profile_picture
+        } for user in users
+    ]
+
+    return jsonify(users_data), 200
+
 
 #Endpoint de POST de Nueva Cerveceria  (requiere token)
 
@@ -555,23 +602,6 @@ def get_reviews_for_beer(beer_id):
 
     except Exception as error:
         return jsonify({"error": str(error)}), 500
-
-#Endpoint para obtener username y profile_picture por user_id
-@api.route('/users/', methods=['GET'])
-def get_all_users():
-    users = User.query.all()
-    if not users:
-        return jsonify({"error": "Users not found"}), 404
-
-    users_data = [
-        {
-            "id": user.id,
-            "username": user.username,
-            "profile_picture": user.profile_picture
-        } for user in users
-    ]
-
-    return jsonify(users_data), 200
 
 #Endpoint para obtener todos los reviews
 
