@@ -574,7 +574,7 @@ def delete_review(review_id):
         return jsonify({"error": f'{error}'}), 500
 
     
-    
+ #Endpoint para obtener los reviews de una cerveza por id   
 
 @api.route('/reviews/<int:beer_id>', methods=['GET'])
 
@@ -594,6 +594,44 @@ def get_reviews_for_beer(beer_id):
 
     except Exception as error:
         return jsonify({"error": str(error)}), 500
+    
+#Endpoint para editar una review por id
+
+@api.route('/reviews/<int:id>', methods=['PUT'])
+@jwt_required()    
+def edit_reviews(id):
+    try:
+        body = request.json
+        user_data = get_jwt_identity()
+        user_id = user_data.get("id")
+        review = Review.query.filter_by(id=id, user_id=user_id).first()
+        if review is None:
+            return jsonify({'error': 'Review no encontrada o no estas autorizado'}), 404
+
+        
+        review.comment = body.get("comment", review.comment) 
+        rating = body.get("rating")
+        if rating is not None:
+            try:
+                review.rating = int(rating)
+            except ValueError:
+                return jsonify({"error": "Invalid rating value"}), 400
+        else:
+            # If rating is not provided, keep the existing value
+            review.rating = review.rating
+        
+
+        db.session.commit()
+
+        return jsonify({"message": "Review editada exitosamente"}), 200
+
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"error": str(error)}), 500
+    
+
+
+
 
 #Endpoint para obtener todos los reviews
 
