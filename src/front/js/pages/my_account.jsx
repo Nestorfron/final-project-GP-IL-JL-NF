@@ -8,10 +8,13 @@ import Edit_beers from "../component/edit_beer.jsx";
 import Swal from "sweetalert2";
 import "../../styles/my_account.css";
 import Edit_event from "../component/edit_event.jsx";
+import Edit_user from "../component/edit_user.jsx";
 
 const MyAccount = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
+
+  const user = store.me;
 
   useTokenExpiration();
 
@@ -26,6 +29,7 @@ const MyAccount = () => {
       return null;
     }
   };
+
 
   const breweryDelete = (brewery) => {
     Swal.fire({
@@ -102,6 +106,33 @@ const MyAccount = () => {
     });
   };
 
+  const userDelete = (user) => {
+    console.log(user);
+    Swal.fire({
+      title: "Advertencia",
+      text: "¿Desea eliminar su usuario?",
+      position: "center",
+      icon: "error",
+      showDenyButton: true,
+      denyButtonText: "No",
+      confirmButtonText: "Si",
+    }).then((click) => {
+      if (click.isConfirmed) {
+        actions.deleteUser(user);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Usuario eliminado correctamente",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/");
+      } else {
+        return;
+      }
+    });
+  };
+
   function formatDate(isoString) {
     const date = new Date(isoString);
     const day = date.getUTCDate().toString().padStart(2, "0");
@@ -123,11 +154,54 @@ const MyAccount = () => {
       actions.getUserBeers();
       actions.getUserEvents();
     }
+
+    actions.getMe();
     return;
   }, []);
 
   return (
     <div className="container-fluid">
+      {/* Sección de Usuario */}
+      <h1
+        className={`${
+          !user.is_brewer ? "text-center m-4 d-none" : "text-center m-4"
+        }`}
+      >
+        Usuario
+      </h1>
+      <div
+        className={`${
+          !user.is_brewer
+            ? "overflow-auto d-flex flex-nowrap d-none"
+            : "overflow-auto d-flex flex-nowrap"
+        }`}
+      >
+        <div className="cards-container" key={user.id}>
+          <div className="card cardAccount border-light shadow-lg me-4">
+            <img
+              src={user.profile_picture}
+              className="card-img-top card-img"
+              alt={user.name}
+            />
+            <div className="card-body body-card d-flex flex-column">
+              <h5 className="card-title title-card mb-2">{user.username}</h5>
+              <p className="card-text text-card mb-3">
+                <i className="fas fa-map-marker-alt me-2"></i>
+                {user.email}
+              </p>
+              <div className="container-fluid d-flex mt-auto justify-content-between footer-card">
+                {/* <button
+                  className="btn btn-danger"
+                  onClick={() => userDelete(user.id)}
+                >
+                  <i className="fas fa-trash-alt me-1"></i>
+                </button> */}
+                <Edit_user user={user} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       {/* Sección de Cervecerías */}
       <h1
         className={`${
