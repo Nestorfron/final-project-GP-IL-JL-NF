@@ -5,6 +5,8 @@ import { ReviewModal } from "../component/review_modal.jsx";
 import "../../styles/beerDetails.css";
 import fullGlass from "../../img/fullglass.png";
 import emptyGlass from "../../img/empty.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export const BeerDetails = () => {
   const jwt = localStorage.getItem("token");
@@ -62,6 +64,15 @@ export const BeerDetails = () => {
 
   const sortedReviews = reviews.slice().sort((a, b) => b.id - a.id);
 
+  const handleDeleteReview = async (review_id) => {
+    try {
+      await actions.deleteReview(review_id);
+      actions.getBeerReviews(id);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="container my-5">
       <div className="card p-4">
@@ -118,7 +129,7 @@ export const BeerDetails = () => {
             }`}
             onClick={handleModalShow}
           >
-            Write a Review
+            Escribe una review
           </button>
         </div>
 
@@ -144,27 +155,38 @@ export const BeerDetails = () => {
                       <p className="username fw-bold">
                         <span>{user ? user.username : "Loading..."}</span>
                       </p>
-                      <div className="rating mb-2">
-                        {Array.from({ length: review.rating }).map(
-                          (_, index) => (
-                            <img
-                              key={index}
-                              src={fullGlass}
-                              alt="Full Glass"
-                              style={{ width: "20px", marginRight: "3px" }}
-                            />
-                          )
-                        )}
-                        {Array.from({ length: 5 - review.rating }).map(
-                          (_, index) => (
-                            <img
-                              key={index}
-                              src={emptyGlass}
-                              alt="Empty Glass"
-                              style={{ width: "20px", marginRight: "3px" }}
-                            />
-                          )
-                        )}
+                      <div className="d-flex align-items-center justify-content-between">
+                        <div className="rating mb-2">
+                          {Array.from({ length: review.rating }).map(
+                            (_, index) => (
+                              <img
+                                key={index}
+                                src={fullGlass}
+                                alt="Full Glass"
+                                style={{ width: "20px", marginRight: "3px" }}
+                              />
+                            )
+                          )}
+                          {Array.from({ length: 5 - review.rating }).map(
+                            (_, index) => (
+                              <img
+                                key={index}
+                                src={emptyGlass}
+                                alt="Empty Glass"
+                                style={{ width: "20px", marginRight: "3px" }}
+                              />
+                            )
+                          )}
+                        </div>
+                        <button
+                          className="btn delete-review-button ms-5 mb-2 me-0"
+                          onClick={() => handleDeleteReview(review.id)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faTrash}
+                            className="trash-icon"
+                          />
+                        </button>
                       </div>
                     </div>
                     <p className="container ">{review.comment}</p>
@@ -173,7 +195,7 @@ export const BeerDetails = () => {
               );
             })
           ) : (
-            <p>No reviews yet.</p>
+            <p>Nada por acá.</p>
           )}
         </div>
 

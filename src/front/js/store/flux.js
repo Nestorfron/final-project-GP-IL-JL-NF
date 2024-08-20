@@ -901,6 +901,32 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+      deleteReview: async (review_id) => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + `/api/review/${review_id}`,
+            {
+              method: "DELETE",
+              headers: {
+                "Content-type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+              body: JSON.stringify({
+                review_id,
+              }),
+            }
+          );
+          if (!response.ok) {
+            return false;
+          }
+          const data = await response.json();
+
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
     },
   };
 };

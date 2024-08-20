@@ -50,9 +50,10 @@
 }
 /* Estilos de la imagen de cerveza */
 .beer-image {
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
+
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Agregamos transición para la sombra */
 }
 
