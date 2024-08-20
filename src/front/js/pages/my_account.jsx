@@ -55,7 +55,7 @@ const MyAccount = () => {
   const beerDelete = (beer) => {
     Swal.fire({
       title: "Advertencia",
-      text: "¿Desea eliminar la Cervecería?",
+      text: "¿Desea eliminar la Cerveza?",
       position: "center",
       icon: "error",
       showDenyButton: true,
@@ -92,7 +92,7 @@ const MyAccount = () => {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: "Evento eliminada correctamente",
+          title: "Evento eliminado correctamente",
           showConfirmButton: false,
           timer: 1500,
         });
