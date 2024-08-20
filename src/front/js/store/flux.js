@@ -521,7 +521,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-
       // Editar usuario
       edit_user: async (
         id,
@@ -1002,6 +1001,39 @@ const getState = ({ getStore, getActions, setStore }) => {
           return data;
         } catch (error) {
           console.log(error);
+        }
+      },
+      //Editar review
+      edit_review: async (id, rating, comment) => {
+        const actions = getActions();
+        const jwt = localStorage.getItem("token");
+
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + `/api/reviews/${id}`,
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                comment,
+                rating,
+              }),
+              headers: {
+                "Content-type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            actions.getBeerReviews(beer_id);
+            return true;
+          } else {
+            console.error("Update failed:", data.error || "Unknown error");
+            return false;
+          }
+        } catch (error) {
+          console.log(error);
+          return false;
         }
       },
     },
