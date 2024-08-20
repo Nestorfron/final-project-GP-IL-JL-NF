@@ -1,16 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import fullGlass from "../../img/fullglass.png";
 import emptyGlass from "../../img/empty.png";
 import "../../styles/reviewModal.css";
 
-export const ReviewModal = ({ show, handleClose, beer_id, submitReview }) => {
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
+export const ReviewModal = ({
+  show,
+  handleClose,
+  beer_id,
+  submitReview,
+  initialRating = 0,
+  initialComment = "",
+  review_id,
+}) => {
+  const [rating, setRating] = useState(initialRating);
+  const [comment, setComment] = useState(initialComment);
+
+  useEffect(() => {
+    setRating(initialRating);
+    setComment(initialComment);
+  }, [initialRating, initialComment]);
 
   const handleSubmit = async () => {
     try {
-      const result = await submitReview(beer_id, rating, comment);
-      console.log("Submitting review with beer_id:", beer_id);
+      const result = await submitReview(beer_id, rating, comment, review_id);
+      console.log(review_id);
       console.log(comment);
       console.log(rating);
 
@@ -39,7 +52,7 @@ export const ReviewModal = ({ show, handleClose, beer_id, submitReview }) => {
         <div className="modal-content">
           <div className="modal-header d-flex justify-content-center bg-light ">
             <h5 className=" review-modal-title fw-bold m-0 text-dark ">
-              Escribe una review
+              {review_id ? "Edita tu Review" : "Escribe una review"}
             </h5>
           </div>
           <div className="modal-body">
@@ -84,7 +97,7 @@ export const ReviewModal = ({ show, handleClose, beer_id, submitReview }) => {
               className="btn review-modal-button"
               onClick={handleSubmit}
             >
-              Enviar Review
+              {review_id ? "Guardar cambios" : "Enviar Review"}
             </button>
           </div>
         </div>

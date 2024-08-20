@@ -6,7 +6,7 @@ import "../../styles/beerDetails.css";
 import fullGlass from "../../img/fullglass.png";
 import emptyGlass from "../../img/empty.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faEllipsis, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 export const BeerDetails = () => {
   const jwt = localStorage.getItem("token");
@@ -15,7 +15,7 @@ export const BeerDetails = () => {
   const { beerDetails, breweries, reviews, users } = store;
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-
+  const [modalReview, setModalReview] = useState(null);
   useEffect(() => {
     actions.getBeerDetails(id);
     actions.getAllBreweries();
@@ -50,12 +50,25 @@ export const BeerDetails = () => {
     navigate(`/brewery/${breweryId}`);
   };
 
-  const handleModalClose = () => setShowModal(false);
-  const handleModalShow = () => setShowModal(true);
+  const handleModalClose = () => {
+    setShowModal(false);
+    setModalReview(null); // Reset review data when closing
+  };
 
-  const submitReview = async (beer_id, rating, comment) => {
+  const handleModalShow = (review = null) => {
+    // Updated to accept review data for editing
+    console.log("Show Modal with Review:", review);
+    setModalReview(review);
+    setShowModal(true);
+  };
+
+  const submitReview = async (beer_id, rating, comment, review_id) => {
     try {
-      await actions.addReview(beer_id, rating, comment);
+      if (review_id) {
+        await actions.edit_review(review_id, rating, comment);
+      } else {
+        await actions.addReview(beer_id, rating, comment);
+      }
       actions.getBeerReviews(beer_id);
     } catch (error) {
       console.error("Error submitting review:", error);
@@ -71,6 +84,11 @@ export const BeerDetails = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleEditReview = (review) => {
+    console.log("Edit Review:", review);
+    handleModalShow(review);
   };
 
   return (
@@ -178,15 +196,46 @@ export const BeerDetails = () => {
                             )
                           )}
                         </div>
-                        <button
-                          className="btn delete-review-button ms-5 mb-2 me-0"
-                          onClick={() => handleDeleteReview(review.id)}
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrash}
-                            className="trash-icon"
-                          />
-                        </button>
+                        <div className="dropdown">
+                          <button
+                            className="options-review-button btn btn-secondary dropdown-toggle ms-3"
+                            type="button"
+                            id={`dropdownMenuButton-${review.id}`}
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            <FontAwesomeIcon icon={faEllipsis} />
+                          </button>
+                          <ul
+                            className="dropdown-menu"
+                            aria-labelledby={`dropdownMenuButton-${review.id}`}
+                          >
+                            <li>
+                              <button
+                                className="dropdown-item"
+                                onClick={() => handleDeleteReview(review.id)}
+                              >
+                                <FontAwesomeIcon
+                                  icon={faTrash}
+                                  className="me-2"
+                                />
+                                Delete
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                className="dropdown-item"
+                                onClick={() => handleEditReview(review)}
+                              >
+                                <FontAwesomeIcon
+                                  icon={faEdit}
+                                  className="me-2"
+                                />
+                                Edit
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
                     <p className="container ">{review.comment}</p>
@@ -205,6 +254,9 @@ export const BeerDetails = () => {
           handleClose={handleModalClose}
           beer_id={id}
           submitReview={submitReview}
+          initialRating={modalReview?.rating || 0} // Pass existing rating for editing
+          initialComment={modalReview?.comment || ""} // Pass existing comment for editing
+          review_id={modalReview?.id} // Pass review_id for editing
         />
       </div>
     </div>
