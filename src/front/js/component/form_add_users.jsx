@@ -9,14 +9,23 @@ const Form_add_users = ({ id, btnUser, user: initialUser }) => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [profile_picture, setProfile_picture] = useState(null);
+  const [ImBrewer, setImBrewer] = useState(false);
   const [user, setUser] = useState({
     email: "",
     password: "",
     username: "",
     country: "",
-    is_brewer: false,
+    is_brewer: ImBrewer,
   });
   const [loading, setLoading] = useState(false);
+
+  function ImBrewerOrNot() {
+    if (ImBrewer == false) {
+      setImBrewer(true);
+    } else {
+      setImBrewer(false);
+    }
+  }
 
   function handleChange(e) {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -247,9 +256,9 @@ const Form_add_users = ({ id, btnUser, user: initialUser }) => {
                 id="is_brewer"
                 type="checkbox"
                 className="form-check-input"
-                checked={user.is_brewer}
+                checked={ImBrewer}
                 name="is_brewer"
-                onChange={() => handleChange(e)}
+                onClick={() => ImBrewerOrNot()}
               />
               <label htmlFor="is_brewer" className="form-check-label ms-2">
                 Sí
