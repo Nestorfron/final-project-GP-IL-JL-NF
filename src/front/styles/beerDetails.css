@@ -50,7 +50,19 @@
 .beer-details-user-picture {
   max-width: 80px;
   height: auto;
-
   border-radius: 50%;
   padding: 0;
+}
+.delete-review-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: gray; /* Set the icon color */
+  font-size: 20px; /* Adjust the icon size */
+  padding: 5px;
+}
+
+/* Optional: Change icon color on hover */
+.delete-review-button:hover {
+  color: red;
 }
