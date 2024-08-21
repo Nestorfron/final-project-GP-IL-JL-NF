@@ -12,6 +12,7 @@ const Form_add_users = ({ id, btnUser, user: initialUser }) => {
   const [user, setUser] = useState({
     email: "",
     password: "",
+    confirmPassword: "",
     username: "",
     country: "",
     is_brewer: false,
@@ -19,12 +20,7 @@ const Form_add_users = ({ id, btnUser, user: initialUser }) => {
   const [loading, setLoading] = useState(false);
 
   function IsBrewer() {
-    if (user.is_brewer == false) {
-      setUser({ ...user, is_brewer: true });
-    }
-    if (user.is_brewer == true) {
-      setUser({ ...user, is_brewer: false });
-    }
+    setUser({ ...user, is_brewer: !user.is_brewer });
   }
 
   function handleChange(e) {
@@ -33,31 +29,45 @@ const Form_add_users = ({ id, btnUser, user: initialUser }) => {
 
   const handleSubmitRegister = async (e) => {
     e.preventDefault();
-    if (id) {
-      console.log("editando", id);
+
+    if (user.password !== user.confirmPassword) {
       Swal.fire({
-        title: "Cargando...",
-        text: "Por favor, espere mientras se actualiza su usuario.",
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
+        icon: "error",
+        title: "Error",
+        text: "Las contraseñas no coinciden.",
       });
-      try {
-        const result = await uploadFile(profile_picture);
-        if (result) {
-          console.log(result);
-        }
+      return;
+    }
+
+    Swal.fire({
+      title: "Cargando...",
+      text: id
+        ? "Por favor, espere mientras se actualiza su usuario."
+        : "Por favor, espere mientras se crea el usuario.",
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    try {
+      let result;
+      if (profile_picture) {
+        result = await uploadFile(profile_picture);
+      }
+
+      if (id) {
         const response = await actions.edit_user(
           id,
           user.email,
           user.username,
           user.password,
           user.country,
-          result,
+          result || user.profile_picture,
           user.is_brewer
         );
+
         if (response) {
           Swal.fire({
             position: "center",
@@ -73,30 +83,7 @@ const Form_add_users = ({ id, btnUser, user: initialUser }) => {
             text: "Hubo un problema al editar al usuario.",
           });
         }
-      } catch (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: `Hubo un problema al editar al usuario: ${error.message}`,
-        });
-      }
-    } else {
-      console.log("creando");
-      setLoading(true);
-      Swal.fire({
-        title: "Cargando...",
-        text: "Por favor, espere mientras se crea el usuario.",
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
-      });
-      try {
-        const result = await uploadFile(profile_picture);
-        if (result) {
-          console.log(result);
-        }
+      } else {
         const response = await actions.register(
           user.email,
           user.password,
@@ -105,8 +92,8 @@ const Form_add_users = ({ id, btnUser, user: initialUser }) => {
           user.country,
           result
         );
+
         if (response) {
-          console.log(response);
           Swal.fire({
             icon: "success",
             title: "Usuario creado correctamente",
@@ -122,14 +109,15 @@ const Form_add_users = ({ id, btnUser, user: initialUser }) => {
             text: "Hubo un problema al crear al usuario.",
           });
         }
-      } catch (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-        });
-      } finally {
-        setLoading(false);
       }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `Hubo un problema al procesar la solicitud: ${error.message}`,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -138,14 +126,12 @@ const Form_add_users = ({ id, btnUser, user: initialUser }) => {
       setUser({
         email: initialUser.email || "",
         password: initialUser.password || "",
+        confirmPassword: initialUser.password || "",
         username: initialUser.username || "",
-        is_brewer: initialUser.is_brewer || "",
+        is_brewer: initialUser.is_brewer || false,
         country: initialUser.country || "",
       });
-
-      setProfile_picture({
-        profile_picture: initialUser.profile_picture || "",
-      });
+      setProfile_picture(initialUser.profile_picture || "");
     }
   }, [initialUser]);
 
@@ -211,6 +197,23 @@ const Form_add_users = ({ id, btnUser, user: initialUser }) => {
         </div>
         <div className="col-md-6">
           <div className="form-grup">
+            <label htmlFor="confirmPassword" className="form-label">
+              Confirmar Contraseña
+            </label>
+            <input
+              id="confirmPassword"
+              type="password"
+              className="form-control form-control-lg"
+              placeholder="Confirmar Password"
+              value={user.confirmPassword}
+              name="confirmPassword"
+              onChange={(e) => handleChange(e)}
+              required
+            />
+          </div>
+        </div>
+        <div className="col-md-6">
+          <div className="form-grup">
             <label htmlFor="country" className="form-label">
               País
             </label>
@@ -266,13 +269,11 @@ const Form_add_users = ({ id, btnUser, user: initialUser }) => {
           </div>
         </div>
       </div>
-      <button type="submit" className="entrar w-100 mt-4">
+      <button type="submit" className="entrar w-100 mt-4" disabled={loading}>
         {btnUser}
       </button>
       <div className="text-center mt-4">
-        {id ? (
-          ""
-        ) : (
+        {!id && (
           <span className="registro text-center">
             ¿Ya tienes una cuenta?
             <Link to="/login"> Inicia sesión</Link>
