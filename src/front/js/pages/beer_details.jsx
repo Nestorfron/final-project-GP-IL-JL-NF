@@ -7,6 +7,7 @@ import fullGlass from "../../img/fullglass.png";
 import emptyGlass from "../../img/empty.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEllipsis, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { jwtDecode } from "jwt-decode";
 
 export const BeerDetails = () => {
   const jwt = localStorage.getItem("token");
@@ -16,12 +17,16 @@ export const BeerDetails = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [modalReview, setModalReview] = useState(null);
+
   useEffect(() => {
     actions.getBeerDetails(id);
     actions.getAllBreweries();
     actions.getBeerReviews(id);
     actions.getAllUsers();
   }, [id]);
+
+  const decodedToken = jwtDecode(jwt);
+  const currentUserId = decodedToken.sub.id;
 
   // Function to calculate average rating
   const calculateAverageRating = (reviews) => {
@@ -196,6 +201,7 @@ export const BeerDetails = () => {
                             )
                           )}
                         </div>
+
                         <div className="dropdown">
                           <button
                             className="options-review-button btn btn-secondary dropdown-toggle ms-3"
@@ -214,6 +220,7 @@ export const BeerDetails = () => {
                               <button
                                 className="dropdown-item"
                                 onClick={() => handleDeleteReview(review.id)}
+                                disabled={currentUserId !== review.user_id}
                               >
                                 <FontAwesomeIcon
                                   icon={faTrash}
@@ -226,6 +233,7 @@ export const BeerDetails = () => {
                               <button
                                 className="dropdown-item"
                                 onClick={() => handleEditReview(review)}
+                                disabled={currentUserId !== review.user_id}
                               >
                                 <FontAwesomeIcon
                                   icon={faEdit}
