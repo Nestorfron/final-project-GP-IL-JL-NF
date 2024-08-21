@@ -64,9 +64,8 @@ const Form_add_users = ({ id, btnUser, user: initialUser }) => {
             icon: "success",
             title: "Usuario Actualizado",
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1000,
           });
-          actions.getAllUsers();
         } else {
           Swal.fire({
             icon: "error",
@@ -86,7 +85,7 @@ const Form_add_users = ({ id, btnUser, user: initialUser }) => {
       setLoading(true);
       Swal.fire({
         title: "Cargando...",
-        text: "Por favor, espere mientras se crea la cerveza.",
+        text: "Por favor, espere mientras se crea el usuario.",
         allowOutsideClick: false,
         showConfirmButton: false,
         didOpen: () => {
@@ -242,6 +241,7 @@ const Form_add_users = ({ id, btnUser, user: initialUser }) => {
               type="file"
               className="form-control"
               onChange={(e) => setProfile_picture(e.target.files[0])}
+              required
             />
           </div>
         </div>

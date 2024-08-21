@@ -13,7 +13,6 @@ import Edit_user from "../component/edit_user.jsx";
 const MyAccount = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
-
   const user = store.me;
 
   useTokenExpiration();
@@ -161,7 +160,7 @@ const MyAccount = () => {
   return (
     <div className="container-fluid">
       {/* Sección de Usuario */}
-      <h1 className="text-center m-4">Usuario</h1>
+      <h1 className="text-center m-4">Mi Usuario</h1>
       <div className="overflow-auto d-flex flex-nowrap">
         <div className="cards-container" key={user.id}>
           <div className="card cardAccount border-light shadow-lg me-4">

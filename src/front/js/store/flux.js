@@ -531,9 +531,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         profile_picture,
         is_brewer
       ) => {
-        const action = getActions();
+        const actions = getActions();
         const jwt = localStorage.getItem("token");
-
         try {
           const response = await fetch(
             process.env.BACKEND_URL + "/api/edit_user",
@@ -556,7 +555,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            action.getMe();
+            actions.logout();
             return true;
           }
         } catch (error) {
