@@ -83,13 +83,18 @@ def edit_user():
         user = User.query.get(user_id)
         if user is None:
             return jsonify({"error": "User not found"}), 404
+        
         user.email = body.get("email", user.email)
         user.username = body.get("username", user.username)
-        user.password = body.get("password", generate_password_hash(user.password))
+        
+        if "password" in body and body["password"]:
+            user.password = generate_password_hash(body["password"])
+        
         user.country = body.get("country", user.country)
         user.profile_picture = body.get("profile_picture", user.profile_picture)
         user.is_brewer = body.get("is_brewer", user.is_brewer)
         
+        db.session.add(user)
         db.session.commit()
         
         return jsonify({"message": "User updated successfully"}), 200

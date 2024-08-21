@@ -24,7 +24,7 @@ const Edit_user = ({ user }) => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title fs-4" id="exampleModalLabel">
-                Editar Evento
+                Editar Usuario
               </h5>
               <button
                 type="button"

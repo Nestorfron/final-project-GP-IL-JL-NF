@@ -13,7 +13,6 @@ import Edit_user from "../component/edit_user.jsx";
 const MyAccount = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
-
   const user = store.me;
 
   useTokenExpiration();
