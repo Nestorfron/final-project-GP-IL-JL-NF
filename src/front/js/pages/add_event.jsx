@@ -6,7 +6,7 @@ const Add_Event = () => {
   useTokenExpiration();
   return (
     <div className="container">
-      <Form_add_event btnEvent={"Enviar"}></Form_add_event>
+      <Form_add_event btnEvent={"Guardar"}></Form_add_event>
     </div>
   );
 };
