@@ -39,7 +39,7 @@
 }
 
 .nav-icon {
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-top: 3px;
 }
 
@@ -105,6 +105,16 @@
   cursor: pointer;
 }
 
+.cointainer-userImg {
+  padding: 0 !important;
+}
+
+.userImg {
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+}
+
 .map-title {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: white;
@@ -158,14 +168,14 @@ footer .col {
   margin-bottom: 15px;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
   title {
     font-size: 1.1rem !important;
   }
   .beer-container {
     position: absolute;
     top: 0px;
-    right: 37%;
+    right: 45%;
   }
   .signin-button {
     margin-left: auto;
@@ -183,5 +193,21 @@ footer .col {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     margin-top: 40px;
     z-index: 2;
+  }
+}
+
+@media (max-width: 800px) {
+  .beer-container {
+    position: absolute;
+    top: 0px;
+    right: 40%;
+  }
+}
+
+@media (max-width: 700px) {
+  .beer-container {
+    position: absolute;
+    top: 0px;
+    right: 36%;
   }
 }
