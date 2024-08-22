@@ -1,7 +1,21 @@
+/* Estilo para la imagen del pie de página */
 .footer-image {
   width: 15rem;
   height: auto;
 }
+/* Diseño adaptable para pantallas de 768px o menos */
+@media (max-width: 768px) {
+  /* Estilo para el contenedor del pie de página */
+  .footer {
+    padding: 1rem;
+  }
+
+  /* Estilo para el contenedor de la fila en el pie de página */
+  .footer .row {
+    flex-direction: column;
+  }
+
+
 /* Diseño adaptable para pantallas de 768px o menos */
 @media (max-width: 768px) {
   /* Estilo para el contenedor del pie de página */
