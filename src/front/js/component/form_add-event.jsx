@@ -255,7 +255,7 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
           </select>
         </div>
         <div className="text-center">
-          <button type="submit" className="enter  mt-2">
+          <button type="submit" className="enter mt-2">
             {btnEvent}
           </button>
         </div>

@@ -283,7 +283,7 @@ const Form_add_beer = ({ id, btnBeer, beer: initialBeer }) => {
               );
             })}
           </select>
-          <div className=" mt-3">
+          <div className="mt-3">
             <label htmlFor="formFile" className="form-label">
               IMÁGEN (JPG, JPEG, PNG)
             </label>
