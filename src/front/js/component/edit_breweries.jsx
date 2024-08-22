@@ -36,7 +36,7 @@ const Edit_breweries = ({ brewery }) => {
             </div>
             <div className="modal-body">
               <Add_Breweries
-                btnBrewery={"Edit"}
+                btnBrewery={"Guardar"}
                 brewery={brewery}
                 id={brewery.id}
               />

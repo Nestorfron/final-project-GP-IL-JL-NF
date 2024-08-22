@@ -2,10 +2,38 @@
   width: 15rem;
   height: auto;
 }
+/* Diseño adaptable para pantallas de 768px o menos */
+@media (max-width: 768px) {
+  /* Estilo para el contenedor del pie de página */
+  .footer {
+    padding: 1rem;
+  }
 
-@media (max-width: 800px) {
+  /* Estilo para el contenedor de la fila en el pie de página */
+  .footer .row {
+    flex-direction: column;
+  }
+
+  /* Estilo para las secciones dentro del pie de página */
   .section-footer {
-    width: 50rem;
-    padding: 4px;
+    width: 100%;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  /* Estilo adaptativo para la imagen del pie de página */
+  .footer-image {
+    width: 10rem;
+  }
+
+  /* Estilo para centrar el texto */
+  .text-center {
+    text-align: center;
+  }
+
+  /* Estilo para el elemento span dentro del pie de página */
+  .span {
+    display: block;
+    margin-top: 1rem;
   }
 }

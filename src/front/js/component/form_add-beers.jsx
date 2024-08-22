@@ -248,8 +248,8 @@ const Form_add_beer = ({ id, btnBeer, beer: initialBeer }) => {
             />
           </div>
         </div>
-        <div className="col-6">
-          <div className="form form-grup mx-4 mt-2 mb-4">
+        <div className="col">
+          <div className="form form-grup  mt-2 mb-4">
             <label
               htmlFor="exampleInputPassword1"
               className="form-label fw-bold"
@@ -267,7 +267,7 @@ const Form_add_beer = ({ id, btnBeer, beer: initialBeer }) => {
             />
           </div>
           <select
-            className="form-select mx-4 "
+            className="form-select"
             aria-label="Default select example"
             onChange={(e) => setBrewery_id(e.target.value)}
             required
@@ -283,7 +283,7 @@ const Form_add_beer = ({ id, btnBeer, beer: initialBeer }) => {
               );
             })}
           </select>
-          <div className=" mx-4 mt-3">
+          <div className="mt-3">
             <label htmlFor="formFile" className="form-label">
               IMÁGEN (JPG, JPEG, PNG)
             </label>
@@ -297,7 +297,7 @@ const Form_add_beer = ({ id, btnBeer, beer: initialBeer }) => {
           </div>
         </div>
         <div className="text-center">
-          <button type="submit" className="entrar mx-sm-4 mt-2">
+          <button type="submit" className="enter mx-sm-4 mt-2">
             {btnBeer}
           </button>
         </div>
