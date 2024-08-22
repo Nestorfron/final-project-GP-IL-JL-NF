@@ -35,7 +35,11 @@ const Edit_event = ({ event }) => {
               ></button>
             </div>
             <div className="modal-body">
-              <Form_add_event btnEvent={"Edit"} event={event} id={event.id} />
+              <Form_add_event
+                btnEvent={"Guardar"}
+                event={event}
+                id={event.id}
+              />
             </div>
           </div>
         </div>
