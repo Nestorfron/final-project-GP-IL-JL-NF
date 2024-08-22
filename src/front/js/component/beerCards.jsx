@@ -60,10 +60,10 @@ export const BeerCards = () => {
                   />
                 </div>
                 <div className="beer-card-text">
-                  <h4 className="beer-name">{beer.name}</h4>
-                  <h5 className="beer-brewery">
+                  <h5 className="beer-name fw-bold">{beer.name}</h5>
+                  <h6 className="beer-brewery">
                     {findBreweryName(beer.brewery_id, breweries)}
-                  </h5>
+                  </h6>
                   <p className="beer-style d-flex justify-content-between">
                     <span>Estilo:</span>
                     <span>{beer.bjcp_style}</span>
