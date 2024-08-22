@@ -25,8 +25,15 @@ export const BeerDetails = () => {
     actions.getAllUsers();
   }, [id]);
 
-  const decodedToken = jwtDecode(jwt);
-  const currentUserId = decodedToken.sub.id;
+  let currentUserId = null;
+  if (jwt && typeof jwt === "string") {
+    try {
+      const decodedToken = jwtDecode(jwt);
+      currentUserId = decodedToken.sub.id;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+    }
+  }
 
   // Function to calculate average rating
   const calculateAverageRating = (reviews) => {
@@ -36,11 +43,6 @@ export const BeerDetails = () => {
   };
 
   const averageRating = calculateAverageRating(reviews);
-
-  console.log("Beer Details:", beerDetails);
-  console.log("Reviews:", reviews);
-  console.log("User Profile Picture:", users.user_id);
-  console.log(beerDetails);
 
   if (!beerDetails || !breweries) {
     return <p>Loading...</p>;
@@ -61,8 +63,6 @@ export const BeerDetails = () => {
   };
 
   const handleModalShow = (review = null) => {
-    // Updated to accept review data for editing
-    console.log("Show Modal with Review:", review);
     setModalReview(review);
     setShowModal(true);
   };
@@ -92,7 +92,6 @@ export const BeerDetails = () => {
   };
 
   const handleEditReview = (review) => {
-    console.log("Edit Review:", review);
     handleModalShow(review);
   };
 
@@ -111,17 +110,14 @@ export const BeerDetails = () => {
         <div className="container card-body d-flex align-items-center justify-content-center row">
           <div className="beer-text col-6">
             <h2 className="beer-details-name fw-bold ">{beerDetails.name}</h2>
-
             <p className="beer-details-description ">
               {beerDetails.description}
             </p>
-
             <div>
               <p className="beer-details-BJCP-style d-flex justify-content-between">
                 <span>Estilo:</span>
                 <span>{beerDetails.bjcp_style}</span>
               </p>
-
               <p className="beer-details-IBUs d-flex justify-content-between">
                 <span>IBU's:</span>
                 <span>{beerDetails.IBUs}</span>
@@ -130,7 +126,6 @@ export const BeerDetails = () => {
                 <span>ABV:</span>
                 <span>{beerDetails.volALC}%</span>
               </p>
-
               <p className="beer-details-rating  d-flex justify-content-between">
                 <span>Rating:</span>
                 <span>{averageRating} / 5</span>
@@ -178,73 +173,75 @@ export const BeerDetails = () => {
                       <p className="username fw-bold">
                         <span>{user ? user.username : "Loading..."}</span>
                       </p>
-                      <div className="d-flex align-items-center justify-content-between">
-                        <div className="rating mb-2">
-                          {Array.from({ length: review.rating }).map(
-                            (_, index) => (
-                              <img
-                                key={index}
-                                src={fullGlass}
-                                alt="Full Glass"
-                                style={{ width: "20px", marginRight: "3px" }}
-                              />
-                            )
-                          )}
-                          {Array.from({ length: 5 - review.rating }).map(
-                            (_, index) => (
-                              <img
-                                key={index}
-                                src={emptyGlass}
-                                alt="Empty Glass"
-                                style={{ width: "20px", marginRight: "3px" }}
-                              />
-                            )
-                          )}
-                        </div>
+                      {jwt && (
+                        <div className="d-flex align-items-center justify-content-between">
+                          <div className="rating mb-2">
+                            {Array.from({ length: review.rating }).map(
+                              (_, index) => (
+                                <img
+                                  key={index}
+                                  src={fullGlass}
+                                  alt="Full Glass"
+                                  style={{ width: "20px", marginRight: "3px" }}
+                                />
+                              )
+                            )}
+                            {Array.from({ length: 5 - review.rating }).map(
+                              (_, index) => (
+                                <img
+                                  key={index}
+                                  src={emptyGlass}
+                                  alt="Empty Glass"
+                                  style={{ width: "20px", marginRight: "3px" }}
+                                />
+                              )
+                            )}
+                          </div>
 
-                        <div className="dropdown">
-                          <button
-                            className="options-review-button btn btn-secondary dropdown-toggle ms-3"
-                            type="button"
-                            id={`dropdownMenuButton-${review.id}`}
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            <FontAwesomeIcon icon={faEllipsis} />
-                          </button>
-                          <ul
-                            className="dropdown-menu"
-                            aria-labelledby={`dropdownMenuButton-${review.id}`}
-                          >
-                            <li>
-                              <button
-                                className="dropdown-item"
-                                onClick={() => handleDeleteReview(review.id)}
-                                disabled={currentUserId !== review.user_id}
-                              >
-                                <FontAwesomeIcon
-                                  icon={faTrash}
-                                  className="me-2"
-                                />
-                                Delete
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                className="dropdown-item"
-                                onClick={() => handleEditReview(review)}
-                                disabled={currentUserId !== review.user_id}
-                              >
-                                <FontAwesomeIcon
-                                  icon={faEdit}
-                                  className="me-2"
-                                />
-                                Edit
-                              </button>
-                            </li>
-                          </ul>
+                          <div className="dropdown">
+                            <button
+                              className="options-review-button btn btn-secondary dropdown-toggle ms-3"
+                              type="button"
+                              id={`dropdownMenuButton-${review.id}`}
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              <FontAwesomeIcon icon={faEllipsis} />
+                            </button>
+                            <ul
+                              className="dropdown-menu"
+                              aria-labelledby={`dropdownMenuButton-${review.id}`}
+                            >
+                              <li>
+                                <button
+                                  className="dropdown-item"
+                                  onClick={() => handleDeleteReview(review.id)}
+                                  disabled={currentUserId !== review.user_id}
+                                >
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className="me-2"
+                                  />
+                                  Delete
+                                </button>
+                              </li>
+                              <li>
+                                <button
+                                  className="dropdown-item"
+                                  onClick={() => handleEditReview(review)}
+                                  disabled={currentUserId !== review.user_id}
+                                >
+                                  <FontAwesomeIcon
+                                    icon={faEdit}
+                                    className="me-2"
+                                  />
+                                  Edit
+                                </button>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                     <p className="container ">{review.comment}</p>
                   </div>
