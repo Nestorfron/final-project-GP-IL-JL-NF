@@ -12,6 +12,9 @@ export const Navbar = () => {
   const jwt = localStorage.getItem("token");
   const navigate = useNavigate();
 
+  const user = store.me;
+  const userImg = user.profile_picture;
+
   function logout() {
     actions.logout();
     navigate("/");
@@ -129,11 +132,17 @@ export const Navbar = () => {
           <div className="signin-button">
             <button
               type="button"
-              className="btn btn-warning"
+              className={!jwt ? "btn btn-warning" : "btn m-0 p-0"}
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <i className="fa-solid fa-user"></i>
+              {!jwt ? (
+                <i className="fa-solid fa-user"></i>
+              ) : (
+                <div className="conteiner-userImg">
+                  <img className="userImg" src={userImg}></img>
+                </div>
+              )}
             </button>
 
             <ul className="signin-button dropdown-menu dropdown-menu-end menu">
