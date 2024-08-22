@@ -60,8 +60,8 @@ const Login = () => {
 
   return (
     <div className="container  home-login">
-      <div className="row justify-content-center  m-5">
-        <div className="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+      <div className="row justify-content-center p-5 m-5">
+        <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
           <div className="formulario-login p-4">
             <form onSubmit={handleSubmitLogin}>
               <div className="form form-grup">

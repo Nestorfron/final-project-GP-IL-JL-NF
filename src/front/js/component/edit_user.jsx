@@ -34,7 +34,7 @@ const Edit_user = ({ user }) => {
               ></button>
             </div>
             <div className="modal-body">
-              <Form_add_users btnUser={"Guardar"} user={user} id={user.id} />
+              <Form_add_users btnUser={"Edit"} user={user} id={user.id} />
             </div>
           </div>
         </div>

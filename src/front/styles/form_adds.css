@@ -1,103 +1,74 @@
-/* Contenedor general del formulario */
+/* General Form Container */
 .form-container {
-  background: #f8f9fa;
-  padding: 2rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  margin: auto;
+  background: #f8f9fa; /* Light background color */
+  padding: 2rem; /* Space around the form */
+  border-radius: 0.5rem; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  max-width: 800px; /* Max width for form container */
+  margin: auto; /* Center the form */
   margin-bottom: 8rem;
 }
 
-/* Estilo para el encabezado dentro del contenedor del formulario */
+/* Heading */
 .form-container h2 {
-  color: #343a40;
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+  color: #343a40; /* Darker text color for the heading */
+  font-size: 2rem; /* Font size for the heading */
+  margin-bottom: 1.5rem; /* Space below the heading */
 }
 
-/* Estilo para las etiquetas de los formularios */
+/* Form Elements */
 .form-container .form-label {
-  font-weight: bold;
-  color: #495057;
+  font-weight: bold; /* Bold labels */
+  color: #495057; /* Slightly lighter text color for labels */
 }
 
-/* Estilo para los campos de entrada del formulario */
 .form-container .form-control {
-  border-radius: 0.25rem;
-  border: 1px solid #ced4da;
-  box-shadow: none;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  border-radius: 0.25rem; /* Rounded corners for inputs */
+  border: 1px solid #ced4da; /* Border color for inputs */
+  box-shadow: none; /* Remove default shadow */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus */
 }
 
-/* Estilo para los campos de entrada cuando están en foco */
 .form-container .form-control:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+  border-color: #007bff; /* Border color on focus */
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25); /* Shadow on focus */
 }
 
-/* Estilo para el botón de ingresar */
-.enter {
-  color: #fff !important;
-  font-size: 15px;
-  font-weight: 500;
-  padding: 0.5em 1.2em;
-  background: #318aac;
-  border: 2px solid #318aac;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  position: relative;
-  width: 150px;
-  cursor: pointer;
+.form-container .btn {
+  background-color: #007bff; /* Primary button color */
+  border: none; /* Remove border */
+  border-radius: 0.25rem; /* Rounded corners */
+  padding: 0.75rem 1.5rem; /* Padding inside the button */
+  color: #fff; /* White text color */
+  font-size: 1rem; /* Font size for the button */
+  font-weight: bold; /* Bold button text */
+  transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for hover */
 }
 
-/* Efecto al pasar el cursor sobre el botón de ingresar */
-.enter:hover {
-  background: rgba(0, 0, 0, 0);
-  color: #318aac !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 6px 15px rgba(0, 0, 0, 0.15);
-  transform: translateY(-3px);
+.form-container .btn:hover {
+  background-color: #0056b3; /* Darker button color on hover */
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5); /* Shadow on hover */
 }
 
-/* Efecto al hacer clic en el botón de ingresar */
-.enter:active {
-  transform: scale(0.95) translateY(1px);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+/* Input File Styling */
+.form-container input[type="file"] {
+  border: none; /* Remove default border */
+  padding: 0.5rem; /* Padding around the file input */
+  background-color: #e9ecef; /* Light background for file input */
 }
 
-/* Estilo para el campo de entrada de archivos */
-m-container input[type="file"] {
-  border: none;
-  padding: 0.5rem;
-  background-color: #e9ecef;
-}
-
+/* Responsive Design */
 @media (max-width: 768px) {
-  /* Estilo para el contenedor del formulario en pantallas pequeñas */
   .form-container {
-    padding: 1rem;
+    padding: 1rem; /* Reduce padding on smaller screens */
   }
 
-  /* Estilo para las filas del formulario en pantallas pequeñas */
   .form-container .row {
-    flex-direction: column;
+    flex-direction: column; /* Stack columns vertically */
   }
 
-  /* Estilo para las columnas en pantallas pequeñas */
   .form-container .col-md-6 {
-    width: 100%;
-    margin-bottom: 1rem;
-  }
-
-  /* Estilo para los controles de formulario y áreas de texto en pantallas pequeñas */
-  .form-container .form-control,
-  .form-container textarea {
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* Estilo para los selectores del formulario en pantallas pequeñas */
-  .form-container .form-select {
-    box-sizing: border-box;
+    width: 100%; /* Full width for columns */
+    margin-bottom: 1rem; /* Space below each column */
   }
 }

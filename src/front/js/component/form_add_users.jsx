@@ -269,11 +269,9 @@ const Form_add_users = ({ id, btnUser, user: initialUser }) => {
           </div>
         </div>
       </div>
-      <div className="text-center">
-        <button type="submit" className="enter  mt-4" disabled={loading}>
-          {btnUser}
-        </button>
-      </div>
+      <button type="submit" className="entrar w-100 mt-4" disabled={loading}>
+        {btnUser}
+      </button>
       <div className="text-center mt-4">
         {!id && (
           <span className="registro text-center">
