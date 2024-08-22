@@ -160,67 +160,79 @@ const MyAccount = () => {
   return (
     <div className="container-fluid">
       {/* Sección de Usuario */}
-      <h1 className="text-center m-4">Mi Usuario</h1>
-      <div className="overflow-auto d-flex flex-nowrap">
-        <div className="cards-container" key={user.id}>
-          <div className="card cardAccount border-light shadow-lg me-4">
-            <img
-              src={user.profile_picture}
-              className="card-img-top card-img"
-              alt={user.name}
-            />
-            <div className="card-body body-card d-flex flex-column">
-              <h5 className="card-title title-card mb-2">{user.username}</h5>
-              <p className="card-text text-card mb-3">
-                <i className="fas fa-map-marker-alt me-2"></i>
-                {user.email}
-              </p>
-              <div className="container-fluid d-flex mt-auto justify-content-between footer-card">
-                {/* <button
+      <div className="text-center">
+        <h5 className=" text-light mt-5 mb-3 ">MI USUARIO</h5>
+        <div className=" d-flex align-items-center justify-content-center ">
+          <div key={user.id}>
+            <div className="cardAccount-user">
+              <img
+                src={user.profile_picture}
+                className="card-img-user m-3"
+                alt={user.name}
+              />
+              <div className="card-body body-card d-flex flex-column text-center align-items-center justify-content-center">
+                <h5 className="title-card mb-2">{user.username}</h5>
+                <p className="text-card mb-2">
+                  <i className=" text-card fas fa-envelope "></i>
+                  {user.email}
+                </p>
+                <div className=" d-flex mt-2 justify-content-center">
+                  {/* <button
                   className="btn btn-danger"
                   onClick={() => userDelete(user.id)}
                 >
                   <i className="fas fa-trash-alt me-1"></i>
                 </button> */}
-                <Edit_user user={user} />
+                  <Edit_user user={user} />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
       {/* Sección de Cervecerías */}
-      <h1
+      <h5
         className={`${
-          !getTokenInfo() ? "text-center m-4 d-none" : "text-center m-4"
-        }`}
+          !getTokenInfo() ? "text-center mt-5 mb-3  " : "text-center mt-5 mb-3 "
+        } text-light`}
       >
-        Mis Cervecerías
-      </h1>
+        MIS CERVECERÍAS Y/O BARES
+      </h5>
       <div
         className={`${
           !getTokenInfo()
-            ? "overflow-auto d-flex flex-nowrap d-none"
-            : "overflow-auto d-flex flex-nowrap"
+            ? "overflow-auto flex-nowrap d-none d-flex justify-content-center align-items-center"
+            : "d-flex  overflow-auto flex-nowrap justify-content-center align-items-center"
         }`}
       >
         {store.userBreweries.length > 0 ? (
           store.userBreweries.map((brewery) => (
             <div className="cards-container" key={brewery.id}>
-              <div className="card cardAccount border-light shadow-lg me-4">
-                <img
-                  src={brewery.logo_of_brewery}
-                  className="card-img-top card-img"
-                  alt={brewery.name}
-                />
-                <div className="card-body body-card d-flex flex-column">
+              <div className="card cardAccount  ">
+                <div
+                  className="brewery-minitron"
+                  style={{
+                    backgroundImage: `url(${brewery.picture_of_brewery_url})`,
+                    backgroundSize: "cover", // Ensures the background covers the entire div
+                    backgroundPosition: "center", // Centers the background image
+                  }}
+                >
+                  <img
+                    src={brewery.logo_of_brewery}
+                    className="card-img m-4"
+                    alt={brewery.name}
+                  />
+                </div>
+
+                <div className="card-body d-flex flex-column">
                   <h5 className="card-title title-card mb-2">{brewery.name}</h5>
                   <p className="card-text text-card mb-3">
                     <i className="fas fa-map-marker-alt me-2"></i>
                     {brewery.address}
                   </p>
-                  <div className="container-fluid d-flex mt-auto justify-content-between footer-card">
+                  <div className="container-fluid d-flex mt-3 justify-content-center ">
                     <button
-                      className="btn btn-danger"
+                      className="btn btn-danger me-2"
                       onClick={() => breweryDelete(brewery.id)}
                     >
                       <i className="fas fa-trash-alt me-1"></i>
@@ -232,55 +244,49 @@ const MyAccount = () => {
             </div>
           ))
         ) : (
-          <h6 className="text-center mt-4">
+          <h6 className="text-center mt-4 text-light">
             Sin Cervecerías, por favor{" "}
             <Link to="/add_brewery">ingresa una</Link>
           </h6>
         )}
       </div>
-      <h1
+      <h5
         className={`${
-          !getTokenInfo() ? "text-center m-4 d-none" : "text-center m-4"
+          !getTokenInfo()
+            ? "text-center mt-5 mb-3 text-light justify-content-center align-items-center"
+            : "text-center mt-5 mb-3 text-light justify-content-center align-items-center"
         }`}
       >
-        Mis Cervezas
-      </h1>
+        MIS CERVEZAS
+      </h5>
       <div
         className={`${
           !getTokenInfo()
-            ? "overflow-auto d-flex flex-nowrap d-none"
-            : "overflow-auto d-flex flex-nowrap"
+            ? " overflow-auto flex-nowrap d-none d-flex justify-content-center align-items-center "
+            : " overflow-auto flex-nowrap d-flex justify-content-center align-items-center "
         }`}
       >
         {store.userBeers.length > 0 ? (
           store.userBeers.map((beer) => (
-            <div className="cards-container" key={beer.id}>
-              <div className=" card cardAccount border-light shadow-lg me-4">
+            <div
+              className="cards-container d-flex justify-content-between align-items-center"
+              key={beer.id}
+            >
+              <div className="cardAccount-beers m-2 ">
                 <img
                   src={beer.picture_of_beer_url}
-                  className="card-img-top card-img"
+                  className=" card-img-beer m-3"
                   alt={beer.name}
                 />
-                <div className="card-body body-card d-flex flex-column">
-                  <h2 className="card-title  mb-3">{beer.name}</h2>
-                  <p className="card-text mb-2">
-                    <strong>Estilo BJCP:</strong> {beer.bjcp_style}
-                  </p>
-                  <p className="card-text mb-2">
-                    <strong>IBUs:</strong> {beer.IBUs}
-                  </p>
-                  <p className="card-text mb-2">
-                    <strong>VolALC:</strong> {beer.volALC}
-                  </p>
-                  <p className="card-text mb-3">
-                    <strong>Descripción:</strong> {beer.description}
-                  </p>
-                  <div className="container-fluid d-flex mt-auto justify-content-between footer-card">
+                <div className="card-body-beers mb-3">
+                  <h5 className="title-card mb-3 text-center">{beer.name}</h5>
+
+                  <div className="text-center ">
                     <button
                       onClick={() => beerDelete(beer.id)}
-                      className="btn btn-danger mt-auto"
+                      className="btn btn-danger m-2"
                     >
-                      <i className="fas fa-trash-alt me-1"></i>
+                      <i className="fas fa-trash-alt "></i>
                     </button>
                     <Edit_beers beer={beer}></Edit_beers>
                   </div>
@@ -289,46 +295,48 @@ const MyAccount = () => {
             </div>
           ))
         ) : (
-          <h6 className="text-center mt-4">
+          <h6 className="text-center mt-4 text-light">
             Sin Cervezas, por favor <Link to="/add_beer">ingresa una</Link>
           </h6>
         )}
       </div>
 
       {/* Sección de Eventos */}
-      <h1
+      <h5
         className={`${
-          !getTokenInfo() ? "text-center m-4 d-none" : "text-center m-4"
+          !getTokenInfo()
+            ? "text-center mt-5 mb-3 d-none text-light"
+            : "text-center mt-5 mb-3 text-light"
         }`}
       >
-        Mis Eventos
-      </h1>
+        MIS EVENTOS
+      </h5>
       <div
         className={`${
           !getTokenInfo()
-            ? "overflow-auto d-flex flex-nowrap d-none"
-            : "overflow-auto d-flex flex-nowrap"
+            ? "overflow-auto d-flex flex-nowrap d-none text-center justify-content-center"
+            : "overflow-auto d-flex flex-nowrap justify-content-center"
         }`}
       >
         {store.userEvents.length > 0 ? (
           store.userEvents.map((event) => (
             <div className="cards-container" key={event.id}>
-              <div className="card cardAccount border-light shadow-lg me-4">
+              <div className="card cardAccount-events border-light shadow-lg mb-4 me-4">
                 <img
                   src={event.picture_of_event_url}
                   className="card-img-top card-img"
                   alt={event.picture_of_event_url}
                 />
-                <div className="card-body body-card d-flex flex-column">
-                  <h4 className="card-title title-card mb-3">{event.name}</h4>
-                  <h4 className="card-title title-card mb-3">
+                <div className="card-body body-card d-flex flex-column text-center">
+                  <h5 className="card-title title-card mb-3">{event.name}</h5>
+                  <h6 className="card-title text-card mb-3">
                     {formatDate(event.date)}
-                  </h4>
+                  </h6>
 
-                  <div className="container-fluid d-flex mt-auto justify-content-between footer-card">
+                  <div className="container-fluid card-body-beers d-flex  justify-content-center ">
                     <button
                       onClick={() => eventDelete(event.id)}
-                      className="btn btn-danger text-dark mt-auto"
+                      className="btn btn-danger text-light mt-auto me-2"
                     >
                       <i className="fas fa-trash-alt me-1"></i>
                     </button>
@@ -339,7 +347,7 @@ const MyAccount = () => {
             </div>
           ))
         ) : (
-          <h6 className="text-center mt-4">
+          <h6 className="text-center mt-4 text-light">
             Sin Eventos, por favor <Link to="/add_event">ingresa uno</Link>
           </h6>
         )}
