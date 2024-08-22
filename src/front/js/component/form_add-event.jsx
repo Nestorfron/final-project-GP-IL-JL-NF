@@ -219,7 +219,7 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
             />
           </div>
         </div>
-        <div className="col-6">
+        <div className="col">
           <div className="form form-grup mx-sm-4 mb-4">
             <label htmlFor="exampleInputPassword1" className="form-label">
               Descripción de tu evento
@@ -255,7 +255,7 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
           </select>
         </div>
         <div className="text-center">
-          <button type="submit" className="entrar mx-sm-4 mt-2">
+          <button type="submit" className="enter  mt-2">
             {btnEvent}
           </button>
         </div>
