@@ -42,7 +42,7 @@ export const Navbar = () => {
 
   return (
     <nav className="container-nav navbar navbar-expand-lg">
-      <div className="beer-container mt-1">
+      <div className="beer-container mt-2">
         <Link to="/">
           <img src={BEER} alt="BEER" className="beer-image" />
         </Link>

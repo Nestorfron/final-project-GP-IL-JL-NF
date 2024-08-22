@@ -30,7 +30,7 @@
 /* Estilos generales de la navbar */
 .navbar {
   margin-top: 40 !important;
-  min-height: 80px;
+  min-height: 85px;
   margin-bottom: 0px;
   background: rgba(245, 207, 70, 1);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
