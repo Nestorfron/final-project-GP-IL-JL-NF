@@ -76,6 +76,8 @@ class Beer(db.Model):
 
     name = db.Column(db.String(120), nullable=False)
     bjcp_style = db.Column(db.String(120), nullable=False)
+
+    
     IBUs = db.Column(db.String(120), nullable=False)
     volALC = db.Column(db.String(120), nullable=False)
     description = db.Column(db.Text, nullable=False)

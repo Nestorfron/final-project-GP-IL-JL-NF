@@ -36,7 +36,7 @@ const SearchBar = () => {
 
   return (
     <form
-      className="d-flex position-relative"
+      className="d-flex position-relative bg-warning"
       role="search"
       onSubmit={handleSearchSubmit}
     >
@@ -56,11 +56,12 @@ const SearchBar = () => {
               {store.searchResults.beers &&
                 store.searchResults.beers.length > 0 && (
                   <>
-                    <h5 className="text-black text-center">Cervezas</h5>
+                    <h5 className="text-black text-start mx-2">Cervezas</h5>
                     {store.searchResults.beers.map((beer) => (
-                      <li key={beer.id} className="list-group-item">
+                      <li key={beer.id} className="list-group-item text-center">
                         <Link to={`/beer/${beer.id}`} className="dropdown-item">
-                        <i className="fa-solid fa-arrow-up-right-from-square"></i> {beer.name} 
+                          <i className="fa-solid fa-magnifying-glass fa-xs-custom"></i>{" "}
+                          {beer.name}
                         </Link>
                       </li>
                     ))}
@@ -69,14 +70,15 @@ const SearchBar = () => {
               {store.searchResults.breweries &&
                 store.searchResults.breweries.length > 0 && (
                   <>
-                    <h5 className="text-black text-center">Cervecerías</h5>
+                    <h5 className="text-black text-start mx-2">Cervecerías</h5>
                     {store.searchResults.breweries.map((brewery) => (
-                      <li key={brewery.id} className="list-group-item">
+                      <li key={brewery.id} className="list-group-item text-center">
                         <Link
                           to={`/brewery/${brewery.id}`}
                           className="dropdown-item"
                         >
-                         <i className="fa-solid fa-arrow-up-right-from-square"></i> {brewery.name} 
+                          <i className="fa-solid fa-magnifying-glass fa-xs-custom"></i>{" "}
+                          {brewery.name}
                         </Link>
                       </li>
                     ))}

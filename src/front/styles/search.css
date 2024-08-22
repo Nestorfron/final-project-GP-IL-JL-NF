@@ -7,7 +7,7 @@
   top: 98%;
   left: 0;
   width: 97%;
-  background-color: white;
+  background-color: rgba(245, 207, 70, 1);
   border: 1px solid #ccc;
   z-index: 1000;
 }
@@ -15,13 +15,17 @@
 .search-results li {
   padding: 5px;
   cursor: pointer;
+  background-color: rgba(245, 207, 70, 1);
 }
 
 .search-results li:hover {
-  background-color: #f0f0f0;
+  background-color: rgba(231, 162, 6, 0.2);
 }
 
 .search-results a {
   text-decoration: none;
   color: inherit;
+}
+.fa-xs-custom {
+  font-size: 14px;
 }
