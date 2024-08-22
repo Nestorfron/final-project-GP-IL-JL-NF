@@ -282,7 +282,7 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
         </div>
 
         <div className="d-flex justify-content-center">
-          <button type="submit" className="enter" disabled={loading}>
+          <button type="submit" className="btn btn-primary" disabled={loading}>
             {btnBrewery}
           </button>
         </div>

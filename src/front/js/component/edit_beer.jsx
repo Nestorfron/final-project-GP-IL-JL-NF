@@ -35,7 +35,7 @@ const Edit_beers = ({ beer }) => {
               ></button>
             </div>
             <div className="modal-body">
-              <Form_add_beer btnBeer={"Guardar"} beer={beer} id={beer.id} />
+              <Form_add_beer btnBeer={"Edit"} beer={beer} id={beer.id} />
             </div>
           </div>
         </div>

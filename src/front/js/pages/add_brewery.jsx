@@ -6,7 +6,7 @@ const Add_Brewery = () => {
   useTokenExpiration();
   return (
     <div className="container">
-      <Add_Breweries btnBrewery={"Guardar"} />
+      <Add_Breweries btnBrewery={"Enviar"} />
     </div>
   );
 };

@@ -6,7 +6,7 @@ const Add_Style = () => {
   useTokenExpiration();
   return (
     <div className="container">
-      <Form_add_beer btnBeer={"Guardar"}></Form_add_beer>
+      <Form_add_beer btnBeer={"Enviar"}></Form_add_beer>
     </div>
   );
 };

@@ -14,7 +14,7 @@ const Register = () => {
                 Completa el formulario para crear tu cuenta.
               </p>
             </div>
-            <Form_add_users btnUser={"Guardar"}></Form_add_users>
+            <Form_add_users btnUser={"Enviar"}></Form_add_users>
           </div>
         </div>
       </div>
