@@ -244,7 +244,7 @@ const MyAccount = () => {
             </div>
           ))
         ) : (
-          <h6 className="text-center mt-4">
+          <h6 className="text-center mt-4 text-light">
             Sin Cervecerías, por favor{" "}
             <Link to="/add_brewery">ingresa una</Link>
           </h6>
@@ -295,7 +295,7 @@ const MyAccount = () => {
             </div>
           ))
         ) : (
-          <h6 className="text-center mt-4">
+          <h6 className="text-center mt-4 text-light">
             Sin Cervezas, por favor <Link to="/add_beer">ingresa una</Link>
           </h6>
         )}
@@ -347,7 +347,7 @@ const MyAccount = () => {
             </div>
           ))
         ) : (
-          <h6 className="text-center mt-4">
+          <h6 className="text-center mt-4 text-light">
             Sin Eventos, por favor <Link to="/add_event">ingresa uno</Link>
           </h6>
         )}
