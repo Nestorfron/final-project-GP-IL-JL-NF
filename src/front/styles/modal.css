@@ -26,7 +26,6 @@
 
 .modal-header .btn-close {
   background-color: #fff; /* Fondo del botón de cerrar */
-  border: 1px solid #007bff; /* Borde del botón de cerrar */
 }
 
 /* Modal Body */
@@ -59,16 +58,6 @@
 
 .modal-footer .btn:hover {
   background-color: #0056b3; /* Color del botón al pasar el cursor */
-}
-
-/* Modal Close Button */
-.modal-close {
-  color: #fff; /* Color del botón de cerrar */
-  opacity: 0.8; /* Opacidad ligeramente reducida */
-}
-
-.modal-close:hover {
-  opacity: 1; /* Opacidad completa al pasar el cursor */
 }
 
 /* Modal on Small Screens */
