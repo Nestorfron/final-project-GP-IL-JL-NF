@@ -35,7 +35,7 @@
 @media (max-width: 768px) {
   /* Small devices (phones) */
   .beer-detail-picture {
-    max-width: 250px;
+    max-width: 225px;
   }
 }
 
