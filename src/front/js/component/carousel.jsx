@@ -9,7 +9,7 @@ import Slider2 from "../../img/slider2.png";
 import Slider3 from "../../img/slider3.png";
 import Slider4 from "../../img/slider4.png";
 import Slider5 from "../../img/slider5.png";
-import Slider0 from "../../img/welcome.jpg";
+import Slider0 from "../../img/welcome2.jpg";
 
 export const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
