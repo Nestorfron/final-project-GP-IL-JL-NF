@@ -143,7 +143,7 @@ export const BeerDetails = () => {
         <div className="card-footer d-flex justify-content-center align-items-center">
           <button
             className={`${
-              !jwt ? "btn btn-primary m-2 d-none" : "btn btn-primary m-2"
+              !jwt ? " m-2 d-none reviewButton" : " reviewButton m-2"
             }`}
             onClick={handleModalShow}
           >
