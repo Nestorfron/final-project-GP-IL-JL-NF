@@ -12,7 +12,7 @@ export const BeerCards = () => {
   const navigate = useNavigate();
 
   const latestBeers = Array.isArray(beers)
-    ? beers.sort((a, b) => b.id - a.id).slice(0, 9)
+    ? beers.sort((a, b) => b.id - a.id).slice(0, 20)
     : [];
 
   // Function to generate full and empty glasses based on rating

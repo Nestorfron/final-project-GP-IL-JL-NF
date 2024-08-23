@@ -24,9 +24,10 @@
 }
 
 .beer-picture {
-  width: 100%; /* Ensure the image scales with the card */
-  height: auto; /* Maintain the aspect ratio of the image */
-  margin: 10px auto; /* Center the image within the card */
+  width: 100%; /* Ensures the image scales with the card */
+  max-height: 350px; /* Allows the height to adjust based on the width, maintaining aspect ratio */
+  object-fit: contain; /* Crops the image to fit within the max-height, preserving the aspect ratio */
+  margin: 10px auto; /* Centers the image within the card */
   display: block;
 }
 
@@ -87,7 +88,8 @@
   width: 60%;
   margin: 16px 8px;
   margin-left: 50px;
-  font-size: 1.4rem;
+  padding: 0.1rem 0.2rem;
+  font-size: 1rem;
   border-radius: 0.5rem;
   background: transparent;
   transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
@@ -102,7 +104,7 @@
   outline-color: #e65c00;
   outline-offset: 13px;
   text-shadow: 1px 1px 1px #e65c00;
-  transform: scale(0.9);
+  transform: scale(0.8);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 

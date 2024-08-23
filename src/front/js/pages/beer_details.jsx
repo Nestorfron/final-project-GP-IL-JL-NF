@@ -98,7 +98,7 @@ export const BeerDetails = () => {
   return (
     <div className="container my-5">
       <div className="card p-4">
-        <div className="card-header text-center">
+        <div className="card-header beer-detail-header text-center">
           <img
             className="brewery-beer-details-picture col-12"
             src={findBreweryLogo(beerDetails.brewery_id, breweries)}

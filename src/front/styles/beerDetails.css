@@ -1,13 +1,22 @@
 /* General Styles */
 .beer-detail-picture {
-  max-width: 350px;
-  height: auto;
-  border-radius: 5%;
+  width: 100%; /* Ensures the image scales with the card */
+  max-height: 500px; /* Allows the height to adjust based on the width, maintaining aspect ratio */
+  object-fit: contain; /* Crops the image to fit within the max-height, preserving the aspect ratio */
+  margin: 10px auto; /* Centers the image within the card */
+  display: block;
+  border-radius: 5px;
 }
 
 .brewery-beer-details-picture {
   max-width: 300px;
   height: auto;
+}
+
+.beer-detail-header {
+  background: rgba(245, 207, 70, 1);
+  padding: 20px;
+  border-radius: 5px !important;
 }
 
 /* Estilo inicial del botón */
@@ -17,8 +26,8 @@
   outline: 2px solid #00208a;
   outline-offset: 0px;
   text-shadow: none;
-  padding: 0.2rem 0.6rem;
-  font-size: 1.4rem;
+  padding: 0.1rem 0.3rem;
+  font-size: 1.1rem;
   border-radius: 0.5rem;
   background: transparent;
   transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
