@@ -208,7 +208,7 @@ const MyAccount = () => {
         {store.userBreweries.length > 0 ? (
           store.userBreweries.map((brewery) => (
             <div className="cards-container" key={brewery.id}>
-              <div className="card cardAccount  ">
+              <div className="card cardAccount me-4 ">
                 <div
                   className="brewery-minitron"
                   style={{
@@ -232,7 +232,7 @@ const MyAccount = () => {
                   </p>
                   <div className="container-fluid d-flex mt-3 justify-content-center ">
                     <button
-                      className="btn btn-danger me-2"
+                      className="deleteButton me-3"
                       onClick={() => breweryDelete(brewery.id)}
                     >
                       <i className="fas fa-trash-alt me-1"></i>
@@ -272,7 +272,7 @@ const MyAccount = () => {
               className="cards-container d-flex justify-content-between align-items-center"
               key={beer.id}
             >
-              <div className="cardAccount-beers m-2 ">
+              <div className="cardAccount-beers m-4 ">
                 <img
                   src={beer.picture_of_beer_url}
                   className=" card-img-beer m-3"
@@ -284,7 +284,7 @@ const MyAccount = () => {
                   <div className="text-center ">
                     <button
                       onClick={() => beerDelete(beer.id)}
-                      className="btn btn-danger m-2"
+                      className="deleteButton me-3"
                     >
                       <i className="fas fa-trash-alt "></i>
                     </button>
@@ -336,7 +336,7 @@ const MyAccount = () => {
                   <div className="container-fluid card-body-beers d-flex  justify-content-center ">
                     <button
                       onClick={() => eventDelete(event.id)}
-                      className="btn btn-danger text-light mt-auto me-2"
+                      className="deleteButton me-3 mt-auto"
                     >
                       <i className="fas fa-trash-alt me-1"></i>
                     </button>

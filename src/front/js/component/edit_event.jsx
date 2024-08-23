@@ -8,7 +8,7 @@ const Edit_event = ({ event }) => {
     <>
       <button
         type="button"
-        className="btn btn-warning"
+        className="editButton"
         data-bs-toggle="modal"
         data-bs-target={`#edit-event-${event.id}`}
       >

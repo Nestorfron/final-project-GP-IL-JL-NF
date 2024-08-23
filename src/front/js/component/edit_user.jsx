@@ -7,7 +7,7 @@ const Edit_user = ({ user }) => {
     <>
       <button
         type="button"
-        className="btn btn-warning"
+        className="editButton"
         data-bs-toggle="modal"
         data-bs-target={`#edit-user-${user.id}`}
       >

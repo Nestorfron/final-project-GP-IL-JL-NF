@@ -1,4 +1,8 @@
-.review-modal,
+.review-modal {
+  display: block;
+  z-index: 1050;
+}
+
 .modal-dialog {
   margin-top: 5px;
   margin-bottom: 20px;
@@ -12,6 +16,9 @@
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
   color: rgb(0, 0, 0);
 }
+.modal-backdrop {
+  z-index: 1040; /* Ensure the backdrop is behind the modal */
+}
 
 .review-modal-button {
   background: #318aac !important;
@@ -20,8 +27,14 @@
   padding: 5px !important;
 }
 
-.review-modal-title {
-  border-bottom: 2px solid black;
-  border-bottom-width: 120%;
-  padding-bottom: 8px;
+/* Modal Header */
+.modal-header {
+  background: rgba(0, 38, 71, 0.89); /* Color de fondo del encabezado */
+  color: #fff; /* Color del texto */
+  border-bottom: 1px solid #e9ecef; /* Línea sutil debajo del encabezado */
+}
+
+.modal-header .modal-title {
+  font-size: 1.5rem; /* Tamaño del texto del título */
+  font-weight: bold; /* Texto en negrita */
 }
