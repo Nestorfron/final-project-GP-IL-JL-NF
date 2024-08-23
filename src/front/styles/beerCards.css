@@ -26,7 +26,6 @@
 .beer-picture {
   width: 100%; /* Ensures the image scales with the card */
   max-height: 350px; /* Allows the height to adjust based on the width, maintaining aspect ratio */
-
   object-fit: contain; /* Crops the image to fit within the max-height, preserving the aspect ratio */
   margin: 10px auto; /* Centers the image within the card */
   display: block;

@@ -5,12 +5,18 @@
   object-fit: contain; /* Crops the image to fit within the max-height, preserving the aspect ratio */
   margin: 10px auto; /* Centers the image within the card */
   display: block;
-  border-radius: 5%;
+  border-radius: 5px;
 }
 
 .brewery-beer-details-picture {
   max-width: 300px;
   height: auto;
+}
+
+.beer-detail-header {
+  background: rgba(245, 207, 70, 1);
+  padding: 20px;
+  border-radius: 5px !important;
 }
 
 /* Estilo inicial del botón */
