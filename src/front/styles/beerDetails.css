@@ -11,10 +11,24 @@
 }
 
 /* Responsive Styles */
+@media (max-width: 1200px) {
+  /* Large devices (desktops) */
+  .beer-detail-picture {
+    max-width: 350px;
+  }
+}
+
 @media (max-width: 992px) {
   /* Medium devices (tablets) */
   .beer-detail-picture {
     max-width: 300px;
+  }
+}
+
+@media (max-width: 840px) {
+  /* Medium-small devices */
+  .beer-detail-picture {
+    max-width: 275px;
   }
 }
 
@@ -25,10 +39,31 @@
   }
 }
 
+@media (max-width: 640px) {
+  /* Small-extra devices */
+  .beer-detail-picture {
+    max-width: 225px;
+  }
+}
+
 @media (max-width: 576px) {
   /* Extra small devices (phones) */
   .beer-detail-picture {
     max-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra extra small devices */
+  .beer-detail-picture {
+    max-width: 175px;
+  }
+}
+
+@media (max-width: 360px) {
+  /* Ultra small devices */
+  .beer-detail-picture {
+    max-width: 150px;
   }
 }
 
