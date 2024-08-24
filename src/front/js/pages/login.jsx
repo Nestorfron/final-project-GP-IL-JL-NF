@@ -55,7 +55,7 @@ const Login = () => {
       } else {
         navigate("/");
       }
-    }, 2000);
+    }, 900);
   };
 
   return (
