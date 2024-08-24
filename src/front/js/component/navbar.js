@@ -41,7 +41,13 @@ export const Navbar = () => {
     getTokenInfo();
   }, []);
 
-  const uniqueStyles = [...new Set(store.beers.map((beer) => beer.bjcp_style))];
+  const uniqueStyles = [
+    ...new Set(store.beers.map((beer) => beer.bjcp_style)),
+  ].sort(); // Sort styles alphabetically
+
+  const sortedBreweries = [...store.breweries].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  ); // Sort breweries alphabetically
 
   return (
     <nav className="container-nav navbar navbar-expand-lg">
@@ -108,8 +114,8 @@ export const Navbar = () => {
                 Cervecerías
               </a>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown2">
-                {store.breweries.length > 0 ? (
-                  store.breweries.map((brewery) => (
+                {sortedBreweries.length > 0 ? (
+                  sortedBreweries.map((brewery) => (
                     <li key={brewery.id}>
                       <Link
                         className="dropdown-item"
@@ -126,7 +132,6 @@ export const Navbar = () => {
             </li>
           </ul>
           <hr />
-          {/* Aquí agregamos el SearchBar */}
           <SearchBar />
           <hr />
           <div className="signin-button">
