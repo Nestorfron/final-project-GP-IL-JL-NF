@@ -1,14 +1,14 @@
 import React from "react";
 import useTokenExpiration from "../../../hooks/useTokenExpiration.jsx";
-import Form_add_event from "../component/form_add-event.jsx";
+import EventsForm from "../component/EventsForm.jsx";
 
-const Add_Event = () => {
+const AddEvent = () => {
   useTokenExpiration();
   return (
     <div className="container">
-      <Form_add_event btnEvent={"Guardar"}></Form_add_event>
+      <EventsForm btnEvent={"Guardar"}></EventsForm>
     </div>
   );
 };
 
-export default Add_Event;
+export default AddEvent;

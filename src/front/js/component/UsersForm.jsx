@@ -5,7 +5,7 @@ import { uploadFile } from "../../../firebase/config";
 import "../../styles/register.css";
 import Swal from "sweetalert2";
 
-const Form_add_users = ({ id, btnUser, user: initialUser }) => {
+const UsersForm = ({ id, btnUser, user: initialUser }) => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [profile_picture, setProfile_picture] = useState(null);
@@ -286,4 +286,4 @@ const Form_add_users = ({ id, btnUser, user: initialUser }) => {
   );
 };
 
-export default Form_add_users;
+export default UsersForm;

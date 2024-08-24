@@ -6,7 +6,7 @@ import React from "react";
 import fullGlass from "../../img/fullglass.png";
 import emptyGlass from "../../img/empty.png";
 
-export const Styles_View = () => {
+export const StylesView = () => {
   const { styleName } = useParams();
   const { store, actions } = useContext(Context);
   const { beers, averageRatings } = store;

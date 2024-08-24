@@ -2,10 +2,10 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { uploadFile } from "../../../firebase/config";
-import "../../styles/form_adds.css";
+import "../../styles/formAdds.css";
 import Swal from "sweetalert2";
 
-const Form_add_beer = ({ id, btnBeer, beer: initialBeer }) => {
+const BeersForm = ({ id, btnBeer, beer: initialBeer }) => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [picture_of_beer, setPicture_of_beer] = useState(null);
@@ -306,4 +306,4 @@ const Form_add_beer = ({ id, btnBeer, beer: initialBeer }) => {
   );
 };
 
-export default Form_add_beer;
+export default BeersForm;

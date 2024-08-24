@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Context } from "../store/appContext";
-import { uploadFile } from "../../../firebase/config";
+import { Context } from "../store/appContext.js";
+import { uploadFile } from "../../../firebase/config.js";
 import Swal from "sweetalert2";
-import "../../styles/form_adds.css";
-import Map from "../component/map.jsx";
+import "../../styles/formAdds.css";
+import Map from "./Map.jsx";
 
-const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
+const BreweriesForm = ({ btnBrewery, id, brewery: initialBrewery }) => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [logo_of_brewery, setLogo_of_brewery] = useState(null);
@@ -291,4 +291,4 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
   );
 };
 
-export default Add_Breweries;
+export default BreweriesForm;

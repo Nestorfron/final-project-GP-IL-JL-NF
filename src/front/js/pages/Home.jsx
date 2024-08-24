@@ -4,7 +4,7 @@ import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { Carousel } from "../component/carousel.jsx";
 import { BeerCards } from "../component/beerCards.jsx";
-import Map from "../component/map.jsx";
+import Map from "../component/Map.jsx";
 
 export const Home = () => {
   const { store, actions } = useContext(Context);

@@ -1,8 +1,8 @@
 import React from "react";
 import "../../styles/modal.css";
-import Form_add_beer from "../component/form_add-beers.jsx";
+import BeersForm from "./BeersForm.jsx";
 
-const Edit_beers = ({ beer }) => {
+const EditBeers = ({ beer }) => {
   console.log(beer);
   return (
     <>
@@ -35,7 +35,7 @@ const Edit_beers = ({ beer }) => {
               ></button>
             </div>
             <div className="modal-body">
-              <Form_add_beer btnBeer={"Guardar"} beer={beer} id={beer.id} />
+              <BeersForm btnBeer={"Guardar"} beer={beer} id={beer.id} />
             </div>
           </div>
         </div>
@@ -44,4 +44,4 @@ const Edit_beers = ({ beer }) => {
   );
 };
 
-export default Edit_beers;
+export default EditBeers;

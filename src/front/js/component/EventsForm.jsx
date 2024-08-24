@@ -3,11 +3,11 @@ import DatePicker from "react-datepicker";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { uploadFile } from "../../../firebase/config";
-import "../../styles/form_adds.css";
+import "../../styles/formAdds.css";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
 
-const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
+const EventsForm = ({ id, btnEvent, event: initialEvent }) => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [picture_of_event, setPicture_of_event] = useState(null);
@@ -264,4 +264,4 @@ const Form_add_event = ({ id, btnEvent, event: initialEvent }) => {
   );
 };
 
-export default Form_add_event;
+export default EventsForm;
