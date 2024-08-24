@@ -179,7 +179,7 @@ const Add_Breweries = ({ btnBrewery, id, brewery: initialBrewery }) => {
           </div>
           <div className="col-md-6 mb-3">
             <label htmlFor="address" className="form-label fw-bold">
-              Ciudad *
+              Dirección *
             </label>
             <input
               type="text"
