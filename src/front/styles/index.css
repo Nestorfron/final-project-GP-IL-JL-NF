@@ -95,6 +95,8 @@
   padding: 10px 15px;
   font-size: 0.9em;
   transition: background-color 0.2s ease, color 0.5s ease, transform 0.8s ease; /* Transiciones suaves */
+  flex: 1 1 100px;
+  display: block;
 }
 
 .dropdown-item:hover {

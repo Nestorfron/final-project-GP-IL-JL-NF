@@ -316,6 +316,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       ) => {
         const jwt = localStorage.getItem("token");
         const store = getStore();
+        const actions = getActions();
         const latitude = store.LatLng.lat;
         const longitude = store.LatLng.lng;
         try {
@@ -345,6 +346,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
           const data = await response.json();
+          actions.getAllBreweries();
           return data;
         } catch (error) {
           console.log(error);
@@ -444,6 +446,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         description,
         picture_of_beer_url
       ) => {
+        const actions = getActions();
         const jwt = localStorage.getItem("token");
         try {
           const response = await fetch(
@@ -469,6 +472,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
           const data = await response.json();
+          actions.getAllBeers();
+          actions.getStyles();
           return data;
         } catch (error) {
           console.log(error);
