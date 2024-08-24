@@ -95,6 +95,10 @@ export const BeerDetails = () => {
     handleModalShow(review);
   };
 
+  const userHasReviewed = reviews.some(
+    (review) => review.user_id === currentUserId
+  );
+
   return (
     <div className="container my-5">
       <div className="card p-4">
@@ -141,14 +145,12 @@ export const BeerDetails = () => {
           </div>
         </div>
         <div className="card-footer d-flex justify-content-center align-items-center">
-          <button
-            className={`${
-              !jwt ? " m-2 d-none reviewButton" : " reviewButton m-2"
-            }`}
-            onClick={handleModalShow}
-          >
-            Escribe una review
-          </button>
+          {/* *** Conditionally render the review button only if the user is logged in and hasn't reviewed *** */}
+          {jwt && !userHasReviewed && (
+            <button className="reviewButton m-2" onClick={handleModalShow}>
+              Escribe una review
+            </button>
+          )}
         </div>
 
         {/* Reviews Section */}
