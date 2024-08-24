@@ -1,6 +1,6 @@
 import React from "react";
 import "../../styles/register.css";
-import Form_add_users from "../component/form_add_users.jsx";
+import UsersForm from "../component/UsersForm.jsx";
 
 const Register = () => {
   return (
@@ -14,7 +14,7 @@ const Register = () => {
                 Completa el formulario para crear tu cuenta.
               </p>
             </div>
-            <Form_add_users btnUser={"Guardar"}></Form_add_users>
+            <UsersForm btnUser={"Guardar"}></UsersForm>
           </div>
         </div>
       </div>

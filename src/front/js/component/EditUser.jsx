@@ -1,22 +1,21 @@
 import React from "react";
-import Add_Breweries from "../component/form_add_breweries.jsx";
 import "../../styles/modal.css";
+import UsersForm from "./UsersForm.jsx";
 
-const Edit_breweries = ({ brewery }) => {
-  console.log(brewery);
+const EditUser = ({ user }) => {
   return (
     <>
       <button
         type="button"
         className="editButton"
         data-bs-toggle="modal"
-        data-bs-target={`#edit-brewery-${brewery.id}`}
+        data-bs-target={`#edit-user-${user.id}`}
       >
         <i className="fas fa-edit"></i>
       </button>
       <div
         className="modal fade"
-        id={`edit-brewery-${brewery.id}`}
+        id={`edit-user-${user.id}`}
         tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
@@ -25,7 +24,7 @@ const Edit_breweries = ({ brewery }) => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title fs-4" id="exampleModalLabel">
-                Editar Cervecería
+                Editar Usuario
               </h5>
               <button
                 type="button"
@@ -35,11 +34,7 @@ const Edit_breweries = ({ brewery }) => {
               ></button>
             </div>
             <div className="modal-body">
-              <Add_Breweries
-                btnBrewery={"Guardar"}
-                brewery={brewery}
-                id={brewery.id}
-              />
+              <UsersForm btnUser={"Guardar"} user={user} id={user.id} />
             </div>
           </div>
         </div>
@@ -48,4 +43,4 @@ const Edit_breweries = ({ brewery }) => {
   );
 };
 
-export default Edit_breweries;
+export default EditUser;

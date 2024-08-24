@@ -1,22 +1,22 @@
 import React from "react";
+import BreweriesForm from "./BreweriesForm.jsx";
 import "../../styles/modal.css";
-import Form_add_event from "../component/form_add-event.jsx";
 
-const Edit_event = ({ event }) => {
-  console.log(event);
+const EditBreweries = ({ brewery }) => {
+  console.log(brewery);
   return (
     <>
       <button
         type="button"
         className="editButton"
         data-bs-toggle="modal"
-        data-bs-target={`#edit-event-${event.id}`}
+        data-bs-target={`#edit-brewery-${brewery.id}`}
       >
         <i className="fas fa-edit"></i>
       </button>
       <div
         className="modal fade"
-        id={`edit-event-${event.id}`}
+        id={`edit-brewery-${brewery.id}`}
         tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
@@ -25,7 +25,7 @@ const Edit_event = ({ event }) => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title fs-4" id="exampleModalLabel">
-                Editar Evento
+                Editar Cervecería
               </h5>
               <button
                 type="button"
@@ -35,10 +35,10 @@ const Edit_event = ({ event }) => {
               ></button>
             </div>
             <div className="modal-body">
-              <Form_add_event
-                btnEvent={"Guardar"}
-                event={event}
-                id={event.id}
+              <BreweriesForm
+                btnBrewery={"Guardar"}
+                brewery={brewery}
+                id={brewery.id}
               />
             </div>
           </div>
@@ -48,4 +48,4 @@ const Edit_event = ({ event }) => {
   );
 };
 
-export default Edit_event;
+export default EditBreweries;

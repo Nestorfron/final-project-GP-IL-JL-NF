@@ -1,14 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Context } from "../store/appContext";
+import { Context } from "../store/appContext.js";
 import { jwtDecode } from "jwt-decode";
 import useTokenExpiration from "../../../hooks/useTokenExpiration.jsx";
-import Edit_breweries from "../component/edit_breweries.jsx";
-import Edit_beers from "../component/edit_beer.jsx";
+import EditBreweries from "../component/EditBreweries.jsx";
+import EditBeers from "../component/EditBeer.jsx";
 import Swal from "sweetalert2";
-import "../../styles/my_account.css";
-import Edit_event from "../component/edit_event.jsx";
-import Edit_user from "../component/edit_user.jsx";
+import "../../styles/myAccount.css";
+import EditEvent from "../component/EditEvent.jsx";
+import EditUser from "../component/EditUser.jsx";
 
 const MyAccount = () => {
   const { store, actions } = useContext(Context);
@@ -183,7 +183,7 @@ const MyAccount = () => {
                 >
                   <i className="fas fa-trash-alt me-1"></i>
                 </button> */}
-                  <Edit_user user={user} />
+                  <EditUser user={user} />
                 </div>
               </div>
             </div>
@@ -237,7 +237,7 @@ const MyAccount = () => {
                     >
                       <i className="fas fa-trash-alt me-1"></i>
                     </button>
-                    <Edit_breweries brewery={brewery} />
+                    <EditBreweries brewery={brewery} />
                   </div>
                 </div>
               </div>
@@ -288,7 +288,7 @@ const MyAccount = () => {
                     >
                       <i className="fas fa-trash-alt "></i>
                     </button>
-                    <Edit_beers beer={beer}></Edit_beers>
+                    <EditBeers beer={beer}></EditBeers>
                   </div>
                 </div>
               </div>
@@ -340,7 +340,7 @@ const MyAccount = () => {
                     >
                       <i className="fas fa-trash-alt me-1"></i>
                     </button>
-                    <Edit_event event={event}></Edit_event>
+                    <EditEvent event={event}></EditEvent>
                   </div>
                 </div>
               </div>

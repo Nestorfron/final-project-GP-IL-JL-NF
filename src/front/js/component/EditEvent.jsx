@@ -1,21 +1,22 @@
 import React from "react";
 import "../../styles/modal.css";
-import Form_add_users from "./form_add_users.jsx";
+import EventsFrom from "./EventsForm.jsx";
 
-const Edit_user = ({ user }) => {
+const EditEvent = ({ event }) => {
+  console.log(event);
   return (
     <>
       <button
         type="button"
         className="editButton"
         data-bs-toggle="modal"
-        data-bs-target={`#edit-user-${user.id}`}
+        data-bs-target={`#edit-event-${event.id}`}
       >
         <i className="fas fa-edit"></i>
       </button>
       <div
         className="modal fade"
-        id={`edit-user-${user.id}`}
+        id={`edit-event-${event.id}`}
         tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
@@ -24,7 +25,7 @@ const Edit_user = ({ user }) => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title fs-4" id="exampleModalLabel">
-                Editar Usuario
+                Editar Evento
               </h5>
               <button
                 type="button"
@@ -34,7 +35,7 @@ const Edit_user = ({ user }) => {
               ></button>
             </div>
             <div className="modal-body">
-              <Form_add_users btnUser={"Guardar"} user={user} id={user.id} />
+              <EventsFrom btnEvent={"Guardar"} event={event} id={event.id} />
             </div>
           </div>
         </div>
@@ -43,4 +44,4 @@ const Edit_user = ({ user }) => {
   );
 };
 
-export default Edit_user;
+export default EditEvent;

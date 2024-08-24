@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Context } from "../store/appContext";
-import { ReviewModal } from "../component/review_modal.jsx";
+import { Context } from "../store/appContext.js";
+import { ReviewModal } from "../component/ReviewModal.jsx";
 import "../../styles/beerDetails.css";
 import fullGlass from "../../img/fullglass.png";
 import emptyGlass from "../../img/empty.png";

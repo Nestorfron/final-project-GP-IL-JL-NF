@@ -1,14 +1,14 @@
 import React from "react";
 import useTokenExpiration from "../../../hooks/useTokenExpiration.jsx";
-import Add_Breweries from "../component/form_add_breweries.jsx";
+import BreweriesForm from "../component/BreweriesForm.jsx";
 
-const Add_Brewery = () => {
+const AddBrewery = () => {
   useTokenExpiration();
   return (
     <div className="container">
-      <Add_Breweries btnBrewery={"Guardar"} />
+      <BreweriesForm btnBrewery={"Guardar"} />
     </div>
   );
 };
 
-export default Add_Brewery;
+export default AddBrewery;
