@@ -8,6 +8,7 @@ import emptyGlass from "../../img/empty.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEllipsis, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from "jwt-decode";
+import Swal from "sweetalert2";
 
 export const BeerDetails = () => {
   const jwt = localStorage.getItem("token");
@@ -59,7 +60,7 @@ export const BeerDetails = () => {
 
   const handleModalClose = () => {
     setShowModal(false);
-    setModalReview(null); // Reset review data when closing
+    setModalReview(null);
   };
 
   const handleModalShow = (review = null) => {
@@ -71,10 +72,26 @@ export const BeerDetails = () => {
     try {
       if (review_id) {
         await actions.edit_review(review_id, rating, comment);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Review Editado",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        actions.getBeerReviews(beer_id);
       } else {
         await actions.addReview(beer_id, rating, comment);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Review creado correctamente",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        actions.getBeerReviews(beer_id);
+        handleModalClose();
       }
-      actions.getBeerReviews(beer_id);
     } catch (error) {
       console.error("Error submitting review:", error);
     }
@@ -84,10 +101,28 @@ export const BeerDetails = () => {
 
   const handleDeleteReview = async (review_id) => {
     try {
-      await actions.deleteReview(review_id);
-      actions.getBeerReviews(id);
+      const result = await Swal.fire({
+        title: "Advertencia",
+        text: "¿Desea eliminar la reseña?",
+        position: "center",
+        icon: "error",
+        showDenyButton: true,
+        denyButtonText: "No",
+        confirmButtonText: "Sí",
+      });
+      if (result.isConfirmed) {
+        await actions.deleteReview(review_id);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Reseña eliminada correctamente",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        actions.getBeerReviews(id);
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Error al eliminar la reseña:", error);
     }
   };
 

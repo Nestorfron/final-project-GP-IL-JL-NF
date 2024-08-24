@@ -5,10 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "../../styles/carousel.css";
 import { Context } from "../store/appContext";
 import Slider1 from "../../img/slider1.png";
-import Slider2 from "../../img/slider2.png";
-import Slider3 from "../../img/slider3.png";
-import Slider4 from "../../img/slider4.png";
-import Slider5 from "../../img/slider5.png";
+
 import Slider0 from "../../img/welcome2.jpg";
 
 export const Carousel = () => {
@@ -17,7 +14,7 @@ export const Carousel = () => {
   const { events } = store;
 
   // Default images if no events or no images in events
-  const defaultImages = [Slider0, Slider1, Slider2, Slider3, Slider4, Slider5];
+  const defaultImages = [Slider0, Slider1];
 
   // Get images from events or use default images
   const imagesFromEvents =
