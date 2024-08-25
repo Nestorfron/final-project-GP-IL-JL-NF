@@ -73,6 +73,53 @@ export const BreweryDetails = () => {
         </div>
       </div>
 
+      <div className="container d-flex align-items-center justify-content-center mt-5 ">
+        <div className=" container text-light  brewery-contacts-info">
+          {brewery.history && <p>{brewery.history}</p>}
+        </div>
+      </div>
+
+      <div className="container d-flex justify-content-center my-3">
+        {brewery.instagram_url && (
+          <p>
+            <a
+              href={brewery.instagram_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-light m-3"
+            >
+              <i className="fab fa-instagram"></i> Instagram
+            </a>
+          </p>
+        )}
+
+        {brewery.facebook_url && (
+          <p>
+            <a
+              href={brewery.facebook_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-light m-3"
+            >
+              <i className="fab fa-facebook"></i> Facebook
+            </a>
+          </p>
+        )}
+
+        {brewery.x_url && (
+          <p>
+            <a
+              href={brewery.x_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-light m-3"
+            >
+              <i className="fab fa-twitter"></i> X
+            </a>
+          </p>
+        )}
+      </div>
+
       <div className="container-fluid">
         {/* Display Events Section if there are any events */}
         {breweryEvents.length > 0 && (
