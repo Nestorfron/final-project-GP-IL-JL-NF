@@ -248,21 +248,21 @@ const UsersForm = ({ id, btnUser, user: initialUser }) => {
             />
           </div>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-6 m-auto">
           <div className="form-grup">
             <label htmlFor="is_brewer" className="form-label">
               ¿Eres cervecero?
             </label>
-            <div className="form-check">
+            <div className="form-check m-auto">
               <input
                 id="is_brewer"
                 type="checkbox"
-                className="form-check-input"
+                className="m-2"
                 name="is_brewer"
                 checked={user.is_brewer}
                 onClick={() => IsBrewer()}
               />
-              <label htmlFor="is_brewer" className="form-check-label ms-2">
+              <label htmlFor="is_brewer" className="form-check-label">
                 Sí
               </label>
             </div>

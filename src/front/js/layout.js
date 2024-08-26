@@ -4,8 +4,8 @@ import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/BackendURL.jsx";
 
 import { Home } from "./pages/Home.jsx";
-import Login from "./pages/login.jsx";
-import Register from "./pages/register.jsx";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
 import AddBrewery from "./pages/AddBrewery.jsx";
 import injectContext from "./store/appContext";
 import { Ticker } from "./component/Ticker.jsx";
