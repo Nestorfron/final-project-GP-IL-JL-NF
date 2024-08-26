@@ -36,8 +36,7 @@
 }
 
 .cardAccount-beers {
-  width: 100%;
-  height: 450px; /* Example fixed height */
+  width: 250px;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -78,9 +77,10 @@
 }
 
 .card-img-beer {
-  width: 200px; /* Ensure the image scales with the card */
-  height: auto; /* Maintain the aspect ratio of the image */
-  margin: 15px auto; /* Center the image within the card */
+  width: 100%; /* Ensures the image scales with the card */
+  max-height: 300px; /* Allows the height to adjust based on the width, maintaining aspect ratio */
+  object-fit: contain; /* Crops the image to fit within the max-height, preserving the aspect ratio */
+  margin: 10px auto; /* Centers the image within the card */
 }
 
 .card-body-beers {

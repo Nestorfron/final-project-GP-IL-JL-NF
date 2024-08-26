@@ -269,13 +269,13 @@ const MyAccount = () => {
         {store.userBeers.length > 0 ? (
           store.userBeers.map((beer) => (
             <div
-              className="cards-container d-flex justify-content-between align-items-center"
+              className="cards-container d-flex justify-content-center align-items-center"
               key={beer.id}
             >
               <div className="cardAccount-beers m-4 ">
                 <img
                   src={beer.picture_of_beer_url}
-                  className=" card-img-beer m-3"
+                  className=" card-img-beer"
                   alt={beer.name}
                 />
                 <div className="card-body-beers mb-3">
