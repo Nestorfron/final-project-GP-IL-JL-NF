@@ -160,9 +160,9 @@ const MyAccount = () => {
   return (
     <div className="container-fluid">
       {/* Sección de Usuario */}
-      <div className="text-center">
-        <h5 className=" text-light mt-5 mb-3 ">MI USUARIO</h5>
-        <div className=" d-flex align-items-center justify-content-center ">
+      <div className="text-center my-5 py-5">
+        <h5 className="text-light my-5">MI USUARIO</h5>
+        <div className="d-flex align-items-center justify-content-center ">
           <div key={user.id}>
             <div className="cardAccount-user">
               <img
@@ -193,7 +193,9 @@ const MyAccount = () => {
       {/* Sección de Cervecerías */}
       <h5
         className={`${
-          !getTokenInfo() ? "text-center mt-5 mb-3  " : "text-center mt-5 mb-3 "
+          !getTokenInfo()
+            ? "d-none text-center mt-5 mb-3  "
+            : "text-center mt-5 mb-3 "
         } text-light`}
       >
         MIS CERVECERÍAS Y/O BARES
@@ -208,7 +210,7 @@ const MyAccount = () => {
         {store.userBreweries.length > 0 ? (
           store.userBreweries.map((brewery) => (
             <div className="cards-container" key={brewery.id}>
-              <div className="card cardAccount me-4 ">
+              <div className="card cardAccount m-4">
                 <div
                   className="brewery-minitron"
                   style={{
@@ -253,9 +255,9 @@ const MyAccount = () => {
       <h5
         className={`${
           !getTokenInfo()
-            ? "text-center mt-5 mb-3 text-light justify-content-center align-items-center"
-            : "text-center mt-5 mb-3 text-light justify-content-center align-items-center"
-        }`}
+            ? "d-none text-center mt-5 mb-3"
+            : "text-center mt-5 mb-3 "
+        } text-light`}
       >
         MIS CERVEZAS
       </h5>
@@ -305,40 +307,40 @@ const MyAccount = () => {
       <h5
         className={`${
           !getTokenInfo()
-            ? "text-center mt-5 mb-3 d-none text-light"
-            : "text-center mt-5 mb-3 text-light"
-        }`}
+            ? "d-none text-center mt-5 mb-3  "
+            : "text-center mt-5 mb-3 "
+        } text-light`}
       >
         MIS EVENTOS
       </h5>
       <div
         className={`${
           !getTokenInfo()
-            ? "overflow-auto d-flex flex-nowrap d-none text-center justify-content-center"
-            : "overflow-auto d-flex flex-nowrap justify-content-center"
+            ? "overflow-x-auto d-flex flex-nowrap d-none text-center justify-content-center"
+            : "overflow-x-auto d-flex flex-nowrap justify-content-center"
         }`}
       >
         {store.userEvents.length > 0 ? (
           store.userEvents.map((event) => (
-            <div className="cards-container" key={event.id}>
-              <div className="card cardAccount-events border-light shadow-lg mb-4 me-4">
+            <div
+              className="cards-container d-flex justify-content-between align-items-center"
+              key={event.id}
+            >
+              <div className="cardAccount-events m-4 ">
                 <img
                   src={event.picture_of_event_url}
-                  className="card-img-top card-img"
-                  alt={event.picture_of_event_url}
+                  className=" card-img-events m-3"
+                  alt={event.name}
                 />
-                <div className="card-body body-card d-flex flex-column text-center">
-                  <h5 className="card-title title-card mb-3">{event.name}</h5>
-                  <h6 className="card-title text-card mb-3">
-                    {formatDate(event.date)}
-                  </h6>
-
-                  <div className="container-fluid card-body-beers d-flex  justify-content-center ">
+                <div className="card-body-beers mb-3">
+                  <h5 className="title-card mb-3 text-center">{event.name}</h5>
+                  <h6 className="mb-3 text-center">{formatDate(event.date)}</h6>
+                  <div className="text-center ">
                     <button
                       onClick={() => eventDelete(event.id)}
-                      className="deleteButton me-3 mt-auto"
+                      className="deleteButton me-3"
                     >
-                      <i className="fas fa-trash-alt me-1"></i>
+                      <i className="fas fa-trash-alt "></i>
                     </button>
                     <EditEvent event={event}></EditEvent>
                   </div>
