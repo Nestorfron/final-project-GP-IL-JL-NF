@@ -207,7 +207,7 @@ const MyAccount = () => {
       >
         {store.userBreweries.length > 0 ? (
           store.userBreweries.map((brewery) => (
-            <div className="cards-container" key={brewery.id}>
+            <div className="cards-container m-2" key={brewery.id}>
               <div className="card cardAccount m-4">
                 <div
                   className="brewery-minitron"
