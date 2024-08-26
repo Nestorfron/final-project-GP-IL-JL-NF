@@ -202,9 +202,7 @@ const MyAccount = () => {
       </h5>
       <div
         className={`${
-          !getTokenInfo()
-            ? "overflow-auto flex-nowrap d-none d-flex justify-content-center align-items-center"
-            : "d-flex  overflow-auto flex-nowrap justify-content-center align-items-center"
+          !getTokenInfo() ? " d-none" : "overflow-auto d-flex m-1"
         }`}
       >
         {store.userBreweries.length > 0 ? (
@@ -263,9 +261,7 @@ const MyAccount = () => {
       </h5>
       <div
         className={`${
-          !getTokenInfo()
-            ? " overflow-auto flex-nowrap d-none d-flex justify-content-center align-items-center "
-            : " overflow-auto flex-nowrap d-flex justify-content-center align-items-center "
+          !getTokenInfo() ? " d-none" : " overflow-auto d-flex m-1"
         }`}
       >
         {store.userBeers.length > 0 ? (
@@ -315,9 +311,7 @@ const MyAccount = () => {
       </h5>
       <div
         className={`${
-          !getTokenInfo()
-            ? "overflow-x-auto d-flex flex-nowrap d-none text-center justify-content-center"
-            : "overflow-x-auto d-flex flex-nowrap justify-content-center"
+          !getTokenInfo() ? " d-none" : " overflow-auto d-flex m-1"
         }`}
       >
         {store.userEvents.length > 0 ? (
