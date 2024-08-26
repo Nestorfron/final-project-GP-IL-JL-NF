@@ -210,31 +210,30 @@ export const BeerDetails = () => {
                       <p className="username fw-bold">
                         <span>{user ? user.username : "Loading..."}</span>
                       </p>
+                      <div className="rating mb-2">
+                        {Array.from({ length: review.rating }).map(
+                          (_, index) => (
+                            <img
+                              key={index}
+                              src={fullGlass}
+                              alt="Full Glass"
+                              style={{ width: "20px", marginRight: "3px" }}
+                            />
+                          )
+                        )}
+                        {Array.from({ length: 5 - review.rating }).map(
+                          (_, index) => (
+                            <img
+                              key={index}
+                              src={emptyGlass}
+                              alt="Empty Glass"
+                              style={{ width: "20px", marginRight: "3px" }}
+                            />
+                          )
+                        )}
+                      </div>
                       {jwt && (
                         <div className="d-flex align-items-center justify-content-between">
-                          <div className="rating mb-2">
-                            {Array.from({ length: review.rating }).map(
-                              (_, index) => (
-                                <img
-                                  key={index}
-                                  src={fullGlass}
-                                  alt="Full Glass"
-                                  style={{ width: "20px", marginRight: "3px" }}
-                                />
-                              )
-                            )}
-                            {Array.from({ length: 5 - review.rating }).map(
-                              (_, index) => (
-                                <img
-                                  key={index}
-                                  src={emptyGlass}
-                                  alt="Empty Glass"
-                                  style={{ width: "20px", marginRight: "3px" }}
-                                />
-                              )
-                            )}
-                          </div>
-
                           <div className="dropdown">
                             <button
                               className="options-review-button btn btn-secondary dropdown-toggle ms-3"
