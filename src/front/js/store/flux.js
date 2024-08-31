@@ -16,6 +16,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       searchResults: [],
       search: [],
       loading: false,
+      detectedCountry: [],
       countries: [
         "Antigua y Barbuda",
         "Argentina",
