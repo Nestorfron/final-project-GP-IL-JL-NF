@@ -16,6 +16,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       searchResults: [],
       search: [],
       loading: false,
+      detectedAddress: [],
       detectedCountry: [],
       countries: [
         "Antigua y Barbuda",
@@ -214,6 +215,17 @@ const getState = ({ getStore, getActions, setStore }) => {
       averageRatings: [],
     },
     actions: {
+      //DETECTED ADDRESS//
+      getAdress: async (address) => {
+        const store = getStore();
+        setStore({
+          detectedAddress: address,
+          detectedCountry: address.country,
+        });
+        console.log(store.detectedAddress);
+        console.log("Hola estas en " + store.detectedCountry);
+      },
+
       //REGISTER USER//
       register: async (
         email,
@@ -931,18 +943,28 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       getAllUsers: async () => {
+        const actions = getActions();
         try {
           const response = await fetch(process.env.BACKEND_URL + "/api/users");
           const data = await response.json();
-          console.log(data);
           if (response.ok) {
             setStore({ users: data });
-            console.log(data);
           }
+          console.log(data);
+          actions.getCountryUsers();
         } catch (error) {
           console.error("Fetch error:", error);
         }
       },
+
+      getCountryUsers: async () => {
+        const store = getStore();
+        const countryUsers = store.users.filter(
+          (user) => user.country === store.detectedCountry
+        );
+        console.log(countryUsers);
+      },
+
       getAverageRatings: async () => {
         try {
           const response = await fetch(
