@@ -11,9 +11,6 @@ export const Home = () => {
 
   useEffect(() => {
     actions.getAllUsers();
-    actions.getAllBreweries();
-    actions.getAllBeers();
-    actions.getAllEvents();
     actions.getStyles();
     actions.getAverageRatings();
   }, []);

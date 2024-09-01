@@ -274,6 +274,20 @@ def get_user_breweries():
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
     
+#Endpoint para obtener todas las cervecerias del usuario por ID
+    
+@api.route('/<int:id>/breweries', methods=['GET'])
+def get_user_breweries_country(id):
+    try: 
+        user_id = id
+        user = User.query.get(user_id)
+        if user is None:
+            return  jsonify({'error': 'user not found'}),404
+        brewerie_list = [brewery.serialize() for brewery in user.brewery]
+        return jsonify({"breweries": brewerie_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+    
 #Endpoint para obtener todas las cervezas del usuario logueado
 
 @api.route('/user/beers', methods=['GET'])
@@ -282,6 +296,20 @@ def get_user_beers():
     try:
         current_user = get_jwt_identity()
         user_id = current_user.get("id")
+        user = User.query.get(user_id)
+        if user is None:
+            return  jsonify({'error': 'user not found'}),404
+        beer_list = [beer.serialize() for beer in user.beers]
+        return jsonify({"beers": beer_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+    
+#Endpoint para obtener todas las cervezas del usuario por ID
+    
+@api.route('/<int:id>/beers', methods=['GET'])
+def get_user_beers_country(id):
+    try: 
+        user_id = id
         user = User.query.get(user_id)
         if user is None:
             return  jsonify({'error': 'user not found'}),404
@@ -298,6 +326,20 @@ def get_user_events():
     try:
         current_user = get_jwt_identity()
         user_id = current_user.get("id")
+        user = User.query.get(user_id)
+        if user is None:
+            return  jsonify({'error': 'user not found'}),404
+        event_list = [event.serialize() for event in user.events]
+        return jsonify({"events": event_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+
+#Endpoint para obtener todas las eventos del usuario por ID
+    
+@api.route('/<int:id>/events', methods=['GET'])
+def get_user_events_country(id):
+    try: 
+        user_id = id
         user = User.query.get(user_id)
         if user is None:
             return  jsonify({'error': 'user not found'}),404
