@@ -19,6 +19,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       detectedAddress: [],
       detectedCountry: [],
       usersCountry: [],
+      allCountries: [],
       countries: [
         "Antigua y Barbuda",
         "Argentina",
@@ -224,7 +225,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           detectedAddress: address,
           detectedCountry: address.country,
         });
-        console.log("Hola estas en " + store.detectedCountry);
         actions.getCountryAllInfo();
       },
 
@@ -477,7 +477,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           } else {
             console.error("Error fetching breweries:", data.message);
           }
-          console.log(store.breweries);
         } catch (error) {
           console.error("Fetch error:", error);
         }
@@ -507,7 +506,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           } else {
             console.error("Error fetching beers:", data.message);
           }
-          console.log(store.beers);
         } catch (error) {
           console.error("Fetch error:", error);
         }
@@ -537,7 +535,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           } else {
             console.error("Error fetching events:", data.message);
           }
-          console.log(store.events);
         } catch (error) {
           console.error("Fetch error:", error);
         }
@@ -969,7 +966,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await response.json();
           setStore({ beerDetails: data });
-          console.log(data);
         } catch (error) {
           console.log(error);
         }
@@ -1039,7 +1035,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            console.log(data.reviews);
             setStore({ reviews: data.reviews });
           }
         } catch (error) {
@@ -1049,19 +1044,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       //GETALL USERS
       getAllUsers: async () => {
+        const actions = getActions();
         try {
           const response = await fetch(process.env.BACKEND_URL + "/api/users");
           const data = await response.json();
           if (response.ok) {
             setStore({ users: data });
           }
+          actions.getCountries();
         } catch (error) {
           console.error("Fetch error:", error);
         }
       },
 
-      //GET COUNTRY ALL INFO
+      getCountries: async () => {
+        const store = getStore();
+        const countries = store.users.map((user) => user.country);
+        const uniqueCountries = [...new Set(countries)];
+        setStore({
+          allCountries: uniqueCountries,
+        });
+      },
 
+      //GET COUNTRY ALL INFO
       getCountryAllInfo: async () => {
         const actions = getActions();
         const store = getStore();
@@ -1072,6 +1077,29 @@ const getState = ({ getStore, getActions, setStore }) => {
           actions.getUserBreweriesCountry(user.id);
           actions.getUserBeersCountry(user.id);
           actions.getUserEventsCountry(user.id);
+        });
+        setStore({
+          usersCountry: countryUsers,
+        });
+      },
+
+      //GET SELECTED COUNTRY ALL INFO
+      getSelectedCountryAllInfo: async (country) => {
+        const actions = getActions();
+        const store = getStore();
+        setStore({
+          breweries: [],
+          beers: [],
+          events: [],
+        });
+        const countryUsers = store.users.filter(
+          (user) => user.country === country
+        );
+        countryUsers.map((user) => {
+          actions.getUserBreweriesCountry(user.id);
+          actions.getUserBeersCountry(user.id);
+          actions.getUserEventsCountry(user.id);
+          console.log(user.id);
         });
         setStore({
           usersCountry: countryUsers,

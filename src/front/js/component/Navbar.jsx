@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { jwtDecode } from "jwt-decode";
@@ -14,6 +14,12 @@ export const Navbar = () => {
 
   const user = store.me;
   const userImg = user.profile_picture;
+
+  const selectCountry = (country) => {
+    actions.getSelectedCountryAllInfo(country);
+    console.log(country);
+    navigate(`/${country}`);
+  };
 
   function logout() {
     actions.logout();
@@ -71,6 +77,25 @@ export const Navbar = () => {
           </span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div className="col-1">
+            <select
+              className="form-select"
+              aria-label="Default select example"
+              onChange={(e) => selectCountry(e.target.value)}
+              required
+            >
+              <option value="" selected>
+                Pais
+              </option>
+              {store.allCountries.map((country, index) => {
+                return (
+                  <option key={country + index} value={country}>
+                    {country}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
           <ul id="menu" className="estilos navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item dropdown">
               <a
