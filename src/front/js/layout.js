@@ -18,6 +18,7 @@ import { BeerDetails } from "./pages/BeerDetails.jsx";
 import { BreweryDetails } from "./pages/BreweryDetails.jsx";
 import { StylesView } from "./pages/StyleView.jsx";
 import SearchBar from "./component/SearchBar.jsx";
+import { CountryHome } from "./pages/CountryHome.jsx";
 //create your first component
 const Layout = () => {
   //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -35,6 +36,7 @@ const Layout = () => {
           <Navbar />
           <Routes>
             <Route element={<Home />} path="/" />
+            <Route element={<CountryHome />} path="/:country_home" />
             <Route element={<Login />} path="/login" />
             <Route element={<Register />} path="/register" />
             <Route element={<AddBrewery />} path="/add_brewery" />

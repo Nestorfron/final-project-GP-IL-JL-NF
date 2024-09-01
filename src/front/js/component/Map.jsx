@@ -48,18 +48,20 @@ const Map = (props) => {
   );
 
   const getCountryFromCoordinates = async (latitude, longitude) => {
-    const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
-    try {
-      const response = await fetch(geocodeUrl);
-      const data = await response.json();
-      if (data.address && data.address.country) {
-        return data.address;
-      } else {
-        throw new Error("Country not found in response.");
+    if (location.pathname === "/") {
+      const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
+      try {
+        const response = await fetch(geocodeUrl);
+        const data = await response.json();
+        if (data.address && data.address.country) {
+          return data.address;
+        } else {
+          throw new Error("Country not found in response.");
+        }
+      } catch (error) {
+        console.error("Error fetching country:", error);
+        return null;
       }
-    } catch (error) {
-      console.error("Error fetching country:", error);
-      return null;
     }
   };
 
