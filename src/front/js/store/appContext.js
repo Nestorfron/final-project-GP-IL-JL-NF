@@ -28,9 +28,6 @@ const injectContext = (PassedComponent) => {
        * you should do your ajax requests or fetch api requests here. Do not use setState() to save data in the
        * store, instead use actions, like this:
        **/
-      state.actions.getAllBreweries();
-      state.actions.getAllBeers();
-      state.actions.getAllEvents();
       state.actions.getStyles();
       state.actions.getAverageRatings();
     }, []);
