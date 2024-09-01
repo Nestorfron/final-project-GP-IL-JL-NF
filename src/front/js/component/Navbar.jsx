@@ -21,6 +21,15 @@ export const Navbar = () => {
     navigate(`/${country}`);
   };
 
+  const getFilteredCountries = (allCountries, detectedCountry) => {
+    const uniqueCountries = [...new Set(allCountries)];
+    return uniqueCountries.filter((country) => country !== detectedCountry);
+  };
+  const filteredCountries = getFilteredCountries(
+    store.allCountries,
+    store.detectedCountry
+  );
+
   function logout() {
     actions.logout();
     navigate("/");
@@ -85,15 +94,13 @@ export const Navbar = () => {
               required
             >
               <option value="" selected>
-                Pais
+                {store.detectedCountry}
               </option>
-              {store.allCountries.map((country, index) => {
-                return (
-                  <option key={country + index} value={country}>
-                    {country}
-                  </option>
-                );
-              })}
+              {filteredCountries.map((country, index) => (
+                <option key={country + index} value={country}>
+                  {country}
+                </option>
+              ))}
             </select>
           </div>
           <ul id="menu" className="estilos navbar-nav me-auto mb-2 mb-lg-0">
