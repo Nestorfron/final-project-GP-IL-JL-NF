@@ -47,11 +47,29 @@ const Map = (props) => {
     [actions]
   );
 
+  const getCountryFromCoordinates = async (latitude, longitude) => {
+    if (location.pathname === "/") {
+      const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
+      try {
+        const response = await fetch(geocodeUrl);
+        const data = await response.json();
+        if (data.address && data.address.country) {
+          return data.address;
+        } else {
+          throw new Error("Country not found in response.");
+        }
+      } catch (error) {
+        console.error("Error fetching country:", error);
+        return null;
+      }
+    }
+  };
+
   // Get the current location of the user
-  const getCurrentLocation = useCallback(() => {
+  const getCurrentLocation = useCallback(async () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        async (position) => {
           const location = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
@@ -59,6 +77,11 @@ const Map = (props) => {
           };
           setCenter(location);
           setMyPosition(location);
+          const address = await getCountryFromCoordinates(
+            location.lat,
+            location.lng
+          );
+          actions.getAdress(address);
         },
         (error) => console.log(error)
       );

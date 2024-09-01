@@ -16,6 +16,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       searchResults: [],
       search: [],
       loading: false,
+      detectedAddress: [],
+      detectedCountry: [],
+      usersCountry: [],
+      allCountries: [],
       countries: [
         "Antigua y Barbuda",
         "Argentina",
@@ -213,6 +217,17 @@ const getState = ({ getStore, getActions, setStore }) => {
       averageRatings: [],
     },
     actions: {
+      //DETECTED ADDRESS//
+      getAdress: async (address) => {
+        const actions = getActions();
+        const store = getStore();
+        setStore({
+          detectedAddress: address,
+          detectedCountry: address.country,
+        });
+        actions.getCountryAllInfo();
+      },
+
       //REGISTER USER//
       register: async (
         email,
@@ -303,6 +318,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ LatLng: newLocation });
         console.log(store.LatLng.lat, store.LatLng.lng);
       },
+
       //ADD BREWERY
       add_brewery: async (
         name,
@@ -346,13 +362,14 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
           const data = await response.json();
-          actions.getAllBreweries();
+          //actions.getAllBreweries();
           return data;
         } catch (error) {
           console.log(error);
         }
       },
-      //GET BREWERIES//
+
+      //GET BREWERIES ****** NO SE USA *******//
       getAllBreweries: async () => {
         try {
           const response = await fetch(
@@ -360,12 +377,13 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            setStore({ breweries: data.breweries });
+            //setStore({ breweries: data.breweries });
           }
         } catch (error) {
           console.log(error);
         }
       },
+
       //EDIT BREWERIES//
       edit_breweries: async (
         id,
@@ -413,7 +431,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           return false;
         }
       },
-      //GET USER BREWERIES //
+      //GET USER BREWERIES//
       getUserBreweries: async () => {
         const jwt = localStorage.getItem("token");
         try {
@@ -429,13 +447,99 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await response.json();
           if (response.ok) {
             console.log(data);
-
             setStore({ userBreweries: data.breweries });
           }
         } catch (error) {
           console.log(error);
         }
       },
+      //GET USER/BREWERIES COUNTRY ****** SE USA EN LUGAR DE GET ALL BREWERIES*******//
+      getUserBreweriesCountry: async (id) => {
+        const store = getStore();
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/api/${id}/breweries`,
+            {
+              method: "GET",
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            const uniqueBreweries = data.breweries.filter(
+              (newBrewery) =>
+                !store.breweries.some(
+                  (existingBrewery) => existingBrewery.id === newBrewery.id
+                )
+            );
+            setStore({
+              breweries: [...store.breweries, ...uniqueBreweries],
+            });
+          } else {
+            console.error("Error fetching breweries:", data.message);
+          }
+        } catch (error) {
+          console.error("Fetch error:", error);
+        }
+      },
+
+      //GET USER/BEERS COUNTRY ****** SE USA EN LUGAR DE GET ALL BEERS*******//
+      getUserBeersCountry: async (id) => {
+        const store = getStore();
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/api/${id}/beers`,
+            {
+              method: "GET",
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            const uniqueBeers = data.beers.filter(
+              (newBeer) =>
+                !store.beers.some(
+                  (existingBeer) => existingBeer.id === newBeer.id
+                )
+            );
+            setStore({
+              beers: [...store.beers, ...uniqueBeers],
+            });
+          } else {
+            console.error("Error fetching beers:", data.message);
+          }
+        } catch (error) {
+          console.error("Fetch error:", error);
+        }
+      },
+
+      //GET USER/EVENTS COUNTRY ****** SE USA EN LUGAR DE GET ALL EVENTS*******//
+      getUserEventsCountry: async (id) => {
+        const store = getStore();
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/api/${id}/events`,
+            {
+              method: "GET",
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            const uniqueEvents = data.events.filter(
+              (newEvent) =>
+                !store.events.some(
+                  (existingEvent) => existingEvent.id === newEvent.id
+                )
+            );
+            setStore({
+              events: [...store.events, ...uniqueEvents],
+            });
+          } else {
+            console.error("Error fetching events:", data.message);
+          }
+        } catch (error) {
+          console.error("Fetch error:", error);
+        }
+      },
+
       //ADD BEER//
       add_beer: async (
         name,
@@ -472,7 +576,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
           const data = await response.json();
-          actions.getAllBeers();
+          //actions.getAllBeers();
           actions.getStyles();
           return data;
         } catch (error) {
@@ -610,6 +714,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           return false;
         }
       },
+
       //GET STYLES//
       getStyles: async () => {
         try {
@@ -622,6 +727,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+
       //GET USER BEERS//
       getUserBeers: async () => {
         const jwt = localStorage.getItem("token");
@@ -643,18 +749,20 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
-      //GET ALL THE BEERS NO JWT REQUIRED//
+
+      //GET ALL THE BEERS NO JWT REQUIRED ******NO SE USA********//
       getAllBeers: async () => {
         try {
           const response = await fetch(process.env.BACKEND_URL + "/api/beers");
           const data = await response.json();
           if (response.ok) {
-            setStore({ beers: data });
+            //setStore({ beers: data });
           }
         } catch (error) {
           console.log(error);
         }
       },
+
       //ADD EVENT//
       add_event: async (
         name,
@@ -691,6 +799,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+
       //GET USER EVENTS//
       getUserEvents: async () => {
         const jwt = localStorage.getItem("token");
@@ -712,13 +821,14 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
-      //GET ALL EVENTS (PUBLIC)
+
+      //GET ALL EVENTS ********** NO SE USA ***********
       getAllEvents: async () => {
         try {
           const response = await fetch(process.env.BACKEND_URL + "/api/events");
           const data = await response.json();
           if (response.ok) {
-            setStore({ events: data });
+            //setStore({ events: data });
           }
         } catch (error) {
           console.log(error);
@@ -811,6 +921,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+
       //DELETE USER
       deleteUser: async (user_id) => {
         const jwt = localStorage.getItem("token");
@@ -837,6 +948,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+
+      //GET BEER DETAILS
       getBeerDetails: async (beer_id) => {
         try {
           const response = await fetch(
@@ -853,11 +966,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await response.json();
           setStore({ beerDetails: data });
-          console.log(data);
         } catch (error) {
           console.log(error);
         }
       },
+
+      //SEARCH
 
       search: async (query) => {
         try {
@@ -921,7 +1035,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            console.log(data.reviews);
             setStore({ reviews: data.reviews });
           }
         } catch (error) {
@@ -929,19 +1042,71 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      //GETALL USERS
       getAllUsers: async () => {
+        const actions = getActions();
         try {
           const response = await fetch(process.env.BACKEND_URL + "/api/users");
           const data = await response.json();
-          console.log(data);
           if (response.ok) {
             setStore({ users: data });
-            console.log(data);
           }
+          actions.getCountries();
         } catch (error) {
           console.error("Fetch error:", error);
         }
       },
+
+      getCountries: async () => {
+        const store = getStore();
+        const countries = store.users.map((user) => user.country);
+        const uniqueCountries = [...new Set(countries)];
+        setStore({
+          allCountries: uniqueCountries,
+        });
+      },
+
+      //GET COUNTRY ALL INFO
+      getCountryAllInfo: async () => {
+        const actions = getActions();
+        const store = getStore();
+        const countryUsers = store.users.filter(
+          (user) => user.country === store.detectedCountry
+        );
+        countryUsers.map((user) => {
+          actions.getUserBreweriesCountry(user.id);
+          actions.getUserBeersCountry(user.id);
+          actions.getUserEventsCountry(user.id);
+        });
+        setStore({
+          usersCountry: countryUsers,
+        });
+      },
+
+      //GET SELECTED COUNTRY ALL INFO
+      getSelectedCountryAllInfo: async (country) => {
+        const actions = getActions();
+        const store = getStore();
+        setStore({
+          breweries: [],
+          beers: [],
+          events: [],
+        });
+        const countryUsers = store.users.filter(
+          (user) => user.country === country
+        );
+        countryUsers.map((user) => {
+          actions.getUserBreweriesCountry(user.id);
+          actions.getUserBeersCountry(user.id);
+          actions.getUserEventsCountry(user.id);
+          console.log(user.id);
+        });
+        setStore({
+          usersCountry: countryUsers,
+        });
+      },
+
+      //GET AVERAGE RATINGS
       getAverageRatings: async () => {
         try {
           const response = await fetch(
@@ -981,6 +1146,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+
+      //DELETE REVIEW
       deleteReview: async (review_id) => {
         const jwt = localStorage.getItem("token");
         try {
@@ -1007,6 +1174,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+
       //Editar review
       edit_review: async (id, rating, comment) => {
         const actions = getActions();

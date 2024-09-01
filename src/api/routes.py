@@ -36,7 +36,6 @@ def handle_signup():
     if email is None or password is None or country is None or is_brewer is None:
         return jsonify({"error": "Todos los campos deben ser llenados"}), 400
     password_hash = generate_password_hash(password)
-    
     try: 
         new_user = User(email = email, username = username, password = password_hash, country = country, profile_picture = profile_picture, is_brewer = is_brewer)
         db.session.add(new_user)
@@ -79,26 +78,19 @@ def edit_user():
         body = request.json
         get_user_data = get_jwt_identity()
         user_id = get_user_data.get("id")
-        
         user = User.query.get(user_id)
         if user is None:
             return jsonify({"error": "User not found"}), 404
-        
         user.email = body.get("email", user.email)
         user.username = body.get("username", user.username)
-        
         if "password" in body and body["password"]:
             user.password = generate_password_hash(body["password"])
-        
         user.country = body.get("country", user.country)
         user.profile_picture = body.get("profile_picture", user.profile_picture)
-        user.is_brewer = body.get("is_brewer", user.is_brewer)
-        
+        user.is_brewer = body.get("is_brewer", user.is_brewer) 
         db.session.add(user)
-        db.session.commit()
-        
+        db.session.commit() 
         return jsonify({"message": "User updated successfully"}), 200
-    
     except Exception as error:
         return jsonify({"error": str(error)}), 500
 
@@ -108,7 +100,6 @@ def get_all_users():
     users = User.query.all()
     if not users:
         return jsonify({"error": "Users not found"}), 404
-
     users_data = [
         {
             "id": user.id,
@@ -118,7 +109,6 @@ def get_all_users():
             "profile_picture": user.profile_picture
         } for user in users
     ]
-
     return jsonify(users_data), 200
 
 
@@ -142,9 +132,18 @@ def create_new_brewery():
     if name is None or picture_of_brewery_url is None or logo_of_brewery_url is None:
         return jsonify({"error": "Debes llenar al menos el nombre"}), 400
     try:
-        new_brewery = Brewery(user_id=user_data["id"], name = name, address=address, history=history, facebook_url = facebook_url, 
-                              instagram_url = instagram_url, x_url = x_url, picture_of_brewery_url = picture_of_brewery_url, 
-                              logo_of_brewery_url = logo_of_brewery_url, latitude = latitude, longitude = longitude )
+        new_brewery = Brewery(
+        user_id=user_data["id"],
+        name = name,
+        address=address,
+        history=history,
+        facebook_url = facebook_url,
+        instagram_url = instagram_url,
+        x_url = x_url,
+        picture_of_brewery_url = picture_of_brewery_url, 
+        logo_of_brewery_url = logo_of_brewery_url,
+        latitude = latitude,
+        longitude = longitude )
         db.session.add(new_brewery)
         db.session.commit()
         db.session.refresh(new_brewery)
@@ -275,6 +274,20 @@ def get_user_breweries():
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
     
+#Endpoint para obtener todas las cervecerias del usuario por ID
+    
+@api.route('/<int:id>/breweries', methods=['GET'])
+def get_user_breweries_country(id):
+    try: 
+        user_id = id
+        user = User.query.get(user_id)
+        if user is None:
+            return  jsonify({'error': 'user not found'}),404
+        brewerie_list = [brewery.serialize() for brewery in user.brewery]
+        return jsonify({"breweries": brewerie_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+    
 #Endpoint para obtener todas las cervezas del usuario logueado
 
 @api.route('/user/beers', methods=['GET'])
@@ -283,6 +296,20 @@ def get_user_beers():
     try:
         current_user = get_jwt_identity()
         user_id = current_user.get("id")
+        user = User.query.get(user_id)
+        if user is None:
+            return  jsonify({'error': 'user not found'}),404
+        beer_list = [beer.serialize() for beer in user.beers]
+        return jsonify({"beers": beer_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+    
+#Endpoint para obtener todas las cervezas del usuario por ID
+    
+@api.route('/<int:id>/beers', methods=['GET'])
+def get_user_beers_country(id):
+    try: 
+        user_id = id
         user = User.query.get(user_id)
         if user is None:
             return  jsonify({'error': 'user not found'}),404
@@ -299,6 +326,20 @@ def get_user_events():
     try:
         current_user = get_jwt_identity()
         user_id = current_user.get("id")
+        user = User.query.get(user_id)
+        if user is None:
+            return  jsonify({'error': 'user not found'}),404
+        event_list = [event.serialize() for event in user.events]
+        return jsonify({"events": event_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+
+#Endpoint para obtener todas las eventos del usuario por ID
+    
+@api.route('/<int:id>/events', methods=['GET'])
+def get_user_events_country(id):
+    try: 
+        user_id = id
         user = User.query.get(user_id)
         if user is None:
             return  jsonify({'error': 'user not found'}),404
