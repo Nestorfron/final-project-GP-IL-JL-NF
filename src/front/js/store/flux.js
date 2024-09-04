@@ -221,10 +221,23 @@ const getState = ({ getStore, getActions, setStore }) => {
       getAdress: async (address) => {
         const actions = getActions();
         const store = getStore();
+
+        if (
+          !address ||
+          !address.country ||
+          Array.isArray(address.country) ||
+          typeof address.country !== "string"
+        ) {
+          console.error("Invalid address or country:", address);
+          return;
+        }
+
         setStore({
           detectedAddress: address,
-          detectedCountry: address.country,
+          detectedCountry: address.country || "", // Fallback to an empty string if no country
         });
+
+        // Proceed with fetching additional information
         actions.getCountryAllInfo();
       },
 
