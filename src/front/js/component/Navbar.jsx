@@ -71,17 +71,27 @@ export const Navbar = () => {
   const jwt = localStorage.getItem("token");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (store.detectedCountry) {
+      setSelectedCountry(store.detectedCountry);
+    }
+  }, [store.detectedCountry]);
+
+  const detectedCountry = store.detectedCountry;
   const [loading, setLoading] = useState(true);
+  const [selectedCountry, setSelectedCountry] = useState(detectedCountry); // Added state for selected country
 
   const user = store.me;
   const userImg = user.profile_picture;
 
-  console.log(getFlagImage("Uruguay"));
-
   const selectCountry = (country) => {
+    setSelectedCountry(country); // Update selected country state
     actions.getSelectedCountryAllInfo(country);
-    console.log(country);
-    navigate(`/${country}`);
+    if (country !== store.detectedCountry) {
+      navigate(`/${country}`); // Navigate only if the country is not the initial one
+    } else {
+      navigate(`/`);
+    }
   };
 
   const getFilteredCountries = (allCountries, detectedCountry) => {
@@ -90,7 +100,7 @@ export const Navbar = () => {
   };
   const filteredCountries = getFilteredCountries(
     store.allCountries,
-    store.detectedCountry
+    selectedCountry
   );
 
   function logout() {
@@ -128,10 +138,7 @@ export const Navbar = () => {
     a.name.localeCompare(b.name)
   ); // Sort breweries alphabetically
 
-  const detectedCountry = store.detectedCountry;
   const flagImage = getFlagImage(detectedCountry);
-
-  console.log(detectedCountry);
 
   return (
     <nav className="container-nav navbar navbar-expand-lg">
@@ -158,18 +165,17 @@ export const Navbar = () => {
           <div className="col-1">
             <div className="dropdown">
               <button
-                className="btn btn-secondary dropdown-toggle"
+                className="btn btn-secondary flag-button dropdown-toggle"
                 type="button"
                 id="countryDropdown"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 <img
-                  src={getFlagImage(detectedCountry)}
-                  alt={countryNameToCode[detectedCountry]}
-                  style={{ width: "20px", marginRight: "10px" }}
+                  className="flag-image"
+                  src={getFlagImage(selectedCountry)}
+                  alt={countryNameToCode[selectedCountry]}
                 />
-                {countryNameToCode[detectedCountry]}
               </button>
               <ul className="dropdown-menu" aria-labelledby="countryDropdown">
                 {filteredCountries.map((country, index) => (
@@ -179,11 +185,11 @@ export const Navbar = () => {
                       onClick={() => selectCountry(country)}
                     >
                       <img
+                        className="flag-image me-2"
                         src={getFlagImage(country)}
                         alt={countryNameToCode[country]}
-                        style={{ width: "20px", marginRight: "10px" }}
                       />
-                      {countryNameToCode[country]}
+                      {country}
                     </button>
                   </li>
                 ))}

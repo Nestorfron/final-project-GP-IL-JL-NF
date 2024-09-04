@@ -170,6 +170,16 @@ footer .col {
   margin-bottom: 15px;
 }
 
+.flag-image {
+  width: 40px;
+  height: auto;
+}
+.flag-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 @media (max-width: 1000px) {
   title {
     font-size: 1.1rem !important;
@@ -195,6 +205,9 @@ footer .col {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     margin-top: 40px;
     z-index: 2;
+  }
+  .flag-button {
+    margin-top: 20px !important;
   }
 }
 
