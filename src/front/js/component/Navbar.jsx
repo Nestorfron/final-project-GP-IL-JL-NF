@@ -6,19 +6,92 @@ import "../../styles/search.css";
 import "../../styles/index.css";
 import BEER from "../../img/BEER.png";
 import SearchBar from "../component/SearchBar.jsx";
+import { countryNameToCode } from "../component/CountryCodes.jsx";
+import agFlag from "../../img/flags/ag.png";
+import arFlag from "../../img/flags/ar.png";
+import bbFlag from "../../img/flags/bb.png";
+import bsFlag from "../../img/flags/bs.png";
+import boFlag from "../../img/flags/bo.png";
+import brFlag from "../../img/flags/br.png";
+import caFlag from "../../img/flags/ca.png";
+import clFlag from "../../img/flags/cl.png";
+import coFlag from "../../img/flags/co.png";
+import crFlag from "../../img/flags/cr.png";
+import cuFlag from "../../img/flags/cu.png";
+import dmFlag from "../../img/flags/dm.png";
+import ecFlag from "../../img/flags/ec.png";
+import usFlag from "../../img/flags/us.png";
+import gdFlag from "../../img/flags/gd.png";
+import gyFlag from "../../img/flags/gy.png";
+import jmFlag from "../../img/flags/jm.png";
+import mxFlag from "../../img/flags/mx.png";
+import paFlag from "../../img/flags/pa.png";
+import peFlag from "../../img/flags/pe.png";
+import doFlag from "../../img/flags/do.png";
+import srFlag from "../../img/flags/sr.png";
+import ttFlag from "../../img/flags/tt.png";
+import uyFlag from "../../img/flags/uy.png";
+import veFlag from "../../img/flags/ve.png";
+
+const flagImages = {
+  ag: agFlag,
+  ar: arFlag,
+  bb: bbFlag,
+  bs: bsFlag,
+  bo: boFlag,
+  br: brFlag,
+  ca: caFlag,
+  cl: clFlag,
+  co: coFlag,
+  cr: crFlag,
+  cu: cuFlag,
+  dm: dmFlag,
+  ec: ecFlag,
+  us: usFlag,
+  gd: gdFlag,
+  gy: gyFlag,
+  jm: jmFlag,
+  mx: mxFlag,
+  pa: paFlag,
+  pe: peFlag,
+  do: doFlag,
+  sr: srFlag,
+  tt: ttFlag,
+  uy: uyFlag,
+  ve: veFlag,
+};
+
+const getFlagImage = (countryName) => {
+  const countryCode = countryNameToCode[countryName];
+  return flagImages[countryCode] || ""; // Return the imported image or an empty string if not found
+};
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
   const jwt = localStorage.getItem("token");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (store.detectedCountry) {
+      setSelectedCountry(store.detectedCountry);
+    }
+  }, [store.detectedCountry]);
+
+  const detectedCountry = store.detectedCountry;
+  const [loading, setLoading] = useState(true);
+  const [selectedCountry, setSelectedCountry] = useState(detectedCountry); // Added state for selected country
+
   const user = store.me;
   const userImg = user.profile_picture;
 
   const selectCountry = (country) => {
+    setSelectedCountry(country); // Update selected country state
     actions.getSelectedCountryAllInfo(country);
-    console.log(country);
-    navigate(`/${country}`);
+    if (country !== store.detectedCountry) {
+      navigate(`/${country}`); // Navigate only if the country is not the initial one
+    } else {
+      navigate(`/`);
+    }
   };
 
   const getFilteredCountries = (allCountries, detectedCountry) => {
@@ -27,7 +100,7 @@ export const Navbar = () => {
   };
   const filteredCountries = getFilteredCountries(
     store.allCountries,
-    store.detectedCountry
+    selectedCountry
   );
 
   function logout() {
@@ -54,6 +127,7 @@ export const Navbar = () => {
       return;
     }
     getTokenInfo();
+    setLoading(false);
   }, []);
 
   const uniqueStyles = [
@@ -63,6 +137,8 @@ export const Navbar = () => {
   const sortedBreweries = [...store.breweries].sort((a, b) =>
     a.name.localeCompare(b.name)
   ); // Sort breweries alphabetically
+
+  const flagImage = getFlagImage(detectedCountry);
 
   return (
     <nav className="container-nav navbar navbar-expand-lg">
@@ -87,21 +163,38 @@ export const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <div className="col-1">
-            <select
-              className="form-select"
-              aria-label="Default select example"
-              onChange={(e) => selectCountry(e.target.value)}
-              required
-            >
-              <option value="" selected>
-                {store.detectedCountry}
-              </option>
-              {filteredCountries.map((country, index) => (
-                <option key={country + index} value={country}>
-                  {country}
-                </option>
-              ))}
-            </select>
+            <div className="dropdown">
+              <button
+                className="btn btn-secondary flag-button dropdown-toggle"
+                type="button"
+                id="countryDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img
+                  className="flag-image"
+                  src={getFlagImage(selectedCountry)}
+                  alt={countryNameToCode[selectedCountry]}
+                />
+              </button>
+              <ul className="dropdown-menu" aria-labelledby="countryDropdown">
+                {filteredCountries.map((country, index) => (
+                  <li key={country + index}>
+                    <button
+                      className="dropdown-item"
+                      onClick={() => selectCountry(country)}
+                    >
+                      <img
+                        className="flag-image me-2"
+                        src={getFlagImage(country)}
+                        alt={countryNameToCode[country]}
+                      />
+                      {country}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
           <ul id="menu" className="estilos navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item dropdown">
