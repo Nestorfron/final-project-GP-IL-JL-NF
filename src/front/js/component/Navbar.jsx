@@ -162,7 +162,7 @@ export const Navbar = () => {
           </span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <div className="col-1">
+          <div>
             <div className="dropdown">
               <button
                 className="btn btn-secondary flag-button dropdown-toggle"
@@ -257,6 +257,71 @@ export const Navbar = () => {
             </li>
           </ul>
           <hr />
+          <div className="me-2">
+            <ul
+              id="menu"
+              className="estilos navbar-nav me-auto ms-5 mb-2 mb-lg-0"
+            >
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Bares
+                </a>
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  {uniqueStyles.length > 0 ? (
+                    uniqueStyles.map((style, index) => (
+                      <li key={index}>
+                        <Link
+                          className="dropdown-item"
+                          to={`/styles/${encodeURIComponent(style)}`}
+                        >
+                          {style}
+                        </Link>
+                      </li>
+                    ))
+                  ) : (
+                    <h6 className="text-center">Sin Estilos</h6>
+                  )}
+                </ul>
+              </li>
+
+              <hr />
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown2"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Licorerías
+                </a>
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown2">
+                  {sortedBreweries.length > 0 ? (
+                    sortedBreweries.map((brewery) => (
+                      <li key={brewery.id}>
+                        <Link
+                          className="dropdown-item"
+                          to={`/brewery/${brewery.id}`}
+                        >
+                          {brewery.name}
+                        </Link>
+                      </li>
+                    ))
+                  ) : (
+                    <h6 className="text-center">Sin Cervecerías</h6>
+                  )}
+                </ul>
+              </li>
+            </ul>
+          </div>
           <SearchBar />
           <hr />
           <div className="signin-button">
