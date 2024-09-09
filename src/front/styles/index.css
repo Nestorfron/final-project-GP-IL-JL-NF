@@ -39,7 +39,7 @@
 }
 
 .nav-icon {
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin-top: 3px;
 }
 
@@ -107,10 +107,14 @@
   cursor: pointer;
 }
 
-.cointainer-userImg {
+.container-userImg {
   padding: 0 !important;
 }
 
+.offcanvas {
+  background-color: rgba(250, 202, 27, 0.952);
+  width: 50%;
+}
 .userImg {
   height: 45px;
   width: 45px;
@@ -175,7 +179,7 @@ footer .col {
   height: auto;
 }
 .flag-button {
-  background-color: transparent;
+  background-color: transparent !important;
   border: none;
   cursor: pointer;
 }
@@ -190,9 +194,7 @@ footer .col {
     right: 45%;
   }
   .signin-button {
-    margin-left: auto;
-    padding: 4px;
-    width: 4rem;
+    margin-right: auto;
   }
   .estilos {
     margin-top: 40px;
@@ -207,7 +209,7 @@ footer .col {
     z-index: 2;
   }
   .flag-button {
-    margin-top: 20px !important;
+    margin-top: 1px !important;
   }
 }
 

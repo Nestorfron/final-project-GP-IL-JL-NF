@@ -313,7 +313,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
           });
           const data = await response.json();
-          console.log(data);
           if (response.ok) {
             setStore({ me: data });
           }
@@ -329,7 +328,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       setLatLng: (newLocation) => {
         const store = getStore();
         setStore({ LatLng: newLocation });
-        console.log(store.LatLng.lat, store.LatLng.lng);
       },
 
       //ADD BREWERY
@@ -459,7 +457,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            console.log(data);
             setStore({ userBreweries: data.breweries });
           }
         } catch (error) {
@@ -1112,7 +1109,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           actions.getUserBreweriesCountry(user.id);
           actions.getUserBeersCountry(user.id);
           actions.getUserEventsCountry(user.id);
-          console.log(user.id);
         });
         setStore({
           usersCountry: countryUsers,
