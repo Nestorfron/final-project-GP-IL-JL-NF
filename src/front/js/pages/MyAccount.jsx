@@ -4,6 +4,7 @@ import { Context } from "../store/appContext.js";
 import { jwtDecode } from "jwt-decode";
 import useTokenExpiration from "../../../hooks/useTokenExpiration.jsx";
 import EditBreweries from "../component/EditBreweries.jsx";
+import EditBar from "../component/EditBar.jsx";
 import EditBeers from "../component/EditBeer.jsx";
 import Swal from "sweetalert2";
 import "../../styles/myAccount.css";
@@ -14,6 +15,7 @@ const MyAccount = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const user = store.me;
+  const jwt = localStorage.getItem("token");
 
   useTokenExpiration();
 
@@ -22,7 +24,7 @@ const MyAccount = () => {
     if (!token) return null;
     try {
       const decodedToken = jwtDecode(token);
-      return decodedToken.sub.is_brewer;
+      return decodedToken.sub.rol;
     } catch (error) {
       console.error("Error decoding token:", error);
       return null;
@@ -45,6 +47,31 @@ const MyAccount = () => {
           position: "center",
           icon: "success",
           title: "Cervecería eliminada correctamente",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else {
+        return;
+      }
+    });
+  };
+
+  const barDelete = (bar) => {
+    Swal.fire({
+      title: "Advertencia",
+      text: "¿Desea eliminar el Bar?",
+      position: "center",
+      icon: "error",
+      showDenyButton: true,
+      denyButtonText: "No",
+      confirmButtonText: "Si",
+    }).then((click) => {
+      if (click.isConfirmed) {
+        actions.deleteBar(bar);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Bar eliminado correctamente",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -151,6 +178,7 @@ const MyAccount = () => {
       actions.getUserBreweries();
       actions.getUserBeers();
       actions.getUserEvents();
+      actions.getUserBars();
     }
 
     actions.getMe();
@@ -193,16 +221,18 @@ const MyAccount = () => {
       {/* Sección de Cervecerías */}
       <h5
         className={`${
-          !getTokenInfo()
+          getTokenInfo() === "Vendedor" || getTokenInfo() === "Usuario" || !jwt
             ? "d-none text-center mt-5 mb-3  "
             : "text-center mt-5 mb-3 "
         } text-light`}
       >
-        MIS CERVECERÍAS Y/O BARES
+        MIS CERVECERÍAS
       </h5>
       <div
         className={`${
-          !getTokenInfo() ? " d-none" : "overflow-auto d-flex m-1"
+          getTokenInfo() === "Vendedor" || getTokenInfo() === "Usuario" || !jwt
+            ? " d-none"
+            : "overflow-auto d-flex m-1"
         }`}
       >
         {store.userBreweries.length > 0 ? (
@@ -250,9 +280,78 @@ const MyAccount = () => {
           </h6>
         )}
       </div>
+      {/* Sección de Bares */}
       <h5
         className={`${
-          !getTokenInfo()
+          getTokenInfo() === "Fabricante" ||
+          getTokenInfo() === "Usuario" ||
+          !jwt
+            ? "d-none text-center mt-5 mb-3  "
+            : "text-center mt-5 mb-3 "
+        } text-light`}
+      >
+        MIS BARES
+      </h5>
+      <div
+        className={`${
+          getTokenInfo() === "Fabricante" ||
+          getTokenInfo() === "Usuario" ||
+          !jwt
+            ? " d-none"
+            : "overflow-auto d-flex m-1"
+        }`}
+      >
+        {store.userBars.length > 0 ? (
+          store.userBars.map((bar) => (
+            <div className="cards-container m-2" key={bar.id}>
+              <div className="card cardAccount m-4">
+                <div
+                  className="bar-minitron"
+                  style={{
+                    backgroundImage: `url(${bar.picture_of_bar_url})`,
+                    backgroundSize: "cover", // Ensures the background covers the entire div
+                    backgroundPosition: "center", // Centers the background image
+                  }}
+                >
+                  <img
+                    src={bar.logo_of_bar_url}
+                    className="card-img m-4"
+                    alt={bar.name}
+                  />
+                </div>
+
+                <div className="card-body d-flex flex-column">
+                  <h5 className="card-title title-card mb-2">{bar.name}</h5>
+                  <p className="card-text text-card mb-3">
+                    <i className="fas fa-map-marker-alt me-2"></i>
+                    {bar.address}
+                  </p>
+                  <div className="container-fluid d-flex mt-3 justify-content-center ">
+                    <button
+                      className="deleteButton me-3"
+                      onClick={() => barDelete(bar.id)}
+                    >
+                      <i className="fas fa-trash-alt me-1"></i>
+                    </button>
+                    <EditBar bar={bar} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <h6 className="text-center mt-4 text-light">
+            Sin Cervecerías, por favor{" "}
+            <Link to="/add_brewery">ingresa una</Link>
+          </h6>
+        )}
+      </div>
+
+      {/* Sección de Cervezas */}
+
+      <h5
+        className={`${
+          getTokenInfo() === "Usuario" || !jwt
             ? "d-none text-center mt-5 mb-3"
             : "text-center mt-5 mb-3 "
         } text-light`}
@@ -261,7 +360,9 @@ const MyAccount = () => {
       </h5>
       <div
         className={`${
-          !getTokenInfo() ? " d-none" : " overflow-auto d-flex m-1"
+          getTokenInfo() === "Usuario" || !jwt
+            ? " d-none"
+            : " overflow-auto d-flex m-1"
         }`}
       >
         {store.userBeers.length > 0 ? (
@@ -302,7 +403,7 @@ const MyAccount = () => {
       {/* Sección de Eventos */}
       <h5
         className={`${
-          !getTokenInfo()
+          getTokenInfo() === "Usuario" || !jwt
             ? "d-none text-center mt-5 mb-3  "
             : "text-center mt-5 mb-3 "
         } text-light`}
@@ -311,7 +412,9 @@ const MyAccount = () => {
       </h5>
       <div
         className={`${
-          !getTokenInfo() ? " d-none" : " overflow-auto d-flex m-1"
+          getTokenInfo() === "Usuario" || !jwt
+            ? " d-none"
+            : " overflow-auto d-flex m-1"
         }`}
       >
         {store.userEvents.length > 0 ? (

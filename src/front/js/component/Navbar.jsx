@@ -40,7 +40,8 @@ export const Navbar = () => {
     if (!token) return null;
     try {
       const decodedToken = jwtDecode(token);
-      return decodedToken.sub.is_brewer;
+      console.log(decodedToken.sub.rol);
+      return decodedToken.sub.rol;
     } catch (error) {
       console.error("Error decoding token:", error);
       return null;
@@ -187,7 +188,9 @@ export const Navbar = () => {
                 <Link
                   to="/add_brewery"
                   className={`${
-                    !getTokenInfo()
+                    getTokenInfo() === "Vendedor" ||
+                    getTokenInfo() === "Usuario" ||
+                    !jwt
                       ? "dropdown-item text-dark d-none"
                       : "dropdown-item text-dark"
                   }`}
@@ -197,9 +200,25 @@ export const Navbar = () => {
               </li>
               <li>
                 <Link
+                  to="/add_bar"
+                  className={`${
+                    getTokenInfo() === "Fabricante" ||
+                    getTokenInfo() === "Usuario" ||
+                    !jwt
+                      ? "dropdown-item text-dark d-none"
+                      : "dropdown-item text-dark"
+                  }`}
+                >
+                  Agregar Bar
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/add_beer"
                   className={`${
-                    !getTokenInfo()
+                    getTokenInfo() === "Vendedor" ||
+                    getTokenInfo() === "Usuario" ||
+                    !jwt
                       ? "dropdown-item text-dark d-none"
                       : "dropdown-item text-dark"
                   }`}
@@ -211,7 +230,9 @@ export const Navbar = () => {
                 <Link
                   to="/add_event"
                   className={`${
-                    !getTokenInfo()
+                    getTokenInfo() === "Vendedor" ||
+                    getTokenInfo() === "Usuario" ||
+                    !jwt
                       ? "dropdown-item text-dark d-none"
                       : "dropdown-item text-dark"
                   }`}
