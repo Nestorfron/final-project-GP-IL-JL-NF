@@ -151,117 +151,65 @@ export const Navbar = () => {
         <button
           className="navbar-toggler fs-dark"
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasWithBothOptions"
+          aria-controls="offcanvasWithBothOptions"
         >
           <span className="navbar-toggler-icon">
             <i className="nav-icon fa-solid fa-bars"></i>
           </span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <div>
-            <div className="dropdown">
-              <button
-                className="btn btn-secondary flag-button dropdown-toggle"
-                type="button"
-                id="countryDropdown"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <img
-                  className="flag-image"
-                  src={getFlagImage(selectedCountry)}
-                  alt={countryNameToCode[selectedCountry]}
-                />
-              </button>
-              <ul className="dropdown-menu" aria-labelledby="countryDropdown">
-                {filteredCountries.map((country, index) => (
-                  <li key={country + index}>
-                    <button
-                      className="dropdown-item"
-                      onClick={() => selectCountry(country)}
-                    >
-                      <img
-                        className="flag-image me-2"
-                        src={getFlagImage(country)}
-                        alt={countryNameToCode[country]}
-                      />
-                      {country}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
+        <div
+          className="offcanvas offcanvas-start"
+          data-bs-scroll="true"
+          tabindex="2"
+          id="offcanvasWithBothOptions"
+          aria-labelledby="offcanvasWithBothOptionsLabel"
+        >
+          <div className="offcanvas-header">
+            <button
+              type="button"
+              className="btn-close ms-auto mt-4"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            ></button>
           </div>
-          <ul id="menu" className="estilos navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Estilos
-              </a>
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                {uniqueStyles.length > 0 ? (
-                  uniqueStyles.map((style, index) => (
-                    <li key={index}>
-                      <Link
+          <div className="offcanvas-body" id="navbarSupportedContent">
+            <div>
+              <div className="dropdown">
+                <button
+                  className="btn btn-secondary flag-button dropdown-toggle"
+                  type="button"
+                  id="countryDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img
+                    className="flag-image"
+                    src={getFlagImage(selectedCountry)}
+                    alt={countryNameToCode[selectedCountry]}
+                  />
+                </button>
+                <ul className="dropdown-menu" aria-labelledby="countryDropdown">
+                  {filteredCountries.map((country, index) => (
+                    <li key={country + index}>
+                      <button
                         className="dropdown-item"
-                        to={`/styles/${encodeURIComponent(style)}`}
+                        onClick={() => selectCountry(country)}
                       >
-                        {style}
-                      </Link>
+                        <img
+                          className="flag-image me-2"
+                          src={getFlagImage(country)}
+                          alt={countryNameToCode[country]}
+                        />
+                        {country}
+                      </button>
                     </li>
-                  ))
-                ) : (
-                  <h6 className="text-center">Sin Estilos</h6>
-                )}
-              </ul>
-            </li>
-
-            <hr />
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown2"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Cervecerías
-              </a>
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown2">
-                {sortedBreweries.length > 0 ? (
-                  sortedBreweries.map((brewery) => (
-                    <li key={brewery.id}>
-                      <Link
-                        className="dropdown-item"
-                        to={`/brewery/${brewery.id}`}
-                      >
-                        {brewery.name}
-                      </Link>
-                    </li>
-                  ))
-                ) : (
-                  <h6 className="text-center">Sin Cervecerías</h6>
-                )}
-              </ul>
-            </li>
-          </ul>
-          <hr />
-          <div className="me-2">
-            <ul
-              id="menu"
-              className="estilos navbar-nav me-auto ms-5 mb-2 mb-lg-0"
-            >
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <ul id="menu" className="estilos navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
@@ -271,7 +219,7 @@ export const Navbar = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Bares
+                  Estilos
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                   {uniqueStyles.length > 0 ? (
@@ -301,7 +249,7 @@ export const Navbar = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Licorerías
+                  Cervecerías
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown2">
                   {sortedBreweries.length > 0 ? (
@@ -321,106 +269,175 @@ export const Navbar = () => {
                 </ul>
               </li>
             </ul>
-          </div>
-          <SearchBar />
-          <hr />
-          <div className="signin-button">
-            <button
-              type="button"
-              className={!jwt ? "btn btn-warning" : "btn m-0 p-0"}
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              {!jwt ? (
-                <i className="fa-solid fa-user"></i>
-              ) : (
-                <div className="conteiner-userImg">
-                  <img className="userImg" src={userImg}></img>
-                </div>
-              )}
-            </button>
+            <hr />
+            <div className="me-2">
+              <ul id="menu" className="estilos navbar-nav me-auto mb-2 mb-lg-0">
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Bares
+                  </a>
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="navbarDropdown"
+                  >
+                    {uniqueStyles.length > 0 ? (
+                      uniqueStyles.map((style, index) => (
+                        <li key={index}>
+                          <Link
+                            className="dropdown-item"
+                            to={`/styles/${encodeURIComponent(style)}`}
+                          >
+                            {style}
+                          </Link>
+                        </li>
+                      ))
+                    ) : (
+                      <h6 className="text-center">Sin Estilos</h6>
+                    )}
+                  </ul>
+                </li>
 
-            <ul className="signin-button dropdown-menu dropdown-menu-end menu">
-              <li>
-                <Link
-                  to="/add_brewery"
-                  className={`${
-                    !getTokenInfo()
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                >
-                  Agregar Cervecería
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/add_beer"
-                  className={`${
-                    !getTokenInfo()
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                >
-                  Agregar Cerveza
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/add_event"
-                  className={`${
-                    !getTokenInfo()
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                >
-                  Agregar Evento
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/my_account"
-                  className={`${
-                    !jwt
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                >
-                  Mi cuenta
-                </Link>
-              </li>
-              <li>
-                <hr
-                  className={`${
-                    !jwt ? "dropdown-divider d-none" : "dropdown-divider"
-                  }`}
-                />
-              </li>
-              <li>
-                <Link
-                  to="/login"
-                  className={`${
-                    !jwt
-                      ? "dropdown-item text-dark"
-                      : "dropdown-item text-dark d-none"
-                  }`}
-                >
-                  Iniciar Sesión
-                </Link>
-              </li>
-              <li>
-                <button
-                  className={`${
-                    !jwt
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                  onClick={logout}
-                >
-                  Cerrar sesión
-                </button>
-              </li>
-            </ul>
+                <hr />
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown2"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Licorerías
+                  </a>
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="navbarDropdown2"
+                  >
+                    {sortedBreweries.length > 0 ? (
+                      sortedBreweries.map((brewery) => (
+                        <li key={brewery.id}>
+                          <Link
+                            className="dropdown-item"
+                            to={`/brewery/${brewery.id}`}
+                          >
+                            {brewery.name}
+                          </Link>
+                        </li>
+                      ))
+                    ) : (
+                      <h6 className="text-center">Sin Cervecerías</h6>
+                    )}
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <SearchBar />
+            <hr />
+            <div className="signin-button dropdown">
+              <button
+                type="button"
+                className={!jwt ? "btn btn-warning" : "btn m-0 p-0"}
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                {!jwt ? (
+                  <i className="fa-solid fa-user"></i>
+                ) : (
+                  <div className="conteiner-userImg">
+                    <img className="userImg" src={userImg}></img>
+                  </div>
+                )}
+              </button>
+
+              <ul className="signin-button dropdown-menu dropdown-menu-lg-end">
+                <li>
+                  <Link
+                    to="/add_brewery"
+                    className={`${
+                      !getTokenInfo()
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Agregar Cervecería
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/add_beer"
+                    className={`${
+                      !getTokenInfo()
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Agregar Cerveza
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/add_event"
+                    className={`${
+                      !getTokenInfo()
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Agregar Evento
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/my_account"
+                    className={`${
+                      !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Mi cuenta
+                  </Link>
+                </li>
+                <li>
+                  <hr
+                    className={`${
+                      !jwt ? "dropdown-divider d-none" : "dropdown-divider"
+                    }`}
+                  />
+                </li>
+                <li>
+                  <Link
+                    to="/login"
+                    className={`${
+                      !jwt
+                        ? "dropdown-item text-dark"
+                        : "dropdown-item text-dark d-none"
+                    }`}
+                  >
+                    Iniciar Sesión
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    className={`${
+                      !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                    onClick={logout}
+                  >
+                    Cerrar sesión
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
