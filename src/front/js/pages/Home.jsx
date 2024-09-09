@@ -22,22 +22,39 @@ export const Home = () => {
     actions.getAverageRatings();
   }, []);
 
-  const getCurrentLocation = () => {
+  const getCurrentLocation = async () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        async (position) => {
           // Handle successful location retrieval
           console.log("Position:", position);
           // You can set the country based on the position here
+          // Example: actions.setDetectedCountry(position.coords);
         },
-        (error) => {
+        async (error) => {
           if (error.code === error.PERMISSION_DENIED) {
-            setShowModal(true);
+            try {
+              const response = await fetch("https://ipapi.co/json/");
+              const data = await response.json();
+              console.log("Location data:", data);
+              actions.setDetectedCountry(data.country_name);
+            } catch (error) {
+              console.error("Error fetching location data:", error);
+              setShowModal(true);
+            }
           }
         }
       );
     } else {
-      console.log("Geolocation is not supported by this browser.");
+      try {
+        const response = await fetch("https://ipapi.co/json/");
+        const data = await response.json();
+        console.log("Location data:", data);
+        actions.setDetectedCountry(data.country_name);
+      } catch (error) {
+        console.error("Error fetching location data:", error);
+        setShowModal(true);
+      }
     }
   };
 
