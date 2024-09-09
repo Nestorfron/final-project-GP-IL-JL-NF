@@ -16,7 +16,7 @@ export const Home = () => {
 
   useEffect(() => {
     getCurrentLocation();
-    actions.setStoredCountry();
+
     actions.getAllUsers();
     actions.getStyles();
     actions.getAverageRatings();

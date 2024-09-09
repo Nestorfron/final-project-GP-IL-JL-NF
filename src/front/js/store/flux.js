@@ -251,6 +251,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         await setStore({
           detectedCountry: country,
         });
+        const actions = getActions();
+        actions.getSelectedCountryAllInfo(country);
 
         // Optionally, fetch additional information for the selected country
       },
@@ -261,6 +263,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         if (storedCountry) {
           const actions = getActions();
           await actions.setDetectedCountry(storedCountry);
+          await actions.getSelectedCountryAllInfo(storedCountry);
         }
       },
 
