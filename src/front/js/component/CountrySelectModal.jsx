@@ -49,7 +49,7 @@ const CountrySelectModal = ({
             <form>
               <div className="mb-3">
                 <label htmlFor="countrySelect" className="form-label">
-                  Country
+                  Paises disponibles
                 </label>
                 <select
                   className="form-select"
@@ -57,7 +57,7 @@ const CountrySelectModal = ({
                   value={selectedCountry}
                   onChange={(e) => setSelectedCountry(e.target.value)}
                 >
-                  <option value="">Select a country</option>
+                  <option value="">Selecciona un País</option>
                   {countries.map((country, index) => (
                     <option key={index} value={country}>
                       {country}
@@ -74,14 +74,14 @@ const CountrySelectModal = ({
               data-bs-dismiss="modal"
               onClick={() => setShowModal(false)}
             >
-              Close
+              Cerrar
             </button>
             <button
               type="button"
               className="btn btn-primary"
               onClick={onSelectCountry}
             >
-              Save Changes
+              Guardar
             </button>
           </div>
         </div>
