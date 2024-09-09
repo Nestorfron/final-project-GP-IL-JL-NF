@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Brewery, Beer, Event, Review
+from api.models import db, User, Brewery, Bar, Beer, Event, Review
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -26,21 +26,23 @@ def handle_signup():
     password = body.get("password", None)
     country = body.get("country", None)
     profile_picture = body.get("profile_picture", None)
-    is_brewer= body.get("is_brewer", None)
+    rol= body.get("rol", None)
+   
     if not re.match(email_regex, email):
         return jsonify({"error": "El formato del email no es válido"}), 400
     if User.query.filter_by(email = email).first() is not None:
         return jsonify({"error": "email ya esta siendo utilizado"}), 400
     if User.query.filter_by(username = username).first() is not None:
         return jsonify({"error": "username ya esta siendo utilizado"}), 400
-    if email is None or password is None or country is None or is_brewer is None:
+    if email is None or password is None or country is None or rol is None:
         return jsonify({"error": "Todos los campos deben ser llenados"}), 400
+    
     password_hash = generate_password_hash(password)
     try: 
-        new_user = User(email = email, username = username, password = password_hash, country = country, profile_picture = profile_picture, is_brewer = is_brewer)
+        new_user = User(email = email, username = username, password = password_hash, country = country, profile_picture = profile_picture, rol = rol)
         db.session.add(new_user)
         db.session.commit()
-        return jsonify({"mensaje": "Usuario creado exitosamente"}), 201
+        return jsonify({"user": new_user.serialize()}), 201
     except Exception as error:
         db.session.rollback() 
         return jsonify({"error": f"{error}"}), 500
@@ -60,7 +62,7 @@ def handle_signin():
         return jsonify({"error": "Usuario no encontrado"}), 404    
     if not check_password_hash(user.password, password):
         return jsonify({"error": "Se ha producido un error al iniciar sesión, intente nuevamente"}), 400   
-    user_token = create_access_token({"id": user.id, "username": user.username, "country": user.country, "email": user.email, "profile_picture": user.profile_picture, "is_brewer": user.is_brewer})
+    user_token = create_access_token({"id": user.id, "username": user.username, "country": user.country, "email": user.email, "profile_picture": user.profile_picture, "rol": user.rol})
     return jsonify({"token": user_token}), 200
 
 #Endpoint obtener usuario logueado
@@ -152,6 +154,45 @@ def create_new_brewery():
         db.session.rollback()
         return jsonify({"error: f'{error}"}), 500
 
+#Endpoint de POST de Nuevo Bar (requiere Token)
+@api.route("/create_new_bar", methods= ["POST"])
+@jwt_required()
+def create_new_bar():
+    body= request.json
+    user_data= get_jwt_identity()
+    name= body.get("name", None)
+    address= body.get("address", None)
+    history= body.get("history", None)
+    facebook_url = body.get("facebook_url", None)
+    instagram_url = body.get("instagram_url", None)
+    x_url = body.get("x_url", None)
+    picture_of_bar_url =  body.get("picture_of_bar_url", None)
+    logo_of_bar_url = body.get("logo_of_bar_url", None)
+    latitude = body.get("latitude",None)
+    longitude = body.get("longitude",None)
+    if name is None or picture_of_bar_url is None or logo_of_bar_url is None:
+        return jsonify({"error": "Debes llenar al menos el nombre"}), 400
+    try:
+        new_bar = Bar(
+        user_id=user_data["id"],
+        name = name,
+        address=address,
+        history=history,
+        facebook_url = facebook_url,
+        instagram_url = instagram_url,
+        picture_of_bar_url = picture_of_bar_url,
+        x_url = x_url,
+        logo_of_bar_url = logo_of_bar_url,
+        latitude = latitude,
+        longitude = longitude )
+        db.session.add(new_bar)
+        db.session.commit()
+        db.session.refresh(new_bar)
+        return jsonify({"new_bar": new_bar.serialize()}), 201  
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"error: f'{error}"}), 500
+
 #Endpoint de POST de Nueva Cerveza (requiere token)
 
 @api.route("/create_new_beer", methods= ["POST"])
@@ -189,7 +230,7 @@ def create_new_beer():
     except Exception as error:
         db.session.rollback()
         return jsonify({"error": f"{error}"}), 500
-    
+
 #Endpoint de POST de Nuevo evento (requiere token)
 
 @api.route("/create_new_event", methods=["POST"])
@@ -273,7 +314,23 @@ def get_user_breweries():
         return jsonify({"breweries": brewerie_list}), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
-    
+
+#Endpoint para obtener todas los bares del usuario logueado
+
+@api.route('/user/bars', methods=['GET'])
+@jwt_required()
+def get_user_bars():
+    try:
+        current_user = get_jwt_identity()
+        user_id = current_user.get("id")
+        user = User.query.get(user_id)
+        if user is None:
+            return  jsonify({'error': 'user not found'}),404
+        bars_list = [bar.serialize() for bar in user.bars]
+        return jsonify({"bars": bars_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+
 #Endpoint para obtener todas las cervecerias del usuario por ID
     
 @api.route('/<int:id>/breweries', methods=['GET'])
@@ -407,7 +464,26 @@ def delete_brewery():
         return jsonify({"message": f"Brewery removed"}), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
-    
+
+#Endpoint para borrar Bar REQUIERE TOKEN
+
+@api.route('/delete_bar', methods=['DELETE'])
+@jwt_required()
+def delete_bar():
+    try:
+        body = request.json
+        user_data = get_jwt_identity()
+        bar_id = body.get("bar_id", None)
+        user_id = user_data.get("id")
+        bar = Bar.query.filter_by(user_id = user_id, id=bar_id).first()
+        if bar is None:
+            return  jsonify({'error': 'Bar not found'}),404
+        db.session.delete(bar)
+        db.session.commit()
+        return jsonify({"message": f"Bar removed"}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+ 
     #endpoint para editar cerveceria REQUIERE TOKEN
 @api.route('/edit_breweries', methods=['PUT'])
 @jwt_required()    
@@ -436,6 +512,38 @@ def edit_breweries():
         db.session.commit()
 
         return jsonify({"message": "Brewery updated successfully"}), 200
+
+    except Exception as error:
+        return jsonify({"error": str(error)}), 500
+
+    #endpoint para editar Bar REQUIERE TOKEN
+@api.route('/edit_bar', methods=['PUT'])
+@jwt_required()    
+def edit_bar():
+    try:
+        body = request.json
+        user_data = get_jwt_identity()
+        bar_id = body.get("id", None)
+        user_id = user_data.get("id")
+
+        
+        bar = Bar.query.filter_by(id=bar_id, user_id=user_id).first()
+        if bar is None:
+            return jsonify({'error': 'Bar not found'}), 404
+
+        
+        bar.name = body.get("name", bar.name)
+        bar.address = body.get("address", bar.address)
+        bar.history = body.get("history", bar.history)
+        bar.facebook_url = body.get("facebook_url", bar.facebook_url)
+        bar.instagram_url = body.get("instagram_url", bar.instagram_url)
+        bar.x_url = body.get("x_url", bar.x_url)
+        bar.logo_of_bar_url = body.get("logo_of_bar_url", bar.logo_of_bar_url)
+        bar.picture_of_bar_url = body.get("picture_of_bar_url", bar.picture_of_bar_url)
+
+        db.session.commit()
+
+        return jsonify({"message": "Bar updated successfully"}), 200
 
     except Exception as error:
         return jsonify({"error": str(error)}), 500

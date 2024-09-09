@@ -7,6 +7,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       events: [],
       breweries: [],
       userBreweries: [],
+      userBars: [],
       userBeers: [],
       userEvents: [],
       userStyles: [],
@@ -213,6 +214,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         "Winter Seasonal Beer",
         "Wood-Aged Beer",
       ],
+      rol: ["Usuario", "Fabricante", "Vendedor"],
       reviews: [],
       averageRatings: [],
     },
@@ -272,7 +274,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         email,
         password,
         username,
-        is_brewer,
+        rol,
         country,
         profile_picture
       ) => {
@@ -288,7 +290,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 email,
                 password,
                 username,
-                is_brewer,
+                rol,
                 country,
                 profile_picture,
               }),
@@ -298,6 +300,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
           const data = response.json();
+          console.log;
           return data;
         } catch (error) {
           console.log(error);
@@ -406,6 +409,56 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      //ADD BAR
+      add_bar: async (
+        name,
+        address,
+        history,
+        facebook_url,
+        instagram_url,
+        picture_of_bar_url,
+        x_url,
+        logo_of_bar_url
+      ) => {
+        const jwt = localStorage.getItem("token");
+        const store = getStore();
+        const actions = getActions();
+        const latitude = store.LatLng.lat;
+        const longitude = store.LatLng.lng;
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/create_new_bar",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+              body: JSON.stringify({
+                name,
+                address,
+                history,
+                facebook_url,
+                instagram_url,
+                picture_of_bar_url,
+                x_url,
+                logo_of_bar_url,
+                latitude,
+                longitude,
+              }),
+            }
+          );
+          if (!response.ok) {
+            return false;
+          }
+          const data = await response.json();
+          //actions.getAllBreweries();
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
       //GET BREWERIES ****** NO SE USA *******//
       getAllBreweries: async () => {
         try {
@@ -468,6 +521,55 @@ const getState = ({ getStore, getActions, setStore }) => {
           return false;
         }
       },
+
+      //EDIT BAR//
+      edit_bar: async (
+        id,
+        name,
+        address,
+        history,
+        facebook_url,
+        instagram_url,
+        picture_of_bar_url,
+        x_url,
+        logo_of_bar_url
+      ) => {
+        const actions = getActions();
+        const jwt = localStorage.getItem("token");
+
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/edit_bar",
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                id,
+                name,
+                address,
+                history,
+                facebook_url,
+                instagram_url,
+                picture_of_bar_url,
+                x_url,
+                logo_of_bar_url,
+              }),
+              headers: {
+                "Content-type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            actions.getUserBars();
+            return true;
+          }
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      },
+
       //GET USER BREWERIES//
       getUserBreweries: async () => {
         const jwt = localStorage.getItem("token");
@@ -489,6 +591,29 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+
+      //GET USER Bars//
+      getUserBars: async () => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/user/bars",
+            {
+              method: "GET",
+              headers: {
+                authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setStore({ userBars: data.bars });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
       //GET USER/BREWERIES COUNTRY ****** SE USA EN LUGAR DE GET ALL BREWERIES*******//
       getUserBreweriesCountry: async (id) => {
         const store = getStore();
@@ -894,6 +1019,35 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await response.json();
           actions.getUserBreweries();
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      //DELETE BAR
+      deleteBar: async (bar_id) => {
+        const actions = getActions();
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/delete_bar",
+            {
+              method: "DELETE",
+              headers: {
+                "Content-type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+              body: JSON.stringify({
+                bar_id,
+              }),
+            }
+          );
+          if (!response.ok) {
+            return false;
+          }
+          const data = await response.json();
+          actions.getUserBars();
           return data;
         } catch (error) {
           console.log(error);

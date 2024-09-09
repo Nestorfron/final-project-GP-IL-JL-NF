@@ -15,16 +15,13 @@ const UsersForm = ({ id, btnUser, user: initialUser }) => {
     confirmPassword: "",
     username: "",
     country: "",
-    is_brewer: false,
+    rol: "",
   });
   const [loading, setLoading] = useState(false);
 
-  function IsBrewer() {
-    setUser({ ...user, is_brewer: !user.is_brewer });
-  }
-
   function handleChange(e) {
     setUser({ ...user, [e.target.name]: e.target.value });
+    console.log(user);
   }
 
   const handleSubmitRegister = async (e) => {
@@ -65,7 +62,7 @@ const UsersForm = ({ id, btnUser, user: initialUser }) => {
           user.password,
           user.country,
           result || user.profile_picture,
-          user.is_brewer
+          user.rol
         );
 
         if (response) {
@@ -88,7 +85,7 @@ const UsersForm = ({ id, btnUser, user: initialUser }) => {
           user.email,
           user.password,
           user.username,
-          user.is_brewer,
+          user.rol,
           user.country,
           result
         );
@@ -128,7 +125,7 @@ const UsersForm = ({ id, btnUser, user: initialUser }) => {
         password: initialUser.password || "",
         confirmPassword: initialUser.password || "",
         username: initialUser.username || "",
-        is_brewer: initialUser.is_brewer || false,
+        rol: initialUser.rol || "",
         country: initialUser.country || "",
       });
       setProfile_picture(initialUser.profile_picture || "");
@@ -250,22 +247,24 @@ const UsersForm = ({ id, btnUser, user: initialUser }) => {
         </div>
         <div className="col-md-6 m-auto">
           <div className="form-grup">
-            <label htmlFor="is_brewer" className="form-label">
-              ¿Eres cervecero?
+            <label htmlFor="rol" className="form-label">
+              Elige un rol
             </label>
-            <div className="form-check m-auto">
-              <input
-                id="is_brewer"
-                type="checkbox"
-                className="m-2"
-                name="is_brewer"
-                checked={user.is_brewer}
-                onClick={() => IsBrewer()}
-              />
-              <label htmlFor="is_brewer" className="form-check-label">
-                Sí
-              </label>
-            </div>
+            <select
+              id="rol"
+              className="form-select form-select-lg"
+              value={user.rol}
+              name="rol"
+              onChange={(e) => handleChange(e)}
+              required
+            >
+              <option value="">Selecciona tu rol</option>
+              {store.rol.map((rol, index) => (
+                <option key={index} value={rol}>
+                  {rol}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </div>

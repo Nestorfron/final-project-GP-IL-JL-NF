@@ -29,7 +29,10 @@ const Map = (props) => {
 
   // Check if the current page is the Add Brewery page
   const checkAddBreweryPage = useCallback(() => {
-    if (location.pathname === "/add_brewery") {
+    if (
+      location.pathname === "/add_brewery" ||
+      location.pathname === "/add_bar"
+    ) {
       setIsAdding(true);
     } else if (props.id) {
       setIsAdding(true);
