@@ -17,7 +17,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       search: [],
       loading: false,
       detectedAddress: [],
-      detectedCountry: [],
+      detectedCountry: "",
       usersCountry: [],
       allCountries: [],
       countries: [
@@ -239,6 +239,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         // Proceed with fetching additional information
         actions.getCountryAllInfo();
+      },
+
+      // SET DETECTED COUNTRY
+      setDetectedCountry: async (country) => {
+        if (!country || typeof country !== "string") {
+          console.error("Invalid country:", country);
+          return;
+        }
+
+        await setStore({
+          detectedCountry: country,
+        });
+        const actions = getActions();
+        actions.getSelectedCountryAllInfo(country);
+
+        // Optionally, fetch additional information for the selected country
+      },
+
+      setStoredCountry: async () => {
+        const storedCountry = localStorage.getItem("originalCountry");
+        console.log(storedCountry);
+        if (storedCountry) {
+          const actions = getActions();
+          await actions.setDetectedCountry(storedCountry);
+          await actions.getSelectedCountryAllInfo(storedCountry);
+        }
       },
 
       //REGISTER USER//
