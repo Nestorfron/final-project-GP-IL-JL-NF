@@ -214,7 +214,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         "Winter Seasonal Beer",
         "Wood-Aged Beer",
       ],
-      rol: ["Usuario", "Fabricante", "Vendedor"],
+      rol: ["Consumidor", "Fabricante", "Vendedor"],
       reviews: [],
       averageRatings: [],
     },
