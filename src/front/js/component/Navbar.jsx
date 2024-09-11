@@ -357,111 +357,102 @@ export const Navbar = () => {
                 )}
               </button>
 
-
               <ul className="signin-button dropdown-menu dropdown-menu-lg-end">
-             
-              <li>
-                <Link
-                  to="/add_brewery"
-                  className={`${
-                    getTokenInfo() === "Vendedor" ||
-                    getTokenInfo() === "Usuario" ||
-                    !jwt
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                >
-                  Agregar Cervecería
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/add_bar"
-                  className={`${
-                    getTokenInfo() === "Fabricante" ||
-                    getTokenInfo() === "Usuario" ||
-                    !jwt
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                >
-                  Agregar Bar
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/add_beer"
-                  className={`${
-                    getTokenInfo() === "Vendedor" ||
-                    getTokenInfo() === "Usuario" ||
-                    !jwt
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                >
-                  Agregar Cerveza
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/add_event"
-                  className={`${
-                    getTokenInfo() === "Vendedor" ||
-                    getTokenInfo() === "Usuario" ||
-                    !jwt
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                >
-                  Agregar Evento
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/my_account"
-                  className={`${
-                    !jwt
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                >
-                  Mi cuenta
-                </Link>
-              </li>
-              <li>
-                <hr
-                  className={`${
-                    !jwt ? "dropdown-divider d-none" : "dropdown-divider"
-                  }`}
-                />
-              </li>
-              <li>
-                <Link
-                  to="/login"
-                  className={`${
-                    !jwt
-                      ? "dropdown-item text-dark"
-                      : "dropdown-item text-dark d-none"
-                  }`}
-                >
-                  Iniciar Sesión
-                </Link>
-              </li>
-              <li>
-                <button
-                  className={`${
-                    !jwt
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                  onClick={logout}
-                >
-                  Cerrar sesión
-                </button>
-              </li>
-            </ul>
+                <li>
+                  <Link
+                    to="/add_brewery"
+                    className={`${
+                      getTokenInfo() === "Consumidor" ||
+                      getTokenInfo() === "Vendedor" ||
+                      !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Agregar Cervecería
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/add_bar"
+                    className={`${
+                      getTokenInfo() === "Consumidor" || !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Agregar Bar
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/add_beer"
+                    className={`${
+                      getTokenInfo() === "Consumidor" || !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Agregar Cerveza
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/add_event"
+                    className={`${
+                      getTokenInfo() === "Consumidor" || !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Agregar Evento
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/my_account"
+                    className={`${
+                      !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Mi cuenta
+                  </Link>
+                </li>
+                <li>
+                  <hr
+                    className={`${
+                      !jwt ? "dropdown-divider d-none" : "dropdown-divider"
+                    }`}
+                  />
+                </li>
+                <li>
+                  <Link
+                    to="/login"
+                    className={`${
+                      !jwt
+                        ? "dropdown-item text-dark"
+                        : "dropdown-item text-dark d-none"
+                    }`}
+                  >
+                    Iniciar Sesión
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    className={`${
+                      !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                    onClick={logout}
+                  >
+                    Cerrar sesión
+                  </button>
+                </li>
+              </ul>
             </div>
-
           </div>
         </div>
       </div>
