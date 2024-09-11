@@ -67,7 +67,7 @@ export const BreweryDetails = () => {
             className="brewery-jumbotron-background"
           />
           <img
-            src={brewery.logo_of_brewery}
+            src={brewery.logo_of_brewery_url}
             className="brewery-jumbotron-brewery-logo"
           />
         </div>
