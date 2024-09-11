@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       beers: [],
       events: [],
       breweries: [],
+      bars: [],
       userBreweries: [],
       userBars: [],
       userBeers: [],
@@ -918,6 +919,21 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await response.json();
           if (response.ok) {
             //setStore({ beers: data });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      //GET ALL BARS NOW JWT REQUIRED ******SI SE USA *********//
+
+      getAllBars: async () => {
+        try {
+          const response = await fetch(process.env.BACKEND_URL + "/api/bars");
+          const data = await response.json();
+          if (response.ok) {
+            setStore({ bars: data.bars });
+            console.log(data.bars);
           }
         } catch (error) {
           console.log(error);

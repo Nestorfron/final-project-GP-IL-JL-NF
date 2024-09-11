@@ -838,3 +838,42 @@ def search():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+#Endpoint para obtener todos los bares de todos los usuarios
+
+@api.route('/bars', methods=['GET'])
+def get_all_bars():
+    try:
+        bars = Bar.query.all()
+        bars_list = [bar.serialize() for bar in bars]
+        return jsonify({"bars": bars_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+    
+
+#Endpoint para obtener bar por id
+
+@api.route('/bar/<int:id>', methods=['GET'])
+def get_bar_by_id(id):
+    try:
+        # Fetch the bar details from the database using the provided ID
+        bar = Bar.query.get(id)
+        if bar is None:
+            return jsonify({'error': 'Bar not found'}), 404
+        
+        # Return the bar details as a JSON response
+        return jsonify({
+            'id': bar.id,
+            'name': bar.name,
+            'address': bar.address,
+            'facebook_url': bar.facebook_url,
+            'instagram_url': bar.instagram_url,
+            'lat': bar.lat,
+            'lng': bar.lng,
+            'logo_of_brewery_url': bar.logo_of_brewery_url,
+            'picture_of_brewery_url': bar.picture_of_brewery_url,
+            'user_id': bar.user_id,
+            'x_url': bar.x_url
+        }), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
