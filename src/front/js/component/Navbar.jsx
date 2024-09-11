@@ -139,6 +139,10 @@ export const Navbar = () => {
     a.name.localeCompare(b.name)
   ); // Sort breweries alphabetically
 
+  const sortedBars = [...store.bars].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  ); // Sort bars alphabetically
+
   const flagImage = getFlagImage(detectedCountry);
 
   return (
@@ -277,7 +281,7 @@ export const Navbar = () => {
                   <a
                     className="nav-link dropdown-toggle"
                     href="#"
-                    id="navbarDropdown"
+                    id="navbarDropdown2"
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
@@ -286,57 +290,23 @@ export const Navbar = () => {
                   </a>
                   <ul
                     className="dropdown-menu"
-                    aria-labelledby="navbarDropdown"
+                    aria-labelledby="navbarDropdown2"
                   >
-                    {uniqueStyles.length > 0 ? (
-                      uniqueStyles.map((style, index) => (
-                        <li key={index}>
-                          <Link
-                            className="dropdown-item"
-                            to={`/styles/${encodeURIComponent(style)}`}
-                          >
-                            {style}
+                    {sortedBars.length > 0 ? (
+                      sortedBars.map((bar) => (
+                        <li key={bar.id}>
+                          <Link className="dropdown-item" to={`/bar/${bar.id}`}>
+                            {bar.name}
                           </Link>
                         </li>
                       ))
                     ) : (
-                      <h6 className="text-center">Sin Estilos</h6>
+                      <h6 className="text-center">Sin Bares</h6>
                     )}
                   </ul>
                 </li>
 
                 <hr />
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    id="navbarDropdown2"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Licorerías
-                  </a>
-                  <ul
-                    className="dropdown-menu"
-                    aria-labelledby="navbarDropdown2"
-                  >
-                    {sortedBreweries.length > 0 ? (
-                      sortedBreweries.map((brewery) => (
-                        <li key={brewery.id}>
-                          <Link
-                            className="dropdown-item"
-                            to={`/brewery/${brewery.id}`}
-                          >
-                            {brewery.name}
-                          </Link>
-                        </li>
-                      ))
-                    ) : (
-                      <h6 className="text-center">Sin Cervecerías</h6>
-                    )}
-                  </ul>
-                </li>
               </ul>
             </div>
             <SearchBar />
@@ -357,111 +327,102 @@ export const Navbar = () => {
                 )}
               </button>
 
-
               <ul className="signin-button dropdown-menu dropdown-menu-lg-end">
-             
-              <li>
-                <Link
-                  to="/add_brewery"
-                  className={`${
-                    getTokenInfo() === "Vendedor" ||
-                    getTokenInfo() === "Usuario" ||
-                    !jwt
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                >
-                  Agregar Cervecería
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/add_bar"
-                  className={`${
-                    getTokenInfo() === "Fabricante" ||
-                    getTokenInfo() === "Usuario" ||
-                    !jwt
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                >
-                  Agregar Bar
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/add_beer"
-                  className={`${
-                    getTokenInfo() === "Vendedor" ||
-                    getTokenInfo() === "Usuario" ||
-                    !jwt
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                >
-                  Agregar Cerveza
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/add_event"
-                  className={`${
-                    getTokenInfo() === "Vendedor" ||
-                    getTokenInfo() === "Usuario" ||
-                    !jwt
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                >
-                  Agregar Evento
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/my_account"
-                  className={`${
-                    !jwt
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                >
-                  Mi cuenta
-                </Link>
-              </li>
-              <li>
-                <hr
-                  className={`${
-                    !jwt ? "dropdown-divider d-none" : "dropdown-divider"
-                  }`}
-                />
-              </li>
-              <li>
-                <Link
-                  to="/login"
-                  className={`${
-                    !jwt
-                      ? "dropdown-item text-dark"
-                      : "dropdown-item text-dark d-none"
-                  }`}
-                >
-                  Iniciar Sesión
-                </Link>
-              </li>
-              <li>
-                <button
-                  className={`${
-                    !jwt
-                      ? "dropdown-item text-dark d-none"
-                      : "dropdown-item text-dark"
-                  }`}
-                  onClick={logout}
-                >
-                  Cerrar sesión
-                </button>
-              </li>
-            </ul>
+                <li>
+                  <Link
+                    to="/add_brewery"
+                    className={`${
+                      getTokenInfo() === "Consumidor" ||
+                      getTokenInfo() === "Vendedor" ||
+                      !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Agregar Cervecería
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/add_bar"
+                    className={`${
+                      getTokenInfo() === "Consumidor" || !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Agregar Bar
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/add_beer"
+                    className={`${
+                      getTokenInfo() === "Consumidor" || !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Agregar Cerveza
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/add_event"
+                    className={`${
+                      getTokenInfo() === "Consumidor" || !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Agregar Evento
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/my_account"
+                    className={`${
+                      !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Mi cuenta
+                  </Link>
+                </li>
+                <li>
+                  <hr
+                    className={`${
+                      !jwt ? "dropdown-divider d-none" : "dropdown-divider"
+                    }`}
+                  />
+                </li>
+                <li>
+                  <Link
+                    to="/login"
+                    className={`${
+                      !jwt
+                        ? "dropdown-item text-dark"
+                        : "dropdown-item text-dark d-none"
+                    }`}
+                  >
+                    Iniciar Sesión
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    className={`${
+                      !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                    onClick={logout}
+                  >
+                    Cerrar sesión
+                  </button>
+                </li>
+              </ul>
             </div>
-
           </div>
         </div>
       </div>

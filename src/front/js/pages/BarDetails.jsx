@@ -6,27 +6,28 @@ import React from "react";
 import fullGlass from "../../img/fullglass.png";
 import emptyGlass from "../../img/empty.png";
 
-export const BreweryDetails = () => {
-  const { breweryId } = useParams();
+export const BarDetails = () => {
+  const { breweryId, barId } = useParams();
   const { store, actions } = useContext(Context);
-  const { beers, breweries, events, averageRatings } = store;
+  const { beers, breweries, events, averageRatings, bars } = store;
   const navigate = useNavigate();
 
   useEffect(() => {
-    actions.getAllBreweries();
+    actions.getAllBars();
     actions.getAllBeers();
     actions.getAllEvents();
   }, []);
 
-  const brewery = breweries.find((b) => b.id === parseInt(breweryId));
-  const breweryBeers = beers.filter(
-    (beer) => beer.brewery_id === parseInt(breweryId)
-  );
-  const breweryEvents = events.filter(
-    (event) => event.brewery_id === parseInt(breweryId)
-  );
+  console.log(bars);
 
-  if (!brewery) {
+  const bar = bars.find((b) => b.id === parseInt(barId));
+
+  console.log("Picture URL:", bar.picture_of_bar_url);
+  console.log("Logo URL:", bar.logo_of_bar_url);
+  const barBeers = beers.filter((beer) => beer.bar_id === parseInt(barId));
+  const barEvents = events.filter((event) => event.bar_id === parseInt(barId));
+
+  if (!bar) {
     return <p>Loading...</p>;
   }
 
@@ -54,20 +55,20 @@ export const BreweryDetails = () => {
   }
 
   // Check if there are neither events nor beers
-  if (breweryEvents.length === 0 && breweryBeers.length === 0) {
+  if (barEvents.length === 0 && barBeers.length === 0) {
     return <p className="text-center text-muted">Nada por aquí...</p>;
   }
-
+  console.log(bar);
   return (
     <div className="brewery-details-container ">
       <div className="brewery-jumbotron">
         <div>
           <img
-            src={brewery.picture_of_brewery_url}
+            src={bar.picture_of_bar_url}
             className="brewery-jumbotron-background"
           />
           <img
-            src={brewery.logo_of_brewery_url}
+            src={bar.logo_of_bar_url}
             className="brewery-jumbotron-brewery-logo"
           />
         </div>
@@ -75,15 +76,15 @@ export const BreweryDetails = () => {
 
       <div className="container d-flex align-items-center justify-content-center mt-5 ">
         <div className=" container text-light  brewery-contacts-info">
-          {brewery.history && <p>{brewery.history}</p>}
+          {bar.history && <p>{bar.history}</p>}
         </div>
       </div>
 
       <div className="container d-flex justify-content-center my-3">
-        {brewery.instagram_url && (
+        {bar.instagram_url && (
           <p>
             <a
-              href={brewery.instagram_url}
+              href={bar.instagram_url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-light m-3"
@@ -93,10 +94,10 @@ export const BreweryDetails = () => {
           </p>
         )}
 
-        {brewery.facebook_url && (
+        {bar.facebook_url && (
           <p>
             <a
-              href={brewery.facebook_url}
+              href={bar.facebook_url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-light m-3"
@@ -106,10 +107,10 @@ export const BreweryDetails = () => {
           </p>
         )}
 
-        {brewery.x_url && (
+        {bar.x_url && (
           <p>
             <a
-              href={brewery.x_url}
+              href={bar.x_url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-light m-3"
@@ -122,11 +123,11 @@ export const BreweryDetails = () => {
 
       <div className="container-fluid">
         {/* Display Events Section if there are any events */}
-        {breweryEvents.length > 0 && (
+        {barEvents.length > 0 && (
           <>
             <h6 className="text-light mx-3 mt-5 fw-bold">EVENTOS:</h6>
             <div className="row d-flex justify-content-center">
-              {breweryEvents.map((event) => (
+              {barEvents.map((event) => (
                 <div
                   key={event.id}
                   className="beer-card col-12 col-sm-6 col-md-4 col-lg-3 mx-2 my-3"
@@ -159,11 +160,11 @@ export const BreweryDetails = () => {
         )}
 
         {/* Display Beers Section if there are any beers */}
-        {breweryBeers.length > 0 && (
+        {barBeers.length > 0 && (
           <>
             <h6 className="text-light mx-3 mt-5 fw-bold">ESTILOS:</h6>
             <div className="row d-flex justify-content-center">
-              {breweryBeers.map((beer) => {
+              {barBeers.map((beer) => {
                 const rating = averageRatings[beer.id] || "N/A";
                 const { full, empty } =
                   rating !== "N/A"

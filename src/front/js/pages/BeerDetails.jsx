@@ -51,8 +51,11 @@ export const BeerDetails = () => {
 
   const findBreweryLogo = (breweryId, breweries) => {
     const brewery = breweries.find((b) => b.id === breweryId);
-    return brewery ? brewery.logo_of_brewery : "path/to/placeholder-image.jpg";
+    return brewery
+      ? brewery.logo_of_brewery_url
+      : "path/to/placeholder-image.jpg";
   };
+  console.log(breweries);
 
   const handleBreweryClick = (breweryId) => {
     navigate(`/brewery/${breweryId}`);
