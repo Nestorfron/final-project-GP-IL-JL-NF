@@ -9,27 +9,15 @@ import emptyGlass from "../../img/empty.png";
 export const BarDetails = () => {
   const { breweryId, barId } = useParams();
   const { store, actions } = useContext(Context);
-  const { beers, breweries, events, averageRatings, bars } = store;
+  const { beers, allBarEvents, averageRatings, bars } = store;
   const navigate = useNavigate();
-
-  useEffect(() => {
-    actions.getAllBars();
-    actions.getAllBeers();
-    actions.getAllEvents();
-  }, []);
-
-  console.log(bars);
 
   const bar = bars.find((b) => b.id === parseInt(barId));
 
-  console.log("Picture URL:", bar.picture_of_bar_url);
-  console.log("Logo URL:", bar.logo_of_bar_url);
   const barBeers = beers.filter((beer) => beer.bar_id === parseInt(barId));
-  const barEvents = events.filter((event) => event.bar_id === parseInt(barId));
-
-  if (!bar) {
-    return <p>Loading...</p>;
-  }
+  const events = allBarEvents.filter(
+    (event) => event.bar_id === parseInt(barId)
+  );
 
   const handleMoreInfoClick = (beerId) => {
     navigate(`/beer/${beerId}`);
@@ -55,10 +43,10 @@ export const BarDetails = () => {
   }
 
   // Check if there are neither events nor beers
-  if (barEvents.length === 0 && barBeers.length === 0) {
-    return <p className="text-center text-muted">Nada por aquí...</p>;
-  }
-  console.log(bar);
+  //if (bar_Events.length === 0 && barBeers.length === 0) {
+  //  return <p className="text-center text-muted">Nada por aquí...</p>;
+  //}
+
   return (
     <div className="brewery-details-container ">
       <div className="brewery-jumbotron">
@@ -123,11 +111,11 @@ export const BarDetails = () => {
 
       <div className="container-fluid">
         {/* Display Events Section if there are any events */}
-        {barEvents.length > 0 && (
+        {events.length > 0 && (
           <>
             <h6 className="text-light mx-3 mt-5 fw-bold">EVENTOS:</h6>
             <div className="row d-flex justify-content-center">
-              {barEvents.map((event) => (
+              {events.map((event) => (
                 <div
                   key={event.id}
                   className="beer-card col-12 col-sm-6 col-md-4 col-lg-3 mx-2 my-3"

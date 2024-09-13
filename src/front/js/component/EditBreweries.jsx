@@ -3,7 +3,6 @@ import BreweriesForm from "./BreweriesForm.jsx";
 import "../../styles/modal.css";
 
 const EditBreweries = ({ brewery }) => {
-  console.log(brewery);
   return (
     <>
       <button

@@ -17,6 +17,7 @@ class User(db.Model):
     bars = db.relationship('Bar', backref='owner', lazy=True)
     beers = db.relationship('Beer', backref='creator', lazy=True)
     events = db.relationship('Event', backref='organizer', lazy=True)
+    eventsBar = db.relationship('EventBar', backref='organizer', lazy=True)
     reviews = db.relationship('Review', backref='reviewer', lazy=True)
 
 

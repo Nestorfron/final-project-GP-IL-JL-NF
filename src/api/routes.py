@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Brewery, Bar, Beer, Event, Review
+from api.models import db, User, Brewery, Bar, Beer, Event, Review, EventBar
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -155,6 +155,7 @@ def create_new_brewery():
         return jsonify({"error: f'{error}"}), 500
 
 #Endpoint de POST de Nuevo Bar (requiere Token)
+
 @api.route("/create_new_bar", methods= ["POST"])
 @jwt_required()
 def create_new_bar():
@@ -264,6 +265,41 @@ def create_new_event():
     except Exception as error:
         db.session.rollback()
         return jsonify({"error": f"{error}"}), 500
+    
+#endpoint para crear un evento de un Bar
+    
+@api.route("/create_new_event_bar", methods=["POST"])
+@jwt_required()
+def create_new_event_bart():
+    body = request.json
+    user_data = get_jwt_identity()
+    name = body.get("name", None)
+    bar_id = body.get("bar_id", None)
+    description = body.get("description", None)
+    date = body.get("date", None)
+    picture_of_event_url = body.get("picture_of_event_url", None)  
+    if name is None or bar_id is None or description is None or date is None:
+        return jsonify({"error": "Debes llenar los campos obligatorios"}), 400
+    try:
+        bar = Bar.query.filter_by(id=bar_id, user_id=user_data["id"]).first()
+        if not bar:
+            return jsonify({"error": "Debes elegir un bar de la lista"}), 404
+        new_event = EventBar(
+            user_id=user_data["id"],
+            bar_id=bar_id,
+            name=name,
+            description=description,
+            date=date,
+            picture_of_event_url=picture_of_event_url
+        )
+        db.session.add(new_event)
+        db.session.commit()
+        db.session.refresh(new_event)
+        return jsonify({"new_event": new_event.serialize()}), 201
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"error": f"{error}"}), 500
+
 
 #Endpoint para obtener los estilos
 
@@ -391,6 +427,22 @@ def get_user_events():
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
 
+#Endpoint para obtener todos los eventos de un Bar
+
+@api.route('/bar/events', methods=['GET'])
+@jwt_required()
+def get_bar_events():
+    try:
+        current_user = get_jwt_identity()
+        user_id = current_user.get("id")
+        bar = Bar.query.filter_by(user_id = user_id).first()
+        if bar is None:
+            return  jsonify({'error': 'bar not found'}),404
+        event_list = [event.serialize() for event in bar.eventsBar]
+        return jsonify({"bar_events": event_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+
 #Endpoint para obtener todas las eventos del usuario por ID
     
 @api.route('/<int:id>/events', methods=['GET'])
@@ -404,6 +456,21 @@ def get_user_events_country(id):
         return jsonify({"events": event_list}), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
+    
+#Endpoint para obtener todas las eventos del usuario por ID
+    
+@api.route('/<int:id>/bar_events', methods=['GET'])
+def get_bar_events_country(id):
+    try: 
+        user_id = id
+        user = User.query.get(user_id)
+        if user is None:
+            return  jsonify({'error': 'user not found'}),404
+        event_list = [event.serialize() for event in user.eventsBar]
+        return jsonify({"events": event_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+   
     
 #endpoint para obtener todas las cervezas
     
@@ -604,6 +671,33 @@ def edit_event():
         
     except Exception as error:
         return jsonify({"error": str(error)}), 500
+    
+#endpoint para editar eventos REQUIERE TOKEN
+@api.route('/edit_event_bar', methods=['PUT'])
+@jwt_required()    
+def edit_event_bar():
+    try:
+         body = request.json
+         user_data = get_jwt_identity()
+         event_id = body.get("id", None)
+         user_id = user_data.get("id")
+        
+         
+         event = EventBar.query.filter_by(id=event_id, user_id=user_id).first()
+         if event is None:
+            return jsonify({'error': 'Event not found'}), 404
+        
+         event.name= body.get("name", event.name)
+         event.date= body.get("bjcp_style", event.date)
+         event.description= body.get("description", event.description)
+         event.picture_of_event_url= body.get("picture_of_event_url", event.picture_of_event_url)
+         
+         db.session.commit()
+         
+         return jsonify({"message": "Event updated successfully"}), 200
+        
+    except Exception as error:
+        return jsonify({"error": str(error)}), 500
 
 #endpoint para borrar cervezas REQUIERE TOKEN
 
@@ -635,6 +729,24 @@ def delete_event():
         user_data = get_jwt_identity()
         event_id = body.get("event_id", None)
         event = Event.query.filter_by(id=event_id).first()
+        if event is None:
+            return  jsonify({'error': 'event not found'}),404
+        db.session.delete(event)
+        db.session.commit()
+        return jsonify({"message": f"Event removed"}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+
+#endpoint para borrar evento REQUIERE TOKEN
+
+@api.route('/delete_event_bar', methods=['DELETE'])
+@jwt_required()
+def delete_event_bar():
+    try:
+        body = request.json
+        user_data = get_jwt_identity()
+        event_id = body.get("event_id", None)
+        event = EventBar.query.filter_by(id=event_id).first()
         if event is None:
             return  jsonify({'error': 'event not found'}),404
         db.session.delete(event)

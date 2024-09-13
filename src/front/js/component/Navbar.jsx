@@ -113,7 +113,6 @@ export const Navbar = () => {
     if (!token) return null;
     try {
       const decodedToken = jwtDecode(token);
-      console.log(decodedToken.sub.rol);
       return decodedToken.sub.rol;
     } catch (error) {
       console.error("Error decoding token:", error);
@@ -167,7 +166,7 @@ export const Navbar = () => {
         <div
           className="offcanvas offcanvas-start"
           data-bs-scroll="true"
-          tabindex="2"
+          tabIndex="2"
           id="offcanvasWithBothOptions"
           aria-labelledby="offcanvasWithBothOptionsLabel"
         >
@@ -346,7 +345,9 @@ export const Navbar = () => {
                   <Link
                     to="/add_bar"
                     className={`${
-                      getTokenInfo() === "Consumidor" || !jwt
+                      getTokenInfo() === "Consumidor" ||
+                      getTokenInfo() === "Fabricante" ||
+                      !jwt
                         ? "dropdown-item text-dark d-none"
                         : "dropdown-item text-dark"
                     }`}
@@ -358,7 +359,9 @@ export const Navbar = () => {
                   <Link
                     to="/add_beer"
                     className={`${
-                      getTokenInfo() === "Consumidor" || !jwt
+                      getTokenInfo() === "Consumidor" ||
+                      getTokenInfo() === "Vendedor" ||
+                      !jwt
                         ? "dropdown-item text-dark d-none"
                         : "dropdown-item text-dark"
                     }`}
@@ -370,12 +373,28 @@ export const Navbar = () => {
                   <Link
                     to="/add_event"
                     className={`${
-                      getTokenInfo() === "Consumidor" || !jwt
+                      getTokenInfo() === "Consumidor" ||
+                      getTokenInfo() === "Vendedor" ||
+                      !jwt
                         ? "dropdown-item text-dark d-none"
                         : "dropdown-item text-dark"
                     }`}
                   >
                     Agregar Evento
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/add_event_bar"
+                    className={`${
+                      getTokenInfo() === "Consumidor" ||
+                      getTokenInfo() === "Fabricante" ||
+                      !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Agregar Evento (bar)
                   </Link>
                 </li>
                 <li>

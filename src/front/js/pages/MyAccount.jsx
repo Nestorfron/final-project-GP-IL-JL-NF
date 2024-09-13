@@ -9,6 +9,7 @@ import EditBeers from "../component/EditBeer.jsx";
 import Swal from "sweetalert2";
 import "../../styles/myAccount.css";
 import EditEvent from "../component/EditEvent.jsx";
+import EditBarEvent from "../component/EditBarEvent.jsx";
 import EditUser from "../component/EditUser.jsx";
 
 const MyAccount = () => {
@@ -131,6 +132,31 @@ const MyAccount = () => {
     });
   };
 
+  const eventBarDelete = (event) => {
+    Swal.fire({
+      title: "Advertencia",
+      text: "¿Desea eliminar el evento?",
+      position: "center",
+      icon: "error",
+      showDenyButton: true,
+      denyButtonText: "No",
+      confirmButtonText: "Si",
+    }).then((click) => {
+      if (click.isConfirmed) {
+        actions.deleteBarEvent(event);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Evento eliminado correctamente",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else {
+        return;
+      }
+    });
+  };
+
   const userDelete = (user) => {
     console.log(user);
     Swal.fire({
@@ -179,6 +205,7 @@ const MyAccount = () => {
       actions.getUserBeers();
       actions.getUserEvents();
       actions.getUserBars();
+      actions.getBarEvents();
     }
 
     actions.getMe();
@@ -248,7 +275,7 @@ const MyAccount = () => {
                   }}
                 >
                   <img
-                    src={brewery.logo_of_brewery}
+                    src={brewery.logo_of_brewery_url}
                     className="card-img m-4"
                     alt={brewery.name}
                   />
@@ -403,7 +430,7 @@ const MyAccount = () => {
       {/* Sección de Eventos */}
       <h5
         className={`${
-          getTokenInfo() === "Usuario" || !jwt
+          getTokenInfo() === "Usuario" || getTokenInfo() === "Vendedor" || !jwt
             ? "d-none text-center mt-5 mb-3  "
             : "text-center mt-5 mb-3 "
         } text-light`}
@@ -412,7 +439,7 @@ const MyAccount = () => {
       </h5>
       <div
         className={`${
-          getTokenInfo() === "Usuario" || !jwt
+          getTokenInfo() === "Usuario" || getTokenInfo() === "Vendedor" || !jwt
             ? " d-none"
             : " overflow-auto d-flex m-1"
         }`}
@@ -448,6 +475,61 @@ const MyAccount = () => {
         ) : (
           <h6 className="text-center mt-4 text-light">
             Sin Eventos, por favor <Link to="/add_event">ingresa uno</Link>
+          </h6>
+        )}
+      </div>
+      {/* Sección de Eventos Bar */}
+      <h5
+        className={`${
+          getTokenInfo() === "Usuario" ||
+          getTokenInfo() === "Fabricante" ||
+          !jwt
+            ? "d-none text-center mt-5 mb-3  "
+            : "text-center mt-5 mb-3 "
+        } text-light`}
+      >
+        MIS EVENTOS (bar)
+      </h5>
+      <div
+        className={`${
+          getTokenInfo() === "Usuario" ||
+          getTokenInfo() === "Fabricante" ||
+          !jwt
+            ? " d-none"
+            : " overflow-auto d-flex m-1"
+        }`}
+      >
+        {store.barEvents.length > 0 ? (
+          store.barEvents.map((event) => (
+            <div
+              className="cards-container d-flex justify-content-between align-items-center"
+              key={event.id}
+            >
+              <div className="cardAccount-events m-4 ">
+                <img
+                  src={event.picture_of_event_url}
+                  className=" card-img-events m-3"
+                  alt={event.name}
+                />
+                <div className="card-body-beers mb-3">
+                  <h5 className="title-card mb-3 text-center">{event.name}</h5>
+                  <h6 className="mb-3 text-center">{formatDate(event.date)}</h6>
+                  <div className="text-center ">
+                    <button
+                      onClick={() => eventBarDelete(event.id)}
+                      className="deleteButton me-3"
+                    >
+                      <i className="fas fa-trash-alt "></i>
+                    </button>
+                    <EditBarEvent event={event}></EditBarEvent>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <h6 className="text-center mt-4 text-light">
+            Sin Eventos, por favor <Link to="/add_event_bar">ingresa uno</Link>
           </h6>
         )}
       </div>
