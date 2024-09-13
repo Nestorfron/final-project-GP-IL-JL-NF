@@ -3,7 +3,6 @@ import "../../styles/modal.css";
 import BeersForm from "./BeersForm.jsx";
 
 const EditBeers = ({ beer }) => {
-  console.log(beer);
   return (
     <>
       <button

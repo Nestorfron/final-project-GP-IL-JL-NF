@@ -7,6 +7,7 @@ import { Home } from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import AddBrewery from "./pages/AddBrewery.jsx";
+import AddBar from "./pages/AddBar.jsx";
 import injectContext from "./store/appContext";
 import { Ticker } from "./component/Ticker.jsx";
 import { Navbar } from "./component/Navbar.jsx";
@@ -19,6 +20,8 @@ import { BreweryDetails } from "./pages/BreweryDetails.jsx";
 import { StylesView } from "./pages/StyleView.jsx";
 import SearchBar from "./component/SearchBar.jsx";
 import { CountryHome } from "./pages/CountryHome.jsx";
+import { BarDetails } from "./pages/BarDetails.jsx";
+import AddEventBar from "./pages/AddEventBar.jsx";
 //create your first component
 const Layout = () => {
   //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -42,10 +45,13 @@ const Layout = () => {
             <Route element={<AddBrewery />} path="/add_brewery" />
             <Route element={<AddBeer />} path="/add_beer" />
             <Route element={<AddEvent />} path="/add_event" />
+            <Route element={<AddEventBar />} path="/add_event_bar" />
+            <Route element={<AddBar />} path="/add_bar" />
             <Route element={<SearchBar />} path="/SearchBar" />
             <Route element={<MyAccount />} path="/my_account" />
             <Route element={<BeerDetails />} path="/beer/:id" />
             <Route element={<BreweryDetails />} path="/brewery/:breweryId" />
+            <Route element={<BarDetails />} path="/bar/:barId" />
             <Route element={<StylesView />} path="/styles/:styleName" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>

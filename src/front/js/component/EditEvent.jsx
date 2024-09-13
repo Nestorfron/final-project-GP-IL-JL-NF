@@ -3,7 +3,6 @@ import "../../styles/modal.css";
 import EventsFrom from "./EventsForm.jsx";
 
 const EditEvent = ({ event }) => {
-  console.log(event);
   return (
     <>
       <button

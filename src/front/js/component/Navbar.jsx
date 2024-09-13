@@ -113,7 +113,7 @@ export const Navbar = () => {
     if (!token) return null;
     try {
       const decodedToken = jwtDecode(token);
-      return decodedToken.sub.is_brewer;
+      return decodedToken.sub.rol;
     } catch (error) {
       console.error("Error decoding token:", error);
       return null;
@@ -137,6 +137,10 @@ export const Navbar = () => {
   const sortedBreweries = [...store.breweries].sort((a, b) =>
     a.name.localeCompare(b.name)
   ); // Sort breweries alphabetically
+
+  const sortedBars = [...store.bars].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  ); // Sort bars alphabetically
 
   const flagImage = getFlagImage(detectedCountry);
 
@@ -162,7 +166,7 @@ export const Navbar = () => {
         <div
           className="offcanvas offcanvas-start"
           data-bs-scroll="true"
-          tabindex="2"
+          tabIndex="2"
           id="offcanvasWithBothOptions"
           aria-labelledby="offcanvasWithBothOptionsLabel"
         >
@@ -276,7 +280,7 @@ export const Navbar = () => {
                   <a
                     className="nav-link dropdown-toggle"
                     href="#"
-                    id="navbarDropdown"
+                    id="navbarDropdown2"
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
@@ -285,57 +289,23 @@ export const Navbar = () => {
                   </a>
                   <ul
                     className="dropdown-menu"
-                    aria-labelledby="navbarDropdown"
+                    aria-labelledby="navbarDropdown2"
                   >
-                    {uniqueStyles.length > 0 ? (
-                      uniqueStyles.map((style, index) => (
-                        <li key={index}>
-                          <Link
-                            className="dropdown-item"
-                            to={`/styles/${encodeURIComponent(style)}`}
-                          >
-                            {style}
+                    {sortedBars.length > 0 ? (
+                      sortedBars.map((bar) => (
+                        <li key={bar.id}>
+                          <Link className="dropdown-item" to={`/bar/${bar.id}`}>
+                            {bar.name}
                           </Link>
                         </li>
                       ))
                     ) : (
-                      <h6 className="text-center">Sin Estilos</h6>
+                      <h6 className="text-center">Sin Bares</h6>
                     )}
                   </ul>
                 </li>
 
                 <hr />
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    id="navbarDropdown2"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Licorerías
-                  </a>
-                  <ul
-                    className="dropdown-menu"
-                    aria-labelledby="navbarDropdown2"
-                  >
-                    {sortedBreweries.length > 0 ? (
-                      sortedBreweries.map((brewery) => (
-                        <li key={brewery.id}>
-                          <Link
-                            className="dropdown-item"
-                            to={`/brewery/${brewery.id}`}
-                          >
-                            {brewery.name}
-                          </Link>
-                        </li>
-                      ))
-                    ) : (
-                      <h6 className="text-center">Sin Cervecerías</h6>
-                    )}
-                  </ul>
-                </li>
               </ul>
             </div>
             <SearchBar />
@@ -361,7 +331,9 @@ export const Navbar = () => {
                   <Link
                     to="/add_brewery"
                     className={`${
-                      !getTokenInfo()
+                      getTokenInfo() === "Consumidor" ||
+                      getTokenInfo() === "Vendedor" ||
+                      !jwt
                         ? "dropdown-item text-dark d-none"
                         : "dropdown-item text-dark"
                     }`}
@@ -371,9 +343,25 @@ export const Navbar = () => {
                 </li>
                 <li>
                   <Link
+                    to="/add_bar"
+                    className={`${
+                      getTokenInfo() === "Consumidor" ||
+                      getTokenInfo() === "Fabricante" ||
+                      !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Agregar Bar
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     to="/add_beer"
                     className={`${
-                      !getTokenInfo()
+                      getTokenInfo() === "Consumidor" ||
+                      getTokenInfo() === "Vendedor" ||
+                      !jwt
                         ? "dropdown-item text-dark d-none"
                         : "dropdown-item text-dark"
                     }`}
@@ -385,12 +373,28 @@ export const Navbar = () => {
                   <Link
                     to="/add_event"
                     className={`${
-                      !getTokenInfo()
+                      getTokenInfo() === "Consumidor" ||
+                      getTokenInfo() === "Vendedor" ||
+                      !jwt
                         ? "dropdown-item text-dark d-none"
                         : "dropdown-item text-dark"
                     }`}
                   >
                     Agregar Evento
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/add_event_bar"
+                    className={`${
+                      getTokenInfo() === "Consumidor" ||
+                      getTokenInfo() === "Fabricante" ||
+                      !jwt
+                        ? "dropdown-item text-dark d-none"
+                        : "dropdown-item text-dark"
+                    }`}
+                  >
+                    Agregar Evento (bar)
                   </Link>
                 </li>
                 <li>

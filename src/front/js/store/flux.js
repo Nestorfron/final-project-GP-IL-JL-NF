@@ -5,11 +5,15 @@ const getState = ({ getStore, getActions, setStore }) => {
       styles: [],
       beers: [],
       events: [],
+      allBarEvents: [],
       breweries: [],
+      bars: [],
       userBreweries: [],
+      userBars: [],
       userBeers: [],
       userEvents: [],
       userStyles: [],
+      barEvents: [],
       LatLng: [],
       users: [],
       meLogin: [],
@@ -213,6 +217,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         "Winter Seasonal Beer",
         "Wood-Aged Beer",
       ],
+      rol: ["Consumidor", "Fabricante", "Vendedor"],
       reviews: [],
       averageRatings: [],
     },
@@ -272,7 +277,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         email,
         password,
         username,
-        is_brewer,
+        rol,
         country,
         profile_picture
       ) => {
@@ -288,7 +293,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 email,
                 password,
                 username,
-                is_brewer,
+                rol,
                 country,
                 profile_picture,
               }),
@@ -298,6 +303,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
           const data = response.json();
+          console.log;
           return data;
         } catch (error) {
           console.log(error);
@@ -406,6 +412,56 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      //ADD BAR
+      add_bar: async (
+        name,
+        address,
+        history,
+        facebook_url,
+        instagram_url,
+        picture_of_bar_url,
+        x_url,
+        logo_of_bar_url
+      ) => {
+        const jwt = localStorage.getItem("token");
+        const store = getStore();
+        const actions = getActions();
+        const latitude = store.LatLng.lat;
+        const longitude = store.LatLng.lng;
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/create_new_bar",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+              body: JSON.stringify({
+                name,
+                address,
+                history,
+                facebook_url,
+                instagram_url,
+                picture_of_bar_url,
+                x_url,
+                logo_of_bar_url,
+                latitude,
+                longitude,
+              }),
+            }
+          );
+          if (!response.ok) {
+            return false;
+          }
+          const data = await response.json();
+          //actions.getAllBreweries();
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
       //GET BREWERIES ****** NO SE USA *******//
       getAllBreweries: async () => {
         try {
@@ -468,6 +524,55 @@ const getState = ({ getStore, getActions, setStore }) => {
           return false;
         }
       },
+
+      //EDIT BAR//
+      edit_bar: async (
+        id,
+        name,
+        address,
+        history,
+        facebook_url,
+        instagram_url,
+        picture_of_bar_url,
+        x_url,
+        logo_of_bar_url
+      ) => {
+        const actions = getActions();
+        const jwt = localStorage.getItem("token");
+
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/edit_bar",
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                id,
+                name,
+                address,
+                history,
+                facebook_url,
+                instagram_url,
+                picture_of_bar_url,
+                x_url,
+                logo_of_bar_url,
+              }),
+              headers: {
+                "Content-type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            actions.getUserBars();
+            return true;
+          }
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      },
+
       //GET USER BREWERIES//
       getUserBreweries: async () => {
         const jwt = localStorage.getItem("token");
@@ -489,6 +594,29 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+
+      //GET USER Bars//
+      getUserBars: async () => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/user/bars",
+            {
+              method: "GET",
+              headers: {
+                authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setStore({ userBars: data.bars });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
       //GET USER/BREWERIES COUNTRY ****** SE USA EN LUGAR DE GET ALL BREWERIES*******//
       getUserBreweriesCountry: async (id) => {
         const store = getStore();
@@ -567,6 +695,34 @@ const getState = ({ getStore, getActions, setStore }) => {
             );
             setStore({
               events: [...store.events, ...uniqueEvents],
+            });
+          } else {
+            console.error("Error fetching events:", data.message);
+          }
+        } catch (error) {
+          console.error("Fetch error:", error);
+        }
+      },
+
+      getBarEventsCountry: async (id) => {
+        const store = getStore();
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/api/${id}/bar_events`,
+            {
+              method: "GET",
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            const uniqueEvents = data.events.filter(
+              (newEvent) =>
+                !store.allBarEvents.some(
+                  (existingEvent) => existingEvent.id === newEvent.id
+                )
+            );
+            setStore({
+              allBarEvents: [...store.allBarEvents, ...uniqueEvents],
             });
           } else {
             console.error("Error fetching events:", data.message);
@@ -751,6 +907,48 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      //EDIT EVENTO DE UN BAR
+      edit_event_bar: async (
+        id,
+        name,
+        bar_id,
+        date,
+        description,
+        picture_of_event_url
+      ) => {
+        const actions = getActions();
+        const jwt = localStorage.getItem("token");
+
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/edit_event_bar",
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                id,
+                name,
+                bar_id,
+                date,
+                description,
+                picture_of_event_url,
+              }),
+              headers: {
+                "Content-type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            actions.getBarEvents();
+            return true;
+          }
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      },
+
       //GET STYLES//
       getStyles: async () => {
         try {
@@ -799,6 +997,20 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      //GET ALL BARS NOW JWT REQUIRED ******SI SE USA *********//
+
+      getAllBars: async () => {
+        try {
+          const response = await fetch(process.env.BACKEND_URL + "/api/bars");
+          const data = await response.json();
+          if (response.ok) {
+            setStore({ bars: data.bars });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
       //ADD EVENT//
       add_event: async (
         name,
@@ -835,6 +1047,42 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+      //AGREGAR NUEBO EVENTO DEL BAR
+      add_event_bar: async (
+        name,
+        bar_id,
+        description,
+        date,
+        picture_of_event_url
+      ) => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/create_new_event_bar",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+              body: JSON.stringify({
+                name,
+                bar_id,
+                description,
+                date,
+                picture_of_event_url,
+              }),
+            }
+          );
+          if (!response.ok) {
+            return false;
+          }
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
 
       //GET USER EVENTS//
       getUserEvents: async () => {
@@ -852,6 +1100,28 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await response.json();
           if (response.ok) {
             setStore({ userEvents: data.events });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      //GET BAR EVENTS//
+      getBarEvents: async () => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/bar/events",
+            {
+              method: "GET",
+              headers: {
+                authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setStore({ barEvents: data.bar_events });
           }
         } catch (error) {
           console.log(error);
@@ -894,6 +1164,35 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await response.json();
           actions.getUserBreweries();
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      //DELETE BAR
+      deleteBar: async (bar_id) => {
+        const actions = getActions();
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/delete_bar",
+            {
+              method: "DELETE",
+              headers: {
+                "Content-type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+              body: JSON.stringify({
+                bar_id,
+              }),
+            }
+          );
+          if (!response.ok) {
+            return false;
+          }
+          const data = await response.json();
+          actions.getUserBars();
           return data;
         } catch (error) {
           console.log(error);
@@ -952,6 +1251,34 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await response.json();
           actions.getUserEvents();
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      deleteBarEvent: async (event_id) => {
+        const actions = getActions();
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/delete_event_bar",
+            {
+              method: "DELETE",
+              headers: {
+                "Content-type": "application/json",
+                authorization: `Bearer ${jwt}`,
+              },
+              body: JSON.stringify({
+                event_id,
+              }),
+            }
+          );
+          if (!response.ok) {
+            return false;
+          }
+          const data = await response.json();
+          actions.getBarEvents();
           return data;
         } catch (error) {
           console.log(error);
@@ -1113,6 +1440,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           actions.getUserBreweriesCountry(user.id);
           actions.getUserBeersCountry(user.id);
           actions.getUserEventsCountry(user.id);
+          actions.getBarEventsCountry(user.id);
         });
         setStore({
           usersCountry: countryUsers,

@@ -16,10 +16,10 @@ export const Home = () => {
 
   useEffect(() => {
     getCurrentLocation();
-
     actions.getAllUsers();
     actions.getStyles();
     actions.getAverageRatings();
+    actions.getAllBars();
   }, []);
 
   const getCurrentLocation = async () => {

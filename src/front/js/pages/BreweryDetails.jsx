@@ -12,12 +12,6 @@ export const BreweryDetails = () => {
   const { beers, breweries, events, averageRatings } = store;
   const navigate = useNavigate();
 
-  useEffect(() => {
-    actions.getAllBreweries();
-    actions.getAllBeers();
-    actions.getAllEvents();
-  }, []);
-
   const brewery = breweries.find((b) => b.id === parseInt(breweryId));
   const breweryBeers = beers.filter(
     (beer) => beer.brewery_id === parseInt(breweryId)
@@ -54,9 +48,9 @@ export const BreweryDetails = () => {
   }
 
   // Check if there are neither events nor beers
-  if (breweryEvents.length === 0 && breweryBeers.length === 0) {
-    return <p className="text-center text-muted">Nada por aquí...</p>;
-  }
+  //  if (breweryEvents.length === 0 && breweryBeers.length === 0) {
+  //  return <p className="text-center text-muted">Nada por aquí...</p>;
+  // }
 
   return (
     <div className="brewery-details-container ">
@@ -67,7 +61,7 @@ export const BreweryDetails = () => {
             className="brewery-jumbotron-background"
           />
           <img
-            src={brewery.logo_of_brewery}
+            src={brewery.logo_of_brewery_url}
             className="brewery-jumbotron-brewery-logo"
           />
         </div>
