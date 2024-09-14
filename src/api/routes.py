@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Brewery, Bar, Beer, Event, Review, EventBar
+from api.models import db, User, Brewery, Bar, Beer, Event, Review, EventBar, BarAddedBeer
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -963,7 +963,7 @@ def get_all_bars():
         return jsonify({"error": f"{error}"}), 500
     
 
-#Endpoint para obtener bar por id
+#Endpoint para obtener bar por id 
 
 @api.route('/bar/<int:id>', methods=['GET'])
 def get_bar_by_id(id):
@@ -989,3 +989,51 @@ def get_bar_by_id(id):
         }), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+
+    #Endpoint para anadir cerveza a bar
+
+@api.route('/add_beer_to_bar/<int:beer_id>', methods=['POST'])
+@jwt_required()  
+def add_beer_to_bar(beer_id):
+    body = request.json
+    user_data = get_jwt_identity()
+
+    bar_id = body.get("bar_id", None)  
+
+    # Validate input
+    if bar_id is None:
+        return jsonify({"error": "Bar no existe"}), 400
+
+    try:
+        # Check if the beer exists
+        beer = Beer.query.get(beer_id)
+        if not beer:
+            return jsonify({"error": "Cerveza no encontrada"}), 404
+        
+         # Check if the bar exists
+        bar = Bar.query.get(bar_id)
+        if not bar:
+            return jsonify({"error": "Bar no encontrado"}), 404
+        
+         # Check if the beer is already added to the bar
+        existing_beer = BarAddedBeer.query.fliter_by(bar_id=bar_id, beer_id=beer_id).first()
+        if existing_beer:
+            return jsonify({"error": "Cerveza ya añadida al bar"}), 400
+        
+
+
+
+        bar_added_beer = BarAddedBeer(
+            bar_id=bar_id, 
+            beer_id=beer_id, 
+        )
+        db.session.add(bar_added_beer)
+        db.session.commit()
+
+        return jsonify({"nueva cerveza anadida": bar_added_beer.serialize()}), 201
+
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"error": str(error)}), 500
+    

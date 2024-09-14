@@ -23,6 +23,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       detectedAddress: [],
       detectedCountry: "",
       usersCountry: [],
+      barAddedBeers: [],
       allCountries: [],
       countries: [
         "Antigua y Barbuda",
@@ -1569,6 +1570,34 @@ const getState = ({ getStore, getActions, setStore }) => {
         } catch (error) {
           console.log(error);
           return false;
+        }
+      },
+
+      //FUNCION PARA ANADIR UNA CERVEZA A UN BAR REQUIERE JWT
+
+      addBeerToBar: async (beerId, barId) => {
+        const store = getStore();
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(`/api/add_beer_to_bar/${beerId}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Athorization: `Bearer ${jwt}`,
+            },
+            body: JSON.stringify({ bar_id: barId }),
+          });
+          if (!response.ok) {
+            throw new Error("Failed to add beer to bar");
+          }
+          const data = await response.json();
+          setStore({
+            ...store,
+            barAddedBeers: [...store.barAddedBeers, data.new_added_beer],
+            error: null,
+          });
+        } catch (error) {
+          setStore({ ...store, error: error.message });
         }
       },
     },
