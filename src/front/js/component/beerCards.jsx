@@ -35,6 +35,11 @@ export const BeerCards = () => {
     navigate(`/beer/${beerId}`); // Navigate to the beer details page
   };
 
+  const handleAddBeerToBar = (beerId) => {
+    console.log(beerId);
+    actions.addBeerToBar(beerId);
+  };
+
   return (
     <div className="container-fluid">
       <h6 className="beer-cards-title fw-bold my-2 mb-4">ULTIMOS ESTILOS:</h6>
@@ -103,6 +108,14 @@ export const BeerCards = () => {
                   >
                     Más Info
                   </button>
+                  {store.me.rol === "Vendedor" && (
+                    <button
+                      className="add-to-basket"
+                      onClick={() => handleAddBeerToBar(beer.id)}
+                    >
+                      Añadir a Mi Bar
+                    </button>
+                  )}
                 </div>
               </div>
             );
