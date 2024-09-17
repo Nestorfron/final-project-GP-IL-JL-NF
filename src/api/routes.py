@@ -1011,18 +1011,15 @@ def add_beer_to_bar(beer_id):
         if not beer:
             return jsonify({"error": "Cerveza no encontrada"}), 404
         
-         # Check if the bar exists
+        # Check if the bar exists
         bar = Bar.query.get(bar_id)
         if not bar:
             return jsonify({"error": "Bar no encontrado"}), 404
         
-         # Check if the beer is already added to the bar
-        existing_beer = BarAddedBeer.query.fliter_by(bar_id=bar_id, beer_id=beer_id).first()
+        # Check if the beer is already added to the bar
+        existing_beer = BarAddedBeer.query.filter_by(bar_id=bar_id, beer_id=beer_id).first()
         if existing_beer:
             return jsonify({"error": "Cerveza ya añadida al bar"}), 400
-        
-
-
 
         bar_added_beer = BarAddedBeer(
             bar_id=bar_id, 
@@ -1036,4 +1033,3 @@ def add_beer_to_bar(beer_id):
     except Exception as error:
         db.session.rollback()
         return jsonify({"error": str(error)}), 500
-    

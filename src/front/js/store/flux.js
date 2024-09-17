@@ -1583,21 +1583,32 @@ const getState = ({ getStore, getActions, setStore }) => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Athorization: `Bearer ${jwt}`,
+              Authorization: `Bearer ${jwt}`,
             },
             body: JSON.stringify({ bar_id: barId }),
           });
           if (!response.ok) {
-            throw new Error("Failed to add beer to bar");
+            const contentType = response.headers.get("Content-Type");
+            if (contentType && contentType.includes("application/json")) {
+              const errorData = await response.json();
+              console.error("Error response:", errorData);
+              throw new Error(
+                `Failed to add beer to bar: ${
+                  errorData.error || response.statusText
+                }`
+              );
+            } else {
+              const errorText = await response.text();
+              console.error("Error response:", errorText);
+              throw new Error(
+                `Failed to add beer to bar: ${response.statusText}`
+              );
+            }
           }
           const data = await response.json();
-          setStore({
-            ...store,
-            barAddedBeers: [...store.barAddedBeers, data.new_added_beer],
-            error: null,
-          });
+          setStore({ barAddedBeers: data });
         } catch (error) {
-          setStore({ ...store, error: error.message });
+          console.log(error);
         }
       },
     },
