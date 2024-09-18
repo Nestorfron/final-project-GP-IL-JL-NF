@@ -10,6 +10,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       bars: [],
       userBreweries: [],
       userBars: [],
+      userBarsBeersAdded: [],
       userBeers: [],
       userEvents: [],
       userStyles: [],
@@ -598,6 +599,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       //GET USER Bars//
       getUserBars: async () => {
+        const actions = getActions();
         const jwt = localStorage.getItem("token");
         try {
           const response = await fetch(
@@ -611,7 +613,34 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            setStore({ userBars: data.bars });
+            setStore({
+              userBars: data.bars,
+            });
+            actions.getBarsBeers();
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      //GET USER Bars//
+      getBarsBeers: async () => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/beers_added_to_bar",
+            {
+              method: "GET",
+              headers: {
+                authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setStore({
+              userBarsBeersAdded: data.beers,
+            });
           }
         } catch (error) {
           console.log(error);

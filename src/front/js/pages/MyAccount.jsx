@@ -378,7 +378,7 @@ const MyAccount = () => {
 
       <h5
         className={`${
-          getTokenInfo() === "Usuario" || !jwt
+          getTokenInfo() === "Vendedor" || getTokenInfo() === "Usuario" || !jwt
             ? "d-none text-center mt-5 mb-3"
             : "text-center mt-5 mb-3 "
         } text-light`}
@@ -387,13 +387,70 @@ const MyAccount = () => {
       </h5>
       <div
         className={`${
-          getTokenInfo() === "Usuario" || !jwt
+          getTokenInfo() === "Vendedor" || getTokenInfo() === "Usuario" || !jwt
             ? " d-none"
             : " overflow-auto d-flex m-1"
         }`}
       >
         {store.userBeers.length > 0 ? (
           store.userBeers.map((beer) => (
+            <div
+              className="cards-container d-flex justify-content-between align-items-center"
+              key={beer.id}
+            >
+              <div className="cardAccount-beers m-4 ">
+                <img
+                  src={beer.picture_of_beer_url}
+                  className=" card-img-beer m-3"
+                  alt={beer.name}
+                />
+                <div className="card-body-beers mb-3">
+                  <h5 className="title-card mb-3 text-center">{beer.name}</h5>
+
+                  <div className="text-center ">
+                    <button
+                      onClick={() => beerDelete(beer.id)}
+                      className="deleteButton me-3"
+                    >
+                      <i className="fas fa-trash-alt "></i>
+                    </button>
+                    <EditBeers beer={beer}></EditBeers>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <h6 className="text-center mt-4 text-light">
+            Sin Cervezas, por favor <Link to="/add_beer">ingresa una</Link>
+          </h6>
+        )}
+      </div>
+
+      {/* Sección de Cervezas Bar */}
+
+      <h5
+        className={`${
+          getTokenInfo() === "Fabricante" ||
+          getTokenInfo() === "Usuario" ||
+          !jwt
+            ? "d-none text-center mt-5 mb-3"
+            : "text-center mt-5 mb-3 "
+        } text-light`}
+      >
+        MIS CERVEZAS (bar)
+      </h5>
+      <div
+        className={`${
+          getTokenInfo() === "Fabricante" ||
+          getTokenInfo() === "Usuario" ||
+          !jwt
+            ? " d-none"
+            : " overflow-auto d-flex m-1"
+        }`}
+      >
+        {store.userBarsBeersAdded.length > 0 ? (
+          store.userBarsBeersAdded.map((beer) => (
             <div
               className="cards-container d-flex justify-content-between align-items-center"
               key={beer.id}

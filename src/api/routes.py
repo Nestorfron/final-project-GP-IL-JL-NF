@@ -1031,3 +1031,17 @@ def add_beer_to_bar(id):
     except Exception as error:
         db.session.rollback()
         return jsonify({"error": str(error)}), 500
+
+@api.route('/beers_added_to_bar', methods=['GET'])
+@jwt_required()
+def get_beer_added_to_bar():
+    try: 
+        user_data = get_jwt_identity()
+        user_id = user_data["id"]
+        bar = Bar.query.filter_by(user_id=user_id).first()
+        if bar is None:
+            return  jsonify({'error': 'user not found'}),404
+        beer_added_list = [barAddedBeer.serialize() for barAddedBeer in bar.added_beers]
+        return jsonify({"beers": beer_added_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
