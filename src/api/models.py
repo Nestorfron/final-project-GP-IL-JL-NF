@@ -32,7 +32,8 @@ class User(db.Model):
             "country": self.country,
             "rol": self.rol,
             "username": self.username,
-            "profile_picture": self.profile_picture
+            "profile_picture": self.profile_picture,
+            "bars": [bar.serialize() for bar in self.bars]
             # do not serialize the password, its a security breach
         }
     
@@ -199,13 +200,41 @@ class EventBar(db.Model):
     
 class BarAddedBeer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    
-    bar_id = db.Column(db.Integer, db.ForeignKey('bar.id'), nullable=False)
+    name = db.Column(db.String(120), nullable=False)
+    bjcp_style = db.Column(db.String(120), nullable=False)
+    IBUs = db.Column(db.String(120), nullable=False)
+    volALC = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    picture_of_beer_url = db.Column(db.String(250), nullable=True) 
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    brewery_id = db.Column(db.Integer, db.ForeignKey('brewery.id'), nullable=True)
+    bar_id = db.Column(db.Integer, db.ForeignKey('bar.id'), nullable=True)
+
     beer_id =  db.Column(db.Integer, db.ForeignKey('beer.id'), nullable=False)
+    
 
-    bar = db.relationship( 'Bar', backref= db.backref('bar_added_beers', lazy=True, overlaps="bar_added"), overlaps="bar_added")
-    beer = db.relationship( 'Beer', backref= db.backref('added_by_bars'), lazy=True)
 
+    def __repr__(self):
+        return f'<User {self.name}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "brewery_id": self.brewery_id,
+            "bar_id": self.bar_id,
+            "beer_id": self.beer_id,
+            "name": self.name,
+            "bjcp_style": self.bjcp_style,
+            "IBUs": self.IBUs,
+            "volALC": self.volALC,
+            "description": self.description,
+            "picture_of_beer_url": self.picture_of_beer_url,
+      
+            
+        }
+    
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     
