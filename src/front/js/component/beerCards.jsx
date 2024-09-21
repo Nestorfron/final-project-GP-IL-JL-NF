@@ -35,9 +35,29 @@ export const BeerCards = () => {
     navigate(`/beer/${beerId}`); // Navigate to the beer details page
   };
 
-  const handleAddBeerToBar = (beerId) => {
-    console.log(beerId);
-    actions.addBeerToBar(beerId);
+  const handleAddBeerToBar = ({ beer }) => {
+    console.log(
+      beer.id,
+      beer.user_id,
+      beer.brewery_id,
+      beer.name,
+      beer.bjcp_style,
+      beer.IBUs,
+      beer.volALC,
+      beer.description,
+      beer.picture_of_beer_url
+    );
+    actions.addBeerToBar(
+      beer.id,
+      beer.user_id,
+      beer.brewery_id,
+      beer.name,
+      beer.bjcp_style,
+      beer.IBUs,
+      beer.volALC,
+      beer.description,
+      beer.picture_of_beer_url
+    );
   };
 
   return (
@@ -111,7 +131,7 @@ export const BeerCards = () => {
                   {store.me.rol === "Vendedor" && (
                     <button
                       className="add-to-basket"
-                      onClick={() => handleAddBeerToBar(beer.id)}
+                      onClick={() => handleAddBeerToBar({ beer })}
                     >
                       Añadir a Mi Bar
                     </button>

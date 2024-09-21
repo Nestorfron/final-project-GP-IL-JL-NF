@@ -993,43 +993,55 @@ def get_bar_by_id(id):
 
     #Endpoint para anadir cerveza a bar
 
-@api.route('/add_beer_to_bar/<int:beer_id>', methods=['POST'])
+@api.route('/add_beer_to_bar/<int:id>', methods=['POST'])
 @jwt_required()  
-def add_beer_to_bar(beer_id):
+def add_beer_to_bar(id):
     body = request.json
     user_data = get_jwt_identity()
-
-    bar_id = body.get("bar_id", None)  
-
-    # Validate input
-    if bar_id is None:
-        return jsonify({"error": "Bar no existe"}), 400
-
+    user_id_bar = user_data["id"]
+    id= body.get("id", None)
+    user_id= body.get("user_id", None)
+    brewery_id = body.get("brewery_id", None)
+    name= body.get("name", None)
+    bjcp_style = body.get("bjcp_style", None)
+    IBUs = body.get("IBUs", None)
+    volALC = body.get("volALC", None)
+    description = body.get("description", None)
+    picture_of_beer_url = body.get("picture_of_beer_url", None)
     try:
-        # Check if the beer exists
-        beer = Beer.query.get(beer_id)
-        if not beer:
-            return jsonify({"error": "Cerveza no encontrada"}), 404
-        
-        # Check if the bar exists
-        bar = Bar.query.get(bar_id)
-        if not bar:
-            return jsonify({"error": "Bar no encontrado"}), 404
-        
-        # Check if the beer is already added to the bar
-        existing_beer = BarAddedBeer.query.filter_by(bar_id=bar_id, beer_id=beer_id).first()
+        bar = Bar.query.filter_by(user_id=user_id_bar).first()
+        existing_beer = BarAddedBeer.query.filter_by(beer_id=id).first()
         if existing_beer:
             return jsonify({"error": "Cerveza ya añadida al bar"}), 400
-
         bar_added_beer = BarAddedBeer(
-            bar_id=bar_id, 
-            beer_id=beer_id, 
+            bar_id=bar.id,
+            beer_id=id,
+            user_id=user_id,
+            brewery_id=brewery_id,
+            name=name,
+            bjcp_style=bjcp_style,
+            IBUs=IBUs,
+            volALC=volALC,
+            description=description,
+            picture_of_beer_url=picture_of_beer_url,
         )
         db.session.add(bar_added_beer)
         db.session.commit()
-
         return jsonify({"nueva cerveza anadida": bar_added_beer.serialize()}), 201
-
     except Exception as error:
         db.session.rollback()
         return jsonify({"error": str(error)}), 500
+
+@api.route('/beers_added_to_bar', methods=['GET'])
+@jwt_required()
+def get_beer_added_to_bar():
+    try: 
+        user_data = get_jwt_identity()
+        user_id = user_data["id"]
+        bar = Bar.query.filter_by(user_id=user_id).first()
+        if bar is None:
+            return  jsonify({'error': 'user not found'}),404
+        beer_added_list = [barAddedBeer.serialize() for barAddedBeer in bar.added_beers]
+        return jsonify({"beers": beer_added_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
