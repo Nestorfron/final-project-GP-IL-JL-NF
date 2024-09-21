@@ -4,6 +4,7 @@ from enum import Enum
 db = SQLAlchemy()
 
 
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -88,7 +89,7 @@ class Bar(db.Model):
 
     beers = db.relationship('Beer', backref='bar', lazy=True)
     eventsBar = db.relationship('EventBar', backref='bar', lazy=True)
-    
+    added_beers = db.relationship('BarAddedBeer', backref='bar_added', lazy=True, overlaps="bar_added_beers,bar") 
 
     def __repr__(self):
         return f'<User {self.name}>'
@@ -106,7 +107,8 @@ class Bar(db.Model):
             "picture_of_bar_url": self.picture_of_bar_url,
             "logo_of_bar_url": self.logo_of_bar_url,
             "lat": self.latitude,
-            "lng": self.longitude
+            "lng": self.longitude,
+            "added_beers": [beer.serialize() for beer in self.added_beers]
         }
 
     
@@ -194,6 +196,15 @@ class EventBar(db.Model):
             "date": self.date,
             "picture_of_event_url": self.picture_of_event_url
         }
+    
+class BarAddedBeer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    
+    bar_id = db.Column(db.Integer, db.ForeignKey('bar.id'), nullable=False)
+    beer_id =  db.Column(db.Integer, db.ForeignKey('beer.id'), nullable=False)
+
+    bar = db.relationship( 'Bar', backref= db.backref('bar_added_beers', lazy=True, overlaps="bar_added"), overlaps="bar_added")
+    beer = db.relationship( 'Beer', backref= db.backref('added_by_bars'), lazy=True)
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
