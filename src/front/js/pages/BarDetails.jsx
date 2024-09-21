@@ -9,12 +9,14 @@ import emptyGlass from "../../img/empty.png";
 export const BarDetails = () => {
   const { breweryId, barId } = useParams();
   const { store, actions } = useContext(Context);
-  const { beers, allBarEvents, averageRatings, bars } = store;
+  const { barsBeersAdded, allBarEvents, averageRatings, bars } = store;
   const navigate = useNavigate();
 
   const bar = bars.find((b) => b.id === parseInt(barId));
 
-  const barBeers = beers.filter((beer) => beer.bar_id === parseInt(barId));
+  const barBeers = barsBeersAdded.filter(
+    (beer) => beer.bar_id === parseInt(barId)
+  );
   const events = allBarEvents.filter(
     (event) => event.bar_id === parseInt(barId)
   );

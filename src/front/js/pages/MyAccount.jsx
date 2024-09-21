@@ -449,8 +449,8 @@ const MyAccount = () => {
             : " overflow-auto d-flex m-1"
         }`}
       >
-        {store.userBarsBeersAdded.length > 0 ? (
-          store.userBarsBeersAdded.map((beer) => (
+        {store.barsBeersAdded.length > 0 ? (
+          store.barsBeersAdded.map((beer) => (
             <div
               className="cards-container d-flex justify-content-between align-items-center"
               key={beer.id}

@@ -10,7 +10,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       bars: [],
       userBreweries: [],
       userBars: [],
-      userBarsBeersAdded: [],
+      barsBeersAdded: [],
       userBeers: [],
       userEvents: [],
       userStyles: [],
@@ -639,7 +639,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await response.json();
           if (response.ok) {
             setStore({
-              userBarsBeersAdded: data.beers,
+              barsBeersAdded: data.beers,
             });
           }
         } catch (error) {
