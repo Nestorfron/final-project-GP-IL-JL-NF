@@ -10,6 +10,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       bars: [],
       userBreweries: [],
       userBars: [],
+      userBarsBeersAdded: [],
       userBeers: [],
       userEvents: [],
       userStyles: [],
@@ -598,6 +599,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       //GET USER Bars//
       getUserBars: async () => {
+        const actions = getActions();
         const jwt = localStorage.getItem("token");
         try {
           const response = await fetch(
@@ -611,7 +613,34 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            setStore({ userBars: data.bars });
+            setStore({
+              userBars: data.bars,
+            });
+            actions.getBarsBeers();
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      //GET USER Bars//
+      getBarsBeers: async () => {
+        const jwt = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/beers_added_to_bar",
+            {
+              method: "GET",
+              headers: {
+                authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setStore({
+              userBarsBeersAdded: data.beers,
+            });
           }
         } catch (error) {
           console.log(error);
@@ -1575,35 +1604,43 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       //FUNCION PARA ANADIR UNA CERVEZA A UN BAR REQUIERE JWT
 
-      addBeerToBar: async (beerId, barId) => {
+      addBeerToBar: async (
+        id,
+        user_id,
+        brewery_id,
+        name,
+        bjcp_style,
+        IBUs,
+        volALC,
+        description,
+        picture_of_beer_url
+      ) => {
         const store = getStore();
         const jwt = localStorage.getItem("token");
         try {
-          const response = await fetch(`/api/add_beer_to_bar/${beerId}`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${jwt}`,
-            },
-            body: JSON.stringify({ bar_id: barId }),
-          });
-          if (!response.ok) {
-            const contentType = response.headers.get("Content-Type");
-            if (contentType && contentType.includes("application/json")) {
-              const errorData = await response.json();
-              console.error("Error response:", errorData);
-              throw new Error(
-                `Failed to add beer to bar: ${
-                  errorData.error || response.statusText
-                }`
-              );
-            } else {
-              const errorText = await response.text();
-              console.error("Error response:", errorText);
-              throw new Error(
-                `Failed to add beer to bar: ${response.statusText}`
-              );
+          const response = await fetch(
+            process.env.BACKEND_URL + `/api/add_beer_to_bar/${id}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${jwt}`,
+              },
+              body: JSON.stringify({
+                id,
+                user_id,
+                brewery_id,
+                name,
+                bjcp_style,
+                IBUs,
+                volALC,
+                description,
+                picture_of_beer_url,
+              }),
             }
+          );
+          if (!response.ok) {
+            console.log(response);
           }
           const data = await response.json();
           setStore({ barAddedBeers: data });
