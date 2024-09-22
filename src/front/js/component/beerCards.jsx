@@ -1,14 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/beerCards.css";
 import HazyIPA from "../../img/hazyipa.jpeg";
 import fullGlass from "../../img/fullglass.png";
 import emptyGlass from "../../img/empty.png";
+import BarSelectModal from "../component/BarSelectModal.jsx";
 
 export const BeerCards = () => {
   const { store, actions } = useContext(Context);
   const { beers, breweries, averageRatings } = store;
+  const [showModal, setShowModal] = useState(false);
+  const [selectedBeer, setSelectedBeer] = useState(null);
   const navigate = useNavigate();
 
   const latestBeers = Array.isArray(beers)
@@ -58,6 +61,13 @@ export const BeerCards = () => {
       beer.description,
       beer.picture_of_beer_url
     );
+    setSelectedBeer(beer);
+    setShowModal(true);
+  };
+
+  const handleSelectBar = (barId) => {
+    actions.addBeerToBar(selectedBeer.id, barId);
+    setShowModal(false);
   };
 
   return (
@@ -142,6 +152,13 @@ export const BeerCards = () => {
           })
         ) : (
           <p>No beers available</p>
+        )}
+        {showModal && (
+          <BarSelectModal
+            bars={store.bars}
+            onSelectBar={handleSelectBar}
+            onClose={() => setShowModal(false)}
+          />
         )}
       </div>
     </div>
