@@ -23,7 +23,7 @@ export const BarDetails = () => {
   );
 
   const handleMoreInfoClick = (beerId) => {
-    navigate(`/beer/${beerId}`);
+    navigate(`/bar_beer/${beerId}`);
   };
 
   // Function to generate full and empty glasses based on rating
@@ -49,6 +49,10 @@ export const BarDetails = () => {
   //if (bar_Events.length === 0 && barBeers.length === 0) {
   //  return <p className="text-center text-muted">Nada por aquí...</p>;
   //}
+
+  useEffect(() => {
+    actions.getAllBarsBeers();
+  }, []);
 
   return (
     <div className="brewery-details-container ">

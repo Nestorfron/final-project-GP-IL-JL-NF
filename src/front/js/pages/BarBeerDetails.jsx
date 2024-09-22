@@ -10,17 +10,17 @@ import { faTrash, faEllipsis, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
 
-export const BeerDetails = () => {
+export const BarBeerDetails = () => {
   const jwt = localStorage.getItem("token");
   const { id } = useParams();
   const { store, actions } = useContext(Context);
-  const { beerDetails, breweries, reviews, users } = store;
+  const { barBeerDetails, breweries, reviews, users } = store;
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [modalReview, setModalReview] = useState(null);
 
   useEffect(() => {
-    actions.getBeerDetails(id);
+    actions.getBarBeerDetails(id);
     actions.getAllBreweries();
     actions.getBeerReviews(id);
     actions.getAllUsers();
@@ -45,7 +45,7 @@ export const BeerDetails = () => {
 
   const averageRating = calculateAverageRating(reviews);
 
-  if (!beerDetails || !breweries) {
+  if (!barBeerDetails || !breweries) {
     return <p>Loading...</p>;
   }
 
@@ -142,30 +142,32 @@ export const BeerDetails = () => {
         <div className="card-header beer-detail-header text-center">
           <img
             className="brewery-beer-details-picture col-12"
-            src={findBreweryLogo(beerDetails.brewery_id, breweries)}
-            onClick={() => handleBreweryClick(beerDetails.brewery_id)}
+            src={findBreweryLogo(barBeerDetails.brewery_id, breweries)}
+            onClick={() => handleBreweryClick(barBeerDetails.brewery_id)}
             style={{ cursor: "pointer" }}
             alt="Brewery Logo"
           />
         </div>
         <div className="container card-body d-flex align-items-center justify-content-center row">
           <div className="beer-text col-6">
-            <h2 className="beer-details-name fw-bold ">{beerDetails.name}</h2>
+            <h2 className="beer-details-name fw-bold ">
+              {barBeerDetails.name}
+            </h2>
             <p className="beer-details-description ">
-              {beerDetails.description}
+              {barBeerDetails.description}
             </p>
             <div>
               <p className="beer-details-BJCP-style d-flex justify-content-between">
                 <span>Estilo:</span>
-                <span>{beerDetails.bjcp_style}</span>
+                <span>{barBeerDetails.bjcp_style}</span>
               </p>
               <p className="beer-details-IBUs d-flex justify-content-between">
                 <span>IBU's:</span>
-                <span>{beerDetails.IBUs}</span>
+                <span>{barBeerDetails.IBUs}</span>
               </p>
               <p className="beer-details-ABV d-flex justify-content-between">
                 <span>ABV:</span>
-                <span>{beerDetails.volALC}%</span>
+                <span>{barBeerDetails.volALC}%</span>
               </p>
               <p className="beer-details-rating  d-flex justify-content-between">
                 <span>Rating:</span>
@@ -176,7 +178,7 @@ export const BeerDetails = () => {
           <div className="container-fluid container-logo d-flex justify-content-center align-items-center  col-6">
             <img
               className="beer-detail-picture m-4"
-              src={beerDetails.picture_of_beer_url}
+              src={barBeerDetails.picture_of_beer_url}
               alt="Beer"
             />
           </div>

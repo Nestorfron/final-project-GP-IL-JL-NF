@@ -768,6 +768,16 @@ def get_beer_details(beer_id):
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
     
+@api.route('/bar_beer/<int:beer_id>', methods=['GET'])
+def get_bar_beer_details(beer_id):
+    try:
+        beer = BarAddedBeer.query.get(beer_id)
+        if beer is None:
+            return jsonify({"error": "Cerveza no encontrada"}), 404
+        return jsonify(beer.serialize()), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+    
 
 #endopoint para crear un review
 @api.route('/reviews', methods=['POST'])

@@ -4,6 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       me: [],
       styles: [],
       beers: [],
+      beerDetails: [],
       events: [],
       allBarEvents: [],
       breweries: [],
@@ -11,6 +12,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userBreweries: [],
       userBars: [],
       userBarsBeersAdded: [],
+      barbeerDetails: [],
       userBeers: [],
       userEvents: [],
       userStyles: [],
@@ -658,10 +660,9 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await response.json();
           if (response.ok) {
-            console.log(data),
-              setStore({
-                barAddedBeers: data,
-              });
+            setStore({
+              barAddedBeers: data,
+            });
           }
         } catch (error) {
           console.log(error);
@@ -1380,6 +1381,28 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await response.json();
           setStore({ beerDetails: data });
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      //GET BAR - BEER DETAILS
+      getBarBeerDetails: async (beer_id) => {
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + `/api/bar_beer/${beer_id}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (!response.ok) {
+            return false;
+          }
+          const data = await response.json();
+          setStore({ barBeerDetails: data });
         } catch (error) {
           console.log(error);
         }
