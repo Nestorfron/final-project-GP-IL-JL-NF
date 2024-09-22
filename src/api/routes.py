@@ -1045,3 +1045,15 @@ def get_beer_added_to_bar():
         return jsonify({"beers": beer_added_list}), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
+    
+@api.route('/get_all_beers_added_to_bar', methods=['GET'])
+def get_all_beer_added_to_bar():
+    try:   
+        beers = BarAddedBeer.query.all()
+        serialized_beer_added_list = [beer.serialize() for beer in beers]
+        return jsonify({"beers_added": serialized_beer_added_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+
+
+

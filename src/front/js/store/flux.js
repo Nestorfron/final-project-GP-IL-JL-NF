@@ -647,6 +647,27 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      //GET All Bar Added Beers //
+      getAllBarsBeers: async () => {
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/get_all_beers_added_to_bar",
+            {
+              method: "GET",
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            console.log(data),
+              setStore({
+                barAddedBeers: data,
+              });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
       //GET USER/BREWERIES COUNTRY ****** SE USA EN LUGAR DE GET ALL BREWERIES*******//
       getUserBreweriesCountry: async (id) => {
         const store = getStore();

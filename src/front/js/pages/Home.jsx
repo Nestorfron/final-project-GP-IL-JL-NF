@@ -20,6 +20,7 @@ export const Home = () => {
     actions.getStyles();
     actions.getAverageRatings();
     actions.getAllBars();
+    actions.getAllBarsBeers();
   }, []);
 
   const getCurrentLocation = async () => {
