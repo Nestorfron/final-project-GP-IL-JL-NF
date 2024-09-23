@@ -1649,6 +1649,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       //FUNCION PARA ANADIR UNA CERVEZA A UN BAR REQUIERE JWT
 
       addBeerToBar: async (
+        bar_id,
         id,
         user_id,
         brewery_id,
@@ -1671,6 +1672,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 Authorization: `Bearer ${jwt}`,
               },
               body: JSON.stringify({
+                bar_id,
                 id,
                 user_id,
                 brewery_id,

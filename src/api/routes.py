@@ -1009,6 +1009,7 @@ def add_beer_to_bar(id):
     body = request.json
     user_data = get_jwt_identity()
     user_id_bar = user_data["id"]
+    bar_id= body.get("bar_id", None)
     id= body.get("id", None)
     user_id= body.get("user_id", None)
     brewery_id = body.get("brewery_id", None)
@@ -1024,7 +1025,7 @@ def add_beer_to_bar(id):
         if existing_beer:
             return jsonify({"error": "Cerveza ya añadida al bar"}), 400
         bar_added_beer = BarAddedBeer(
-            bar_id=bar.id,
+            bar_id=bar_id,
             beer_id=id,
             user_id=user_id,
             brewery_id=brewery_id,

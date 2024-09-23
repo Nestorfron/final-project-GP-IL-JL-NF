@@ -11,6 +11,7 @@ export const BeerCards = () => {
   const { store, actions } = useContext(Context);
   const { beers, breweries, averageRatings } = store;
   const [showModal, setShowModal] = useState(false);
+  const [beer, setBeer] = useState();
   const [selectedBeer, setSelectedBeer] = useState(null);
   const navigate = useNavigate();
 
@@ -50,7 +51,15 @@ export const BeerCards = () => {
       beer.description,
       beer.picture_of_beer_url
     );
+    setBeer(beer);
+    setShowModal(true);
+  };
+
+  const handleSelectBar = (barId) => {
+    console.log(barId);
+    console.log(beer);
     actions.addBeerToBar(
+      barId,
       beer.id,
       beer.user_id,
       beer.brewery_id,
@@ -61,12 +70,6 @@ export const BeerCards = () => {
       beer.description,
       beer.picture_of_beer_url
     );
-    setSelectedBeer(beer);
-    setShowModal(true);
-  };
-
-  const handleSelectBar = (barId) => {
-    actions.addBeerToBar(selectedBeer.id, barId);
     setShowModal(false);
   };
 

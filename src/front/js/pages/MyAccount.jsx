@@ -206,9 +206,8 @@ const MyAccount = () => {
       actions.getUserEvents();
       actions.getUserBars();
       actions.getBarEvents();
-      actions.getAllBarsBeers();
+      actions.getBarsBeers();
     }
-
     actions.getMe();
     return;
   }, []);
