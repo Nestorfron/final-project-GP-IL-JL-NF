@@ -40,24 +40,11 @@ export const BeerCards = () => {
   };
 
   const handleAddBeerToBar = ({ beer }) => {
-    console.log(
-      beer.id,
-      beer.user_id,
-      beer.brewery_id,
-      beer.name,
-      beer.bjcp_style,
-      beer.IBUs,
-      beer.volALC,
-      beer.description,
-      beer.picture_of_beer_url
-    );
     setBeer(beer);
     setShowModal(true);
   };
 
   const handleSelectBar = (barId) => {
-    console.log(barId);
-    console.log(beer);
     actions.addBeerToBar(
       barId,
       beer.id,

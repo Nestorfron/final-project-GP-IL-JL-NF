@@ -1020,9 +1020,8 @@ def add_beer_to_bar(id):
     description = body.get("description", None)
     picture_of_beer_url = body.get("picture_of_beer_url", None)
     try:
-        bar = Bar.query.filter_by(user_id=user_id_bar).first()
-        existing_beer = BarAddedBeer.query.filter_by(beer_id=id).first()
-        if existing_beer:
+        existing_beer = BarAddedBeer.query.filter_by(beer_id=id, bar_id=bar_id).first()
+        if existing_beer is not None:
             return jsonify({"error": "Cerveza ya añadida al bar"}), 400
         bar_added_beer = BarAddedBeer(
             bar_id=bar_id,
