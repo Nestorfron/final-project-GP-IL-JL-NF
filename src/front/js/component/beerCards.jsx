@@ -148,6 +148,7 @@ export const BeerCards = () => {
             bars={store.bars}
             onSelectBar={handleSelectBar}
             onClose={() => setShowModal(false)}
+            currentUserId={store.me.id}
           />
         )}
       </div>

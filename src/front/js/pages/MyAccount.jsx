@@ -207,10 +207,14 @@ const MyAccount = () => {
       actions.getUserBars();
       actions.getBarEvents();
       actions.getBarsBeers();
+      actions.getAllBarsBeers();
     }
     actions.getMe();
     return;
   }, []);
+
+  const barBeers = store.barAddedBeers;
+  console.log(barBeers);
 
   return (
     <div className="container-fluid d-flex align-items-center justify-content-center ">
@@ -403,8 +407,8 @@ const MyAccount = () => {
               : " overflow-auto d-flex m-1"
           }`}
         >
-          {store.userBeers.length > 0 ? (
-            store.userBeers.map((beer) => (
+          {barBeers.length > 0 ? (
+            barBeers.map((beer) => (
               <div
                 className="cards-container d-flex justify-content-between align-items-center"
                 key={beer.id}
