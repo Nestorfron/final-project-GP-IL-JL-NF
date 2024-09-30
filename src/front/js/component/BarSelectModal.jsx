@@ -1,4 +1,5 @@
 import React from "react";
+import "../../styles/barSelectModal.css";
 
 const BarSelectModal = ({ bars, onSelectBar, onClose, currentUserId }) => {
   const userBars = bars.filter((bar) => bar.user_id === currentUserId);
