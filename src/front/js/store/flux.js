@@ -4,6 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       me: [],
       styles: [],
       beers: [],
+      beerDetails: [],
       events: [],
       allBarEvents: [],
       breweries: [],
@@ -11,6 +12,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userBreweries: [],
       userBars: [],
       userBarsBeersAdded: [],
+      barbeerDetails: [],
       userBeers: [],
       userEvents: [],
       userStyles: [],
@@ -640,6 +642,26 @@ const getState = ({ getStore, getActions, setStore }) => {
           if (response.ok) {
             setStore({
               userBarsBeersAdded: data.beers,
+            });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      //GET All Bar Added Beers //
+      getAllBarsBeers: async () => {
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "/api/get_all_beers_added_to_bar",
+            {
+              method: "GET",
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setStore({
+              barAddedBeers: data,
             });
           }
         } catch (error) {
@@ -1364,6 +1386,28 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      //GET BAR - BEER DETAILS
+      getBarBeerDetails: async (beer_id) => {
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + `/api/bar_beer/${beer_id}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (!response.ok) {
+            return false;
+          }
+          const data = await response.json();
+          setStore({ barBeerDetails: data });
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
       //SEARCH
 
       search: async (query) => {
@@ -1605,6 +1649,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       //FUNCION PARA ANADIR UNA CERVEZA A UN BAR REQUIERE JWT
 
       addBeerToBar: async (
+        bar_id,
         id,
         user_id,
         brewery_id,
@@ -1627,6 +1672,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 Authorization: `Bearer ${jwt}`,
               },
               body: JSON.stringify({
+                bar_id,
                 id,
                 user_id,
                 brewery_id,

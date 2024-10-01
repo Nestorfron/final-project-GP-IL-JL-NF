@@ -768,6 +768,16 @@ def get_beer_details(beer_id):
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
     
+@api.route('/bar_beer/<int:beer_id>', methods=['GET'])
+def get_bar_beer_details(beer_id):
+    try:
+        beer = BarAddedBeer.query.get(beer_id)
+        if beer is None:
+            return jsonify({"error": "Cerveza no encontrada"}), 404
+        return jsonify(beer.serialize()), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+    
 
 #endopoint para crear un review
 @api.route('/reviews', methods=['POST'])
@@ -999,6 +1009,7 @@ def add_beer_to_bar(id):
     body = request.json
     user_data = get_jwt_identity()
     user_id_bar = user_data["id"]
+    bar_id= body.get("bar_id", None)
     id= body.get("id", None)
     user_id= body.get("user_id", None)
     brewery_id = body.get("brewery_id", None)
@@ -1009,12 +1020,11 @@ def add_beer_to_bar(id):
     description = body.get("description", None)
     picture_of_beer_url = body.get("picture_of_beer_url", None)
     try:
-        bar = Bar.query.filter_by(user_id=user_id_bar).first()
-        existing_beer = BarAddedBeer.query.filter_by(beer_id=id).first()
-        if existing_beer:
+        existing_beer = BarAddedBeer.query.filter_by(beer_id=id, bar_id=bar_id).first()
+        if existing_beer is not None:
             return jsonify({"error": "Cerveza ya añadida al bar"}), 400
         bar_added_beer = BarAddedBeer(
-            bar_id=bar.id,
+            bar_id=bar_id,
             beer_id=id,
             user_id=user_id,
             brewery_id=brewery_id,
@@ -1045,3 +1055,15 @@ def get_beer_added_to_bar():
         return jsonify({"beers": beer_added_list}), 200
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
+    
+@api.route('/get_all_beers_added_to_bar', methods=['GET'])
+def get_all_beer_added_to_bar():
+    try:   
+        beers = BarAddedBeer.query.all()
+        serialized_beer_added_list = [beer.serialize() for beer in beers]
+        return jsonify({"beers_added": serialized_beer_added_list}), 200
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+
+
+
