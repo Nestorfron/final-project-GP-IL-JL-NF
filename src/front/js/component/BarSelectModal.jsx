@@ -1,6 +1,8 @@
 import React from "react";
+import "../../styles/barSelectModal.css";
 
-const BarSelectModal = ({ bars, onSelectBar, onClose }) => {
+const BarSelectModal = ({ bars, onSelectBar, onClose, currentUserId }) => {
+  const userBars = bars.filter((bar) => bar.user_id === currentUserId);
   return (
     <div className="modal show" style={{ display: "block" }}>
       <div className="modal-dialog">
@@ -15,7 +17,7 @@ const BarSelectModal = ({ bars, onSelectBar, onClose }) => {
           </div>
           <div className="modal-body">
             <ul className="list-group">
-              {bars.map((bar) => (
+              {userBars.map((bar) => (
                 <li
                   key={bar.id}
                   className="list-group-item"

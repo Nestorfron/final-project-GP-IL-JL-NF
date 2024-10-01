@@ -197,3 +197,12 @@ a:hover {
     margin: 10px auto; /* Center the image within the card */
   }
 }
+
+.inner-window {
+  height: 800px; /* Adjust height as needed */
+  overflow-y: auto;
+  border: 1px solid #ccc; /* Optional: for visual separation */
+  border-radius: 2%;
+
+  /* Other styles for the inner window */
+}

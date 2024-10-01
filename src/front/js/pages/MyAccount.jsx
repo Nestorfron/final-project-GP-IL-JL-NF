@@ -207,13 +207,17 @@ const MyAccount = () => {
       actions.getUserBars();
       actions.getBarEvents();
       actions.getBarsBeers();
+      actions.getAllBarsBeers();
     }
     actions.getMe();
     return;
   }, []);
 
+  const barBeers = store.barAddedBeers;
+  console.log(barBeers);
+
   return (
-    <div className="container-fluid">
+    <div className="container-fluid d-flex align-items-center justify-content-center ">
       {/* Sección de Usuario */}
       <div className="text-center my-5 py-5">
         <h5 className="text-light my-5">MI USUARIO</h5>
@@ -246,349 +250,374 @@ const MyAccount = () => {
         </div>
       </div>
       {/* Sección de Cervecerías */}
-      <h5
-        className={`${
-          getTokenInfo() === "Vendedor" || getTokenInfo() === "Usuario" || !jwt
-            ? "d-none text-center mt-5 mb-3  "
-            : "text-center mt-5 mb-3 "
-        } text-light`}
-      >
-        MIS CERVECERÍAS
-      </h5>
-      <div
-        className={`${
-          getTokenInfo() === "Vendedor" || getTokenInfo() === "Usuario" || !jwt
-            ? " d-none"
-            : "overflow-auto d-flex m-1"
-        }`}
-      >
-        {store.userBreweries.length > 0 ? (
-          store.userBreweries.map((brewery) => (
-            <div className="cards-container m-2" key={brewery.id}>
-              <div className="card cardAccount m-4">
-                <div
-                  className="brewery-minitron"
-                  style={{
-                    backgroundImage: `url(${brewery.picture_of_brewery_url})`,
-                    backgroundSize: "cover", // Ensures the background covers the entire div
-                    backgroundPosition: "center", // Centers the background image
-                  }}
-                >
+      <div className="inner-window m-5  ">
+        <h5
+          className={`${
+            getTokenInfo() === "Vendedor" ||
+            getTokenInfo() === "Usuario" ||
+            !jwt
+              ? "d-none text-center mt-5 mb-3  "
+              : "text-center mt-5 mb-3 "
+          } text-light`}
+        >
+          MIS CERVECERÍAS
+        </h5>
+        <div
+          className={`${
+            getTokenInfo() === "Vendedor" ||
+            getTokenInfo() === "Usuario" ||
+            !jwt
+              ? " d-none"
+              : "overflow-auto d-flex m-1"
+          }`}
+        >
+          {store.userBreweries.length > 0 ? (
+            store.userBreweries.map((brewery) => (
+              <div className="cards-container m-2 text-center" key={brewery.id}>
+                <div className="card cardAccount m-4">
+                  <div
+                    className="brewery-minitron"
+                    style={{
+                      backgroundImage: `url(${brewery.picture_of_brewery_url})`,
+                      backgroundSize: "cover", // Ensures the background covers the entire div
+                      backgroundPosition: "center", // Centers the background image
+                    }}
+                  >
+                    <img
+                      src={brewery.logo_of_brewery_url}
+                      className="card-img m-4"
+                      alt={brewery.name}
+                    />
+                  </div>
+
+                  <div className="card-body d-flex flex-column">
+                    <h5 className="card-title title-card mb-2">
+                      {brewery.name}
+                    </h5>
+                    <p className="card-text text-card mb-3">
+                      <i className="fas fa-map-marker-alt me-2"></i>
+                      {brewery.address}
+                    </p>
+                    <div className="container-fluid d-flex mt-3 justify-content-center ">
+                      <button
+                        className="deleteButton me-3"
+                        onClick={() => breweryDelete(brewery.id)}
+                      >
+                        <i className="fas fa-trash-alt me-1"></i>
+                      </button>
+                      <EditBreweries brewery={brewery} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <h6 className="text-center mt-4 text-light">
+              Sin Cervecerías, por favor{" "}
+              <Link to="/add_brewery">ingresa una</Link>
+            </h6>
+          )}
+        </div>
+        {/* Sección de Bares */}
+        <h5
+          className={`${
+            getTokenInfo() === "Fabricante" ||
+            getTokenInfo() === "Usuario" ||
+            !jwt
+              ? "d-none text-center mt-5 mb-3  "
+              : "text-center mt-5 mb-3 "
+          } text-light`}
+        >
+          MIS BARES
+        </h5>
+        <div
+          className={`${
+            getTokenInfo() === "Fabricante" ||
+            getTokenInfo() === "Usuario" ||
+            !jwt
+              ? " d-none"
+              : "overflow-auto d-flex m-1"
+          }`}
+        >
+          {store.userBars.length > 0 ? (
+            store.userBars.map((bar) => (
+              <div className="cards-container m-2" key={bar.id}>
+                <div className="card cardAccount m-4">
+                  <div
+                    className="bar-minitron"
+                    style={{
+                      backgroundImage: `url(${bar.picture_of_bar_url})`,
+                      backgroundSize: "cover", // Ensures the background covers the entire div
+                      backgroundPosition: "center", // Centers the background image
+                    }}
+                  >
+                    <img
+                      src={bar.logo_of_bar_url}
+                      className="card-img m-4"
+                      alt={bar.name}
+                    />
+                  </div>
+
+                  <div className="card-body d-flex flex-column">
+                    <h5 className="card-title title-card mb-2">{bar.name}</h5>
+                    <p className="card-text text-card mb-3">
+                      <i className="fas fa-map-marker-alt me-2"></i>
+                      {bar.address}
+                    </p>
+                    <div className="container-fluid d-flex mt-3 justify-content-center ">
+                      <button
+                        className="deleteButton me-3"
+                        onClick={() => barDelete(bar.id)}
+                      >
+                        <i className="fas fa-trash-alt me-1"></i>
+                      </button>
+                      <EditBar bar={bar} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <h6 className="text-center mt-4 text-light">
+              Sin Cervecerías, por favor{" "}
+              <Link to="/add_brewery">ingresa una</Link>
+            </h6>
+          )}
+        </div>
+
+        {/* Sección de Cervezas */}
+
+        <h5
+          className={`${
+            getTokenInfo() === "Vendedor" ||
+            getTokenInfo() === "Usuario" ||
+            !jwt
+              ? "d-none text-center mt-5 mb-3"
+              : "text-center mt-5 mb-3 "
+          } text-light`}
+        >
+          MIS CERVEZAS
+        </h5>
+        <div
+          className={`${
+            getTokenInfo() === "Vendedor" ||
+            getTokenInfo() === "Usuario" ||
+            !jwt
+              ? " d-none"
+              : " overflow-auto d-flex m-1"
+          }`}
+        >
+          {barBeers.length > 0 ? (
+            barBeers.map((beer) => (
+              <div
+                className="cards-container d-flex justify-content-between align-items-center"
+                key={beer.id}
+              >
+                <div className="cardAccount-beers m-4 ">
                   <img
-                    src={brewery.logo_of_brewery_url}
-                    className="card-img m-4"
-                    alt={brewery.name}
+                    src={beer.picture_of_beer_url}
+                    className=" card-img-beer m-3"
+                    alt={beer.name}
                   />
-                </div>
+                  <div className="card-body-beers mb-3">
+                    <h5 className="title-card mb-3 text-center">{beer.name}</h5>
 
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title title-card mb-2">{brewery.name}</h5>
-                  <p className="card-text text-card mb-3">
-                    <i className="fas fa-map-marker-alt me-2"></i>
-                    {brewery.address}
-                  </p>
-                  <div className="container-fluid d-flex mt-3 justify-content-center ">
-                    <button
-                      className="deleteButton me-3"
-                      onClick={() => breweryDelete(brewery.id)}
-                    >
-                      <i className="fas fa-trash-alt me-1"></i>
-                    </button>
-                    <EditBreweries brewery={brewery} />
+                    <div className="text-center ">
+                      <button
+                        onClick={() => beerDelete(beer.id)}
+                        className="deleteButton me-3"
+                      >
+                        <i className="fas fa-trash-alt "></i>
+                      </button>
+                      <EditBeers beer={beer}></EditBeers>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <h6 className="text-center mt-4 text-light">
-            Sin Cervecerías, por favor{" "}
-            <Link to="/add_brewery">ingresa una</Link>
-          </h6>
-        )}
-      </div>
-      {/* Sección de Bares */}
-      <h5
-        className={`${
-          getTokenInfo() === "Fabricante" ||
-          getTokenInfo() === "Usuario" ||
-          !jwt
-            ? "d-none text-center mt-5 mb-3  "
-            : "text-center mt-5 mb-3 "
-        } text-light`}
-      >
-        MIS BARES
-      </h5>
-      <div
-        className={`${
-          getTokenInfo() === "Fabricante" ||
-          getTokenInfo() === "Usuario" ||
-          !jwt
-            ? " d-none"
-            : "overflow-auto d-flex m-1"
-        }`}
-      >
-        {store.userBars.length > 0 ? (
-          store.userBars.map((bar) => (
-            <div className="cards-container m-2" key={bar.id}>
-              <div className="card cardAccount m-4">
-                <div
-                  className="bar-minitron"
-                  style={{
-                    backgroundImage: `url(${bar.picture_of_bar_url})`,
-                    backgroundSize: "cover", // Ensures the background covers the entire div
-                    backgroundPosition: "center", // Centers the background image
-                  }}
-                >
+            ))
+          ) : (
+            <h6 className="text-center mt-4 text-light">
+              Sin Cervezas, por favor <Link to="/add_beer">ingresa una</Link>
+            </h6>
+          )}
+        </div>
+
+        {/* Sección de Cervezas Bar */}
+
+        <h5
+          className={`${
+            getTokenInfo() === "Fabricante" ||
+            getTokenInfo() === "Usuario" ||
+            !jwt
+              ? "d-none text-center mt-5 mb-3"
+              : "text-center mt-5 mb-3 "
+          } text-light`}
+        >
+          MIS CERVEZAS (bar)
+        </h5>
+        <div
+          className={`${
+            getTokenInfo() === "Fabricante" ||
+            getTokenInfo() === "Usuario" ||
+            !jwt
+              ? " d-none"
+              : " overflow-auto d-flex m-1"
+          }`}
+        >
+          {store.userBarsBeersAdded.length > 0 ? (
+            store.userBarsBeersAdded.map((beer) => (
+              <div
+                className="cards-container d-flex justify-content-between align-items-center"
+                key={beer.id}
+              >
+                <div className="cardAccount-beers m-4 ">
                   <img
-                    src={bar.logo_of_bar_url}
-                    className="card-img m-4"
-                    alt={bar.name}
+                    src={beer.picture_of_beer_url}
+                    className=" card-img-beer m-3"
+                    alt={beer.name}
                   />
-                </div>
+                  <div className="card-body-beers mb-3">
+                    <h5 className="title-card mb-3 text-center">{beer.name}</h5>
 
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title title-card mb-2">{bar.name}</h5>
-                  <p className="card-text text-card mb-3">
-                    <i className="fas fa-map-marker-alt me-2"></i>
-                    {bar.address}
-                  </p>
-                  <div className="container-fluid d-flex mt-3 justify-content-center ">
-                    <button
-                      className="deleteButton me-3"
-                      onClick={() => barDelete(bar.id)}
-                    >
-                      <i className="fas fa-trash-alt me-1"></i>
-                    </button>
-                    <EditBar bar={bar} />
+                    <div className="text-center ">
+                      <button
+                        onClick={() => beerDelete(beer.id)}
+                        className="deleteButton me-3"
+                      >
+                        <i className="fas fa-trash-alt "></i>
+                      </button>
+                      <EditBeers beer={beer}></EditBeers>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <h6 className="text-center mt-4 text-light">
-            Sin Cervecerías, por favor{" "}
-            <Link to="/add_brewery">ingresa una</Link>
-          </h6>
-        )}
-      </div>
+            ))
+          ) : (
+            <h6 className="text-center mt-4 text-light">
+              Sin Cervezas, por favor <Link to="/add_beer">ingresa una</Link>
+            </h6>
+          )}
+        </div>
 
-      {/* Sección de Cervezas */}
-
-      <h5
-        className={`${
-          getTokenInfo() === "Vendedor" || getTokenInfo() === "Usuario" || !jwt
-            ? "d-none text-center mt-5 mb-3"
-            : "text-center mt-5 mb-3 "
-        } text-light`}
-      >
-        MIS CERVEZAS
-      </h5>
-      <div
-        className={`${
-          getTokenInfo() === "Vendedor" || getTokenInfo() === "Usuario" || !jwt
-            ? " d-none"
-            : " overflow-auto d-flex m-1"
-        }`}
-      >
-        {store.userBeers.length > 0 ? (
-          store.userBeers.map((beer) => (
-            <div
-              className="cards-container d-flex justify-content-between align-items-center"
-              key={beer.id}
-            >
-              <div className="cardAccount-beers m-4 ">
-                <img
-                  src={beer.picture_of_beer_url}
-                  className=" card-img-beer m-3"
-                  alt={beer.name}
-                />
-                <div className="card-body-beers mb-3">
-                  <h5 className="title-card mb-3 text-center">{beer.name}</h5>
-
-                  <div className="text-center ">
-                    <button
-                      onClick={() => beerDelete(beer.id)}
-                      className="deleteButton me-3"
-                    >
-                      <i className="fas fa-trash-alt "></i>
-                    </button>
-                    <EditBeers beer={beer}></EditBeers>
+        {/* Sección de Eventos */}
+        <h5
+          className={`${
+            getTokenInfo() === "Usuario" ||
+            getTokenInfo() === "Vendedor" ||
+            !jwt
+              ? "d-none text-center mt-5 mb-3  "
+              : "text-center mt-5 mb-3 "
+          } text-light`}
+        >
+          MIS EVENTOS
+        </h5>
+        <div
+          className={`${
+            getTokenInfo() === "Usuario" ||
+            getTokenInfo() === "Vendedor" ||
+            !jwt
+              ? " d-none"
+              : " overflow-auto d-flex m-1"
+          }`}
+        >
+          {store.userEvents.length > 0 ? (
+            store.userEvents.map((event) => (
+              <div
+                className="cards-container d-flex justify-content-between align-items-center"
+                key={event.id}
+              >
+                <div className="cardAccount-events m-4 ">
+                  <img
+                    src={event.picture_of_event_url}
+                    className=" card-img-events m-3"
+                    alt={event.name}
+                  />
+                  <div className="card-body-beers mb-3">
+                    <h5 className="title-card mb-3 text-center">
+                      {event.name}
+                    </h5>
+                    <h6 className="mb-3 text-center">
+                      {formatDate(event.date)}
+                    </h6>
+                    <div className="text-center ">
+                      <button
+                        onClick={() => eventDelete(event.id)}
+                        className="deleteButton me-3"
+                      >
+                        <i className="fas fa-trash-alt "></i>
+                      </button>
+                      <EditEvent event={event}></EditEvent>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <h6 className="text-center mt-4 text-light">
-            Sin Cervezas, por favor <Link to="/add_beer">ingresa una</Link>
-          </h6>
-        )}
-      </div>
-
-      {/* Sección de Cervezas Bar */}
-
-      <h5
-        className={`${
-          getTokenInfo() === "Fabricante" ||
-          getTokenInfo() === "Usuario" ||
-          !jwt
-            ? "d-none text-center mt-5 mb-3"
-            : "text-center mt-5 mb-3 "
-        } text-light`}
-      >
-        MIS CERVEZAS (bar)
-      </h5>
-      <div
-        className={`${
-          getTokenInfo() === "Fabricante" ||
-          getTokenInfo() === "Usuario" ||
-          !jwt
-            ? " d-none"
-            : " overflow-auto d-flex m-1"
-        }`}
-      >
-        {store.userBarsBeersAdded.length > 0 ? (
-          store.userBarsBeersAdded.map((beer) => (
-            <div
-              className="cards-container d-flex justify-content-between align-items-center"
-              key={beer.id}
-            >
-              <div className="cardAccount-beers m-4 ">
-                <img
-                  src={beer.picture_of_beer_url}
-                  className=" card-img-beer m-3"
-                  alt={beer.name}
-                />
-                <div className="card-body-beers mb-3">
-                  <h5 className="title-card mb-3 text-center">{beer.name}</h5>
-
-                  <div className="text-center ">
-                    <button
-                      onClick={() => beerDelete(beer.id)}
-                      className="deleteButton me-3"
-                    >
-                      <i className="fas fa-trash-alt "></i>
-                    </button>
-                    <EditBeers beer={beer}></EditBeers>
+            ))
+          ) : (
+            <h6 className="text-center mt-4 text-light">
+              Sin Eventos, por favor <Link to="/add_event">ingresa uno</Link>
+            </h6>
+          )}
+        </div>
+        {/* Sección de Eventos Bar */}
+        <h5
+          className={`${
+            getTokenInfo() === "Usuario" ||
+            getTokenInfo() === "Fabricante" ||
+            !jwt
+              ? "d-none text-center mt-5 mb-3  "
+              : "text-center mt-5 mb-3 "
+          } text-light`}
+        >
+          MIS EVENTOS (bar)
+        </h5>
+        <div
+          className={`${
+            getTokenInfo() === "Usuario" ||
+            getTokenInfo() === "Fabricante" ||
+            !jwt
+              ? " d-none"
+              : " overflow-auto d-flex m-1"
+          }`}
+        >
+          {store.barEvents.length > 0 ? (
+            store.barEvents.map((event) => (
+              <div
+                className="cards-container d-flex justify-content-between align-items-center"
+                key={event.id}
+              >
+                <div className="cardAccount-events m-4 ">
+                  <img
+                    src={event.picture_of_event_url}
+                    className=" card-img-events m-3"
+                    alt={event.name}
+                  />
+                  <div className="card-body-beers mb-3">
+                    <h5 className="title-card mb-3 text-center">
+                      {event.name}
+                    </h5>
+                    <h6 className="mb-3 text-center">
+                      {formatDate(event.date)}
+                    </h6>
+                    <div className="text-center ">
+                      <button
+                        onClick={() => eventBarDelete(event.id)}
+                        className="deleteButton me-3"
+                      >
+                        <i className="fas fa-trash-alt "></i>
+                      </button>
+                      <EditBarEvent event={event}></EditBarEvent>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <h6 className="text-center mt-4 text-light">
-            Sin Cervezas, por favor <Link to="/add_beer">ingresa una</Link>
-          </h6>
-        )}
-      </div>
-
-      {/* Sección de Eventos */}
-      <h5
-        className={`${
-          getTokenInfo() === "Usuario" || getTokenInfo() === "Vendedor" || !jwt
-            ? "d-none text-center mt-5 mb-3  "
-            : "text-center mt-5 mb-3 "
-        } text-light`}
-      >
-        MIS EVENTOS
-      </h5>
-      <div
-        className={`${
-          getTokenInfo() === "Usuario" || getTokenInfo() === "Vendedor" || !jwt
-            ? " d-none"
-            : " overflow-auto d-flex m-1"
-        }`}
-      >
-        {store.userEvents.length > 0 ? (
-          store.userEvents.map((event) => (
-            <div
-              className="cards-container d-flex justify-content-between align-items-center"
-              key={event.id}
-            >
-              <div className="cardAccount-events m-4 ">
-                <img
-                  src={event.picture_of_event_url}
-                  className=" card-img-events m-3"
-                  alt={event.name}
-                />
-                <div className="card-body-beers mb-3">
-                  <h5 className="title-card mb-3 text-center">{event.name}</h5>
-                  <h6 className="mb-3 text-center">{formatDate(event.date)}</h6>
-                  <div className="text-center ">
-                    <button
-                      onClick={() => eventDelete(event.id)}
-                      className="deleteButton me-3"
-                    >
-                      <i className="fas fa-trash-alt "></i>
-                    </button>
-                    <EditEvent event={event}></EditEvent>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <h6 className="text-center mt-4 text-light">
-            Sin Eventos, por favor <Link to="/add_event">ingresa uno</Link>
-          </h6>
-        )}
-      </div>
-      {/* Sección de Eventos Bar */}
-      <h5
-        className={`${
-          getTokenInfo() === "Usuario" ||
-          getTokenInfo() === "Fabricante" ||
-          !jwt
-            ? "d-none text-center mt-5 mb-3  "
-            : "text-center mt-5 mb-3 "
-        } text-light`}
-      >
-        MIS EVENTOS (bar)
-      </h5>
-      <div
-        className={`${
-          getTokenInfo() === "Usuario" ||
-          getTokenInfo() === "Fabricante" ||
-          !jwt
-            ? " d-none"
-            : " overflow-auto d-flex m-1"
-        }`}
-      >
-        {store.barEvents.length > 0 ? (
-          store.barEvents.map((event) => (
-            <div
-              className="cards-container d-flex justify-content-between align-items-center"
-              key={event.id}
-            >
-              <div className="cardAccount-events m-4 ">
-                <img
-                  src={event.picture_of_event_url}
-                  className=" card-img-events m-3"
-                  alt={event.name}
-                />
-                <div className="card-body-beers mb-3">
-                  <h5 className="title-card mb-3 text-center">{event.name}</h5>
-                  <h6 className="mb-3 text-center">{formatDate(event.date)}</h6>
-                  <div className="text-center ">
-                    <button
-                      onClick={() => eventBarDelete(event.id)}
-                      className="deleteButton me-3"
-                    >
-                      <i className="fas fa-trash-alt "></i>
-                    </button>
-                    <EditBarEvent event={event}></EditBarEvent>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <h6 className="text-center mt-4 text-light">
-            Sin Eventos, por favor <Link to="/add_event_bar">ingresa uno</Link>
-          </h6>
-        )}
+            ))
+          ) : (
+            <h6 className="text-center mt-4 text-light">
+              Sin Eventos, por favor{" "}
+              <Link to="/add_event_bar">ingresa uno</Link>
+            </h6>
+          )}
+        </div>
       </div>
     </div>
   );
